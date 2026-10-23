@@ -1,0 +1,27 @@
+version: '3.8'
+
+# ==============================================================================
+# Local Development Overrides
+# Automatically applied by `docker compose up` in local environment.
+# Enables live source mounting and uvicorn auto-reload without modifying production images.
+# ==============================================================================
+
+services:
+  api:
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      - .:/app
+
+  worker:
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      - .:/app
+
+  seed:
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      - .:/app

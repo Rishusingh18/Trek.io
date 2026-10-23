@@ -1,0 +1,166 @@
+version: '3.8'
+
+# ==============================================================================
+# Canonical Service Topology (Staging & Production Image Parity NFR-14)
+# Connection Pooler (PgBouncer) & Daily Backup Service (NFR-09)
+# ==============================================================================
+
+services:
+  # Primary Database Engine
+  postgres:
+    image: postgres:16-alpine
+    container_name: recommender_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-learning_recommender}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-learning_recommender}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # PgBouncer Connection Pooler (Transaction Mode)
+  pgbouncer:
+    image: edoburu/pgbouncer:v1.22.0
+    container_name: recommender_pgbouncer
+    environment:
+      DB_USER: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB:-learning_recommender}
+      LISTEN_PORT: 6432
+      POOL_MODE: ${PGBOUNCER_POOL_MODE:-transaction}
+      MAX_CLIENT_CONN: ${PGBOUNCER_MAX_CLIENT_CONN:-200}
+      DEFAULT_POOL_SIZE: ${PGBOUNCER_DEFAULT_POOL_SIZE:-25}
+      RESERVE_POOL_SIZE: ${PGBOUNCER_RESERVE_POOL_SIZE:-5}
+      ADMIN_USERS: ${POSTGRES_USER:-postgres}
+      AUTH_TYPE: ${PGBOUNCER_AUTH_TYPE:-any}
+    ports:
+      - "${PGBOUNCER_PORT:-6432}:6432"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -p 6432 -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Redis In-Memory Cache & Distributed Lock Store
+  redis:
+    image: redis:7-alpine
+    container_name: recommender_redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # FastAPI RESTful API Gateway (Runs through PgBouncer)
+  api:
+    image: ${BACKEND_IMAGE:-learning-recommender-backend:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recommender_api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@pgbouncer:6432/${POSTGRES_DB:-learning_recommender}
+      - REDIS_URL=redis://${REDIS_HOST:-redis}:6379/0
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+    depends_on:
+      pgbouncer:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Asynchronous Background Worker (Decay, Rollups, Metrics, Audits)
+  worker:
+    image: ${BACKEND_IMAGE:-learning-recommender-backend:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recommender_worker
+    command: python -m app.worker.worker
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@pgbouncer:6432/${POSTGRES_DB:-learning_recommender}
+      - REDIS_URL=redis://${REDIS_HOST:-redis}:6379/0
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+    depends_on:
+      pgbouncer:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Daily Scheduled pg_dump Backup Daemon (NFR-09)
+  backup:
+    image: postgres:16-alpine
+    container_name: recommender_backup
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-learning_recommender}
+      - BACKUP_DIR=/backups
+      - RETENTION_DAYS=${BACKUP_RETENTION_DAYS:-7}
+      - BACKUP_INTERVAL_SECONDS=${BACKUP_INTERVAL_SECONDS:-86400}
+    volumes:
+      - backup_data:/backups
+      - ./scripts/backup.sh:/usr/local/bin/backup.sh:ro
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        chmod +x /usr/local/bin/backup.sh
+        echo "Starting daily pg_dump backup daemon (NFR-09)..."
+        while true; do
+          /usr/local/bin/backup.sh
+          echo "Next scheduled backup in $${BACKUP_INTERVAL_SECONDS:-86400} seconds."
+          sleep $${BACKUP_INTERVAL_SECONDS:-86400}
+        done
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Synthetic Data Seed Runner (Demo profile)
+  seed:
+    image: ${BACKEND_IMAGE:-learning-recommender-backend:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recommender_seed
+    command: python -m app.db.seed
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@pgbouncer:6432/${POSTGRES_DB:-learning_recommender}
+      - REDIS_URL=redis://${REDIS_HOST:-redis}:6379/0
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+    profiles:
+      - seed
+    depends_on:
+      pgbouncer:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
+  backup_data:
