@@ -251,7 +251,15 @@ def build_rows(data_dir: Path, password_hash: str) -> Dict[str, List[Dict[str, A
 # ----------------------------------------------------------------------------------------------
 def load_into_db(tables: Dict[str, List[Dict[str, Any]]], clean: bool, batch_size: int,
                  skip_mastery: bool, skip_rollups: bool) -> None:
-    from sqlalchemy.dialects.postgresql import insert as pg_insert
+    try:
+        from sqlalchemy.dialects.postgresql import insert as pg_insert  # type: ignore[import-not-found]
+    except Exception:  # pragma: no cover
+        try:
+            pg_insert = __import__("sqlalchemy").insert
+        except ImportError:  # pragma: no cover
+            # SQLAlchemy is optional in dry-run paths; this branch is only reached when a DB load is attempted.
+            raise
+
     from app.db.session import SessionLocal
     from app.db.models.accounts import User
     from app.db.models.content import Course, Topic, ContentItem, Question
@@ -306,14 +314,15 @@ def main() -> None:
     ap.add_argument("--skip-rollups", action="store_true", help="do not run the rollup job afterwards")
     args = ap.parse_args()
 
+    try:  # must run in every mode, otherwise the app logger prints nothing
+        from app.core.logging import setup_logging
+        setup_logging()
+    except Exception:
+        pass
+
     if args.dry_run:
         pw_hash = "DRY-RUN"
     else:
-        try:
-            from app.core.logging import setup_logging
-            setup_logging()
-        except Exception:
-            pass
         from app.core.auth import get_password_hash
         pw_hash = get_password_hash(args.password)   # hash once, reuse for every account (bcrypt is slow)
 
