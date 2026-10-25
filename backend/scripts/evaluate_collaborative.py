@@ -15,10 +15,15 @@ Caveat: the data is synthetic, so this shows the pipeline works, not real-world 
 """
 import argparse
 import csv
+from pathlib import Path
 import random
 import re
+import sys
 from collections import Counter, defaultdict
-from pathlib import Path
+
+backend_dir = Path(__file__).resolve().parent.parent
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
 
 from app.modules.recommender.strategies.collaborative import compute_item_similarity
 
@@ -57,7 +62,12 @@ def main():
     args = ap.parse_args()
     rng = random.Random(args.seed)
 
-    skill, seqs = load(Path(args.data))
+    data_path = Path(args.data)
+    if not data_path.exists():
+        fallback = backend_dir.parent / "demo data" / "learner_interaction_data"
+        if fallback.exists():
+            data_path = fallback
+    skill, seqs = load(data_path)
     catalog = sorted({c for s in seqs.values() for c in s})
 
     train, held = {}, {}

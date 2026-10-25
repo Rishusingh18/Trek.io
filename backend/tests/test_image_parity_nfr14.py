@@ -14,7 +14,8 @@ def test_nfr14_docker_compose_image_parity_and_pgbouncer():
     NFR-14: Verifies that docker-compose.yml uses parameterized images and
     connects services through the PgBouncer connection pooler.
     """
-    compose_file = Path("docker-compose.yml")
+    backend_dir = Path(__file__).resolve().parent.parent
+    compose_file = Path("docker-compose.yml") if Path("docker-compose.yml").exists() else backend_dir / "docker-compose.yml"
     assert compose_file.exists(), "docker-compose.yml must exist"
 
     with open(compose_file, "r") as f:
@@ -53,8 +54,9 @@ def test_nfr14_environment_example_parity():
     NFR-14: Verifies that staging and production environment templates are provided,
     differing only in environment-specific configurations and credentials.
     """
-    staging_env = Path(".env.staging.example")
-    prod_env = Path(".env.production.example")
+    backend_dir = Path(__file__).resolve().parent.parent
+    staging_env = Path(".env.staging.example") if Path(".env.staging.example").exists() else backend_dir / ".env.staging.example"
+    prod_env = Path(".env.production.example") if Path(".env.production.example").exists() else backend_dir / ".env.production.example"
 
     assert staging_env.exists(), ".env.staging.example must exist"
     assert prod_env.exists(), ".env.production.example must exist"
