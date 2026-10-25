@@ -300,7 +300,7 @@ class KnowledgeService:
             return float(rollup.completion_rate)
         return 0.5
 
-    def get_learner_engagement_rollup(self, user_id: uuid.UUID) -> Optional[LearnerEngagementRollup]:
+    def get_learner_engagement_rollup(self, user_id: uuid.UUID) -> Optional["LearnerEngagementRollup"]:
         """FR-307, FR-701: Return engagement rollup."""
         rollup = self.repo.get_engagement_rollup(user_id)
         if not rollup:
