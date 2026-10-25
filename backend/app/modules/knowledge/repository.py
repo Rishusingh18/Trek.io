@@ -29,7 +29,9 @@ class KnowledgeRepository:
         user_id: uuid.UUID,
         question_id: uuid.UUID,
         correct: bool,
-        time_taken: float
+        time_taken: float,
+        session_id: Optional[uuid.UUID] = None,
+        quiz_type: Optional[str] = None,
     ) -> Attempt:
         """FR-604, NFR-08: Record attempt idempotently."""
         existing = self.get_attempt(attempt_id)
@@ -42,7 +44,9 @@ class KnowledgeRepository:
             question_id=question_id,
             correct=correct,
             time_taken=time_taken,
-            answered_at=datetime.now(timezone.utc)
+            answered_at=datetime.now(timezone.utc),
+            session_id=session_id,
+            quiz_type=quiz_type,
         )
         self.db.add(attempt)
         # Note: caller coordinates commit when running in multi-step atomic transaction
@@ -84,7 +88,9 @@ class KnowledgeRepository:
         user_id: Optional[uuid.UUID],
         content_id: Optional[uuid.UUID],
         event_type: str,
-        duration: float
+        duration: float,
+        session_id: Optional[uuid.UUID] = None,
+        question_id: Optional[uuid.UUID] = None,
     ) -> InteractionEvent:
         event = InteractionEvent(
             event_id=uuid.uuid4(),
@@ -92,7 +98,9 @@ class KnowledgeRepository:
             user_id=user_id,
             content_id=content_id,
             event_type=event_type,
-            duration=duration
+            duration=duration,
+            session_id=session_id,
+            question_id=question_id,
         )
         self.db.add(event)
         return event
