@@ -10,6 +10,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import select, func, update, delete
 from app.db.models.knowledge import Attempt, MasteryScore, InteractionEvent
+from app.db.models.content import ContentItem
 from app.db.models.rollups import LearnerEngagementRollup
 
 
@@ -164,6 +165,31 @@ class KnowledgeRepository:
         )
         results = self.db.execute(stmt).scalars().all()
         return set(results)
+
+    def get_successful_completions(self, min_mastery: float) -> dict:
+        """
+        FR-508: {user_id: {content_id}} for completions that count as successful, meaning the learner's
+        current mastery of the item's topic is at least min_mastery. Anonymised rows are excluded.
+        """
+        stmt = (
+            select(InteractionEvent.user_id, InteractionEvent.content_id)
+            .join(ContentItem, ContentItem.content_id == InteractionEvent.content_id)
+            .join(
+                MasteryScore,
+                (MasteryScore.user_id == InteractionEvent.user_id)
+                & (MasteryScore.topic_id == ContentItem.topic_id),
+            )
+            .where(
+                InteractionEvent.event_type == "completed",
+                InteractionEvent.user_id.is_not(None),
+                MasteryScore.score >= min_mastery,
+            )
+            .distinct()
+        )
+        completions: dict = {}
+        for user_id, content_id in self.db.execute(stmt).all():
+            completions.setdefault(user_id, set()).add(content_id)
+        return completions
 
     def get_engagement_rollup(self, user_id: uuid.UUID) -> Optional[LearnerEngagementRollup]:
         """FR-307: Fetch learner engagement rollup."""

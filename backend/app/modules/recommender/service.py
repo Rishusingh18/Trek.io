@@ -2,6 +2,7 @@
 Recommender service (FR-501 to FR-510, NFR-01, NFR-08, NFR-11).
 Fixed pipeline: Hard filters -> Score -> Explain.
 """
+import time
 import uuid
 from typing import List, Optional, Dict
 from sqlalchemy.orm import Session
@@ -16,11 +17,21 @@ from app.modules.experiments.service import ExperimentsService
 from app.modules.recommender.repository import RecommenderRepository
 from app.modules.recommender.strategies import STRATEGY_REGISTRY
 from app.modules.recommender.strategies.base import LearnerContext, ScoredItem
+from app.modules.recommender.strategies.collaborative import compute_item_similarity
 from app.modules.recommender.schemas import (
     RecommendationItemResponse,
     RecommendationListResponse,
     DismissRecommendationResponse,
 )
+
+
+ITEM_SIMILARITY_TTL_SEC = 600
+_similarity_cache: Dict[str, object] = {"expires": 0.0, "min_mastery": None, "value": None}
+
+
+def clear_similarity_cache() -> None:
+    """Forget the cached item-similarity table (used by tests and after bulk data changes)."""
+    _similarity_cache.update(expires=0.0, min_mastery=None, value=None)
 
 
 class RecommenderService:
@@ -31,6 +42,15 @@ class RecommenderService:
         self.knowledge_service = KnowledgeService(db)
         self.experiments_service = ExperimentsService(db)
         self.config_client = ConfigClient(db)
+
+    def _get_item_similarity(self, min_mastery: float) -> Dict[uuid.UUID, Dict[uuid.UUID, float]]:
+        """FR-508: item-to-item similarity from successful completions, cached for a few minutes."""
+        c = _similarity_cache
+        if c["value"] is not None and c["min_mastery"] == min_mastery and time.monotonic() < c["expires"]:
+            return c["value"]
+        value = compute_item_similarity(self.knowledge_service.get_successful_completions(min_mastery))
+        c.update(expires=time.monotonic() + ITEM_SIMILARITY_TTL_SEC, min_mastery=min_mastery, value=value)
+        return value
 
     def _get_dynamic_weights(self) -> Dict[str, float]:
         """Read dynamic ranking weights from DB/Redis config (SRS 7.2, NFR-13)."""
@@ -216,7 +236,8 @@ class RecommenderService:
                 topic_prereqs_map=topic_prereqs_map,
                 overall_completion_rate=completion_rate,
                 stretch=stretch,
-                templates=templates
+                templates=templates,
+                item_similarity=self._get_item_similarity(weak_threshold) if strategy_name == "collaborative" else None
             )
 
             strategy = STRATEGY_REGISTRY.get(strategy_name, STRATEGY_REGISTRY["rule_based"])

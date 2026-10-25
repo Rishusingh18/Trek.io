@@ -232,7 +232,7 @@ def test_fr505_nfr11_explainable_reasons_and_templates(client: TestClient, db_se
         assert isinstance(item["rank"], int)
 
 
-def test_nfr08_strategy_error_falls_back_to_rule_based(client: TestClient, db_session):
+def test_nfr08_strategy_error_falls_back_to_rule_based(client: TestClient, db_session, monkeypatch):
     """
     Verify NFR-08: If the assigned strategy errors (e.g. NotImplementedError),
     the pipeline falls back to rule-based strategy and records fallback_step.
@@ -246,12 +246,20 @@ def test_nfr08_strategy_error_falls_back_to_rule_based(client: TestClient, db_se
     k_svc.repo.upsert_mastery(user.user_id, data["t1"].topic_id, score=0.50, confidence=0.8)
     db_session.commit()
 
-    # Call with explicitly requested strategy that throws NotImplementedError
+    # Register a strategy that always raises, so the test does not depend on which strategies are stubs
+    class _AlwaysFails:
+        name = "always_fails"
+
+        def score(self, ctx, candidates):
+            raise NotImplementedError("simulated failure")
+
+    monkeypatch.setitem(STRATEGY_REGISTRY, "always_fails", _AlwaysFails())
+
     svc = RecommenderService(db_session)
     rec_list = svc.get_recommendations(
         user_id=user.user_id,
         course_id=data["course"].course_id,
-        strategy_name="embeddings"  # Raises NotImplementedError
+        strategy_name="always_fails"
     )
 
     # Fallback to rule_based occurred cleanly
