@@ -129,9 +129,10 @@ def test_fr508_only_successful_completions_count_and_service_uses_them(client, d
     ]
     a, b, c, d, e = items
 
-    # Three strong learners completed A, B and C together; one weak learner completed D and E.
+    strong_users = []
     for n in range(3):
         u = _learner(db_session, f"strong{n}")
+        strong_users.append(u)
         know.repo.upsert_mastery(u.user_id, topic.topic_id, score=0.8, confidence=0.8)
         for it in (a, b, c):
             know.log_interaction_event(u.user_id, InteractionEventCreate(content_id=it.content_id, event_type="completed"))
@@ -142,7 +143,8 @@ def test_fr508_only_successful_completions_count_and_service_uses_them(client, d
     db_session.commit()
 
     successful = know.get_successful_completions(min_mastery=0.4)
-    assert {frozenset(v) for v in successful.values()} == {frozenset({a.content_id, b.content_id, c.content_id})}
+    for u in strong_users:
+        assert successful.get(u.user_id) == {a.content_id, b.content_id, c.content_id}
     assert weak.user_id not in successful                           # weak learner's completions excluded
 
     # A new learner who completed A, B and C is steered toward nothing new here, but the pipeline

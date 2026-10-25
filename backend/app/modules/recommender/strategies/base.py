@@ -22,6 +22,7 @@ class LearnerContext:
     templates: Dict[str, str] = None
     item_similarity: Dict[uuid.UUID, Dict[uuid.UUID, float]] = None  # content_id -> {content_id: similarity}
     successful_completed_item_ids: set[uuid.UUID] = None
+    catalog: List[ContentItemResponse] = None  # all course items; lets a strategy look up completed items
 
 
 @dataclass

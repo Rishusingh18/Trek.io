@@ -300,6 +300,7 @@ class RecommenderService:
                 stretch=stretch,
                 templates=templates,
                 item_similarity=item_similarity,
+                catalog=all_candidates,
             )
 
             strategy = STRATEGY_REGISTRY.get(
