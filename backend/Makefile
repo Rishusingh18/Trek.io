@@ -1,5 +1,4 @@
-.PHONY: run worker seed seed-docker test lint clean
-
+.PHONY: run worker seed seed-docker seed-dataset seed-dataset-dry seed-dataset-docker test lint clean
 run:
 	uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
@@ -11,6 +10,15 @@ seed:
 
 seed-docker:
 	docker compose --profile seed run --rm seed
+
+seed-dataset-dry:
+	python -m app.db.seed_dataset --data-dir "../demo data" --dry-run
+
+seed-dataset:
+	python -m app.db.seed_dataset --data-dir "../demo data" --clean
+
+seed-dataset-docker:
+	docker compose --profile seed run --rm --build seed-dataset
 
 test:
 	pytest -v

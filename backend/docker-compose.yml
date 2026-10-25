@@ -159,6 +159,28 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+  # Learner-interaction dataset loader (CSV -> Postgres)
+  seed-dataset:
+    image: ${BACKEND_IMAGE:-learning-recommender-backend:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recommender_seed_dataset
+    command: python -m app.db.seed_dataset --clean
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@pgbouncer:6432/${POSTGRES_DB:-learning_recommender}
+      - REDIS_URL=redis://${REDIS_HOST:-redis}:6379/0
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - DATASET_DIR=/demo_data
+    volumes:
+      - "../demo data:/demo_data:ro"
+    profiles:
+      - seed
+    depends_on:
+      pgbouncer:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
 volumes:
   postgres_data:

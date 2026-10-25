@@ -1,0 +1,9 @@
+topic_id,name,prerequisites
+T01,Variables and Types,
+T02,Control Flow,T01
+T03,Functions,T02
+T04,Strings and Files,T01
+T05,Data Structures,T02
+T06,Error Handling,T03
+T07,Object-Oriented Programming,T03|T05
+T08,Algorithms,T03|T05
