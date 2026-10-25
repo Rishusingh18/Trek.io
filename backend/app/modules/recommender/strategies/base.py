@@ -20,6 +20,8 @@ class LearnerContext:
     overall_completion_rate: float = 0.5
     stretch: float = 0.10
     templates: Dict[str, str] = None
+    item_similarity: Dict[uuid.UUID, Dict[uuid.UUID, float]] = None  # content_id -> {content_id: similarity}
+    successful_completed_item_ids: set[uuid.UUID] = None
 
 
 @dataclass
