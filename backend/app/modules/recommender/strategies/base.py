@@ -20,6 +20,7 @@ class LearnerContext:
     overall_completion_rate: float = 0.5
     stretch: float = 0.10
     templates: Dict[str, str] = None
+    catalog: List[ContentItemResponse] = None  # all course items; lets a strategy look up completed items
 
 
 @dataclass

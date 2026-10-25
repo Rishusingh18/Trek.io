@@ -216,7 +216,8 @@ class RecommenderService:
                 topic_prereqs_map=topic_prereqs_map,
                 overall_completion_rate=completion_rate,
                 stretch=stretch,
-                templates=templates
+                templates=templates,
+                catalog=all_candidates
             )
 
             strategy = STRATEGY_REGISTRY.get(strategy_name, STRATEGY_REGISTRY["rule_based"])

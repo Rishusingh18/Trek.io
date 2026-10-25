@@ -251,7 +251,7 @@ def test_nfr08_strategy_error_falls_back_to_rule_based(client: TestClient, db_se
     rec_list = svc.get_recommendations(
         user_id=user.user_id,
         course_id=data["course"].course_id,
-        strategy_name="embeddings"  # Raises NotImplementedError
+        strategy_name="collaborative"  # Stub: raises NotImplementedError
     )
 
     # Fallback to rule_based occurred cleanly
