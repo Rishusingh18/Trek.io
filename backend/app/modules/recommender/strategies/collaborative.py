@@ -1,3 +1,4 @@
+
 """
 Collaborative filtering recommendation strategy (FR-506, FR-508).
 
@@ -8,24 +9,29 @@ their binary "completed by" vectors, so very popular items do not dominate:
 
 Only successful completions count (the learner's mastery of the item's topic is not weak), which keeps
 the table to "paths that similar learners completed successfully" (FR-508). A candidate's raw score is
-the summed similarity to the learner's completed items, scaled so the best candidate is 1. It is
-blended into the fit(i) term of the SRS section 7.2 formula:
+the summed similarity to the learner's successful completed items, scaled so the best candidate is 1.
+It is blended into the fit(i) term of the SRS section 7.2 formula:
 
     fit'(i) = (1 - alpha) * fit(i) + alpha * cf(i)
 
-With too few completions, or no similarity data, the rule-based scores are returned unchanged.
+With too few successful completions, or no similarity data, the rule-based scores are returned unchanged.
 The similarity table is built outside the request path and passed in through LearnerContext.
 """
+
 import math
 from collections import Counter, defaultdict
 from itertools import combinations
 from typing import Dict, Hashable, Iterable, List
 
 from app.modules.content.schemas import ContentItemResponse
-from app.modules.recommender.strategies.base import RecommendationStrategy, LearnerContext, ScoredItem
+from app.modules.recommender.strategies.base import (
+    RecommendationStrategy,
+    LearnerContext,
+    ScoredItem,
+)
 from app.modules.recommender.strategies.rules import RuleBasedStrategy
 
-MIN_COMPLETIONS = 3     # fewer completed items than this: not enough signal, use rules
+MIN_COMPLETIONS = 3
 DEFAULT_ALPHA = 0.5
 SIMILAR_LEARNERS_REASON = "Learners like you completed this"
 
@@ -40,18 +46,22 @@ def compute_item_similarity(
     """
     item_count: Counter = Counter()
     pair_count: Counter = Counter()
+
     for items in completions.values():
         unique = sorted(set(items), key=str)
         item_count.update(unique)
         pair_count.update(combinations(unique, 2))
 
     similarity: Dict[Hashable, Dict[Hashable, float]] = defaultdict(dict)
+
     for (a, b), co in pair_count.items():
         if co < min_support:
             continue
-        s = co / math.sqrt(item_count[a] * item_count[b])
-        similarity[a][b] = s
-        similarity[b][a] = s
+
+        score = co / math.sqrt(item_count[a] * item_count[b])
+        similarity[a][b] = score
+        similarity[b][a] = score
+
     return dict(similarity)
 
 
@@ -61,20 +71,33 @@ class CollaborativeStrategy(RecommendationStrategy):
     def __init__(self) -> None:
         self._rules = RuleBasedStrategy()
 
-    def score(self, ctx: LearnerContext, candidates: List[ContentItemResponse]) -> List[ScoredItem]:
-        """FR-508: rank by rule terms with similar learners' completions blended into fit(i)."""
+    def score(
+        self,
+        ctx: LearnerContext,
+        candidates: List[ContentItemResponse],
+    ) -> List[ScoredItem]:
+        """FR-508: Blend successful-completion similarity into the rule-based fit score."""
         similarity = ctx.item_similarity or {}
-        done = ctx.completed_item_ids
+        done = (
+            ctx.successful_completed_item_ids
+            if ctx.successful_completed_item_ids is not None
+            else ctx.completed_item_ids
+        )
         if len(done) < MIN_COMPLETIONS or not similarity:
             return self._rules.score(ctx, candidates)
 
         raw = {
-            item.content_id: sum(similarity.get(item.content_id, {}).get(j, 0.0) for j in done)
+            item.content_id: sum(
+                similarity.get(item.content_id, {}).get(completed_id, 0.0)
+                for completed_id in done
+            )
             for item in candidates
         }
+
         top = max(raw.values(), default=0.0)
+
         if top <= 0.0:
-            return self._rules.score(ctx, candidates)  # nothing in the table relates to this learner
+            return self._rules.score(ctx, candidates)
 
         w1 = ctx.weights.get("w1", 0.4)
         w2 = ctx.weights.get("w2", 0.3)
@@ -84,21 +107,41 @@ class CollaborativeStrategy(RecommendationStrategy):
         templates = ctx.templates or {}
 
         scored: List[ScoredItem] = []
+
         for item in candidates:
-            t = self._rules.terms(ctx, item)
+            terms = self._rules.terms(ctx, item)
             cf = raw[item.content_id] / top
+
             weighted = {
-                "gap": w1 * t["gap"],
-                "fit": w2 * (1 - alpha) * t["fit"],
+                "gap": w1 * terms["gap"],
+                "fit": w2 * (1 - alpha) * terms["fit"],
                 "similar_learners": w2 * alpha * cf,
-                "ready": w3 * t["ready"],
-                "eng": w4 * t["eng"],
+                "ready": w3 * terms["ready"],
+                "eng": w4 * terms["eng"],
             }
+
             total = max(0.0, min(1.0, sum(weighted.values())))
             dominant = max(weighted, key=weighted.get)
+
             if dominant == "similar_learners":
-                reason = templates.get("similar_learners", SIMILAR_LEARNERS_REASON)
+                reason = templates.get(
+                    "similar_learners", SIMILAR_LEARNERS_REASON
+                )
             else:
-                reason = templates.get(dominant, RuleBasedStrategy.DEFAULT_TEMPLATES.get(dominant, "Recommended for you"))
-            scored.append(ScoredItem(item=item, score=total, dominant_factor=dominant, reason=reason))
+                reason = templates.get(
+                    dominant,
+                    RuleBasedStrategy.DEFAULT_TEMPLATES.get(
+                        dominant, "Recommended for you"
+                    ),
+                )
+
+            scored.append(
+                ScoredItem(
+                    item=item,
+                    score=total,
+                    dominant_factor=dominant,
+                    reason=reason,
+                )
+            )
+
         return scored
