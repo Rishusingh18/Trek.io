@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 # ==============================================================================
 # Local Development Overrides
@@ -21,6 +21,12 @@ services:
       - .:/app
 
   seed:
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      - .:/app
+
+  seed-dataset:
     environment:
       - ENVIRONMENT=development
     volumes:

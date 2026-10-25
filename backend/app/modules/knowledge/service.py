@@ -8,11 +8,11 @@ import uuid
 import json
 from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
-from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.core.redis import get_redis_client
 from app.core.logging import logger
 from app.core.config_client import ConfigClient
+from app.db.models.rollups import LearnerEngagementRollup
 from app.modules.knowledge.repository import KnowledgeRepository
 from app.modules.knowledge.schemas import (
     MasteryScoreResponse,
@@ -24,7 +24,7 @@ from app.modules.knowledge.schemas import (
 
 
 class KnowledgeService:
-    def __init__(self, db: Session):
+    def __init__(self, db: Any):
         self.db = db
         self.repo = KnowledgeRepository(db)
         self.config_client = ConfigClient(db)
@@ -225,10 +225,15 @@ class KnowledgeService:
         user_id: uuid.UUID,
         question_id: uuid.UUID,
         correct: bool,
-        time_taken: float
+        time_taken: float,
+        session_id: Optional[uuid.UUID] = None,
+        quiz_type: Optional[str] = None,
     ):
         """FR-604, NFR-08: Idempotent attempt recording."""
-        return self.repo.record_attempt(attempt_id, user_id, question_id, correct, time_taken)
+        return self.repo.record_attempt(
+            attempt_id, user_id, question_id, correct, time_taken,
+            session_id=session_id, quiz_type=quiz_type,
+        )
 
     def log_interaction_event(
         self,

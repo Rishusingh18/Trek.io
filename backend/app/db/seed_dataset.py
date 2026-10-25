@@ -21,12 +21,24 @@ What it does
 * Replays the attempts through the SRS 7.1 mastery update to fill mastery_scores.
 * Runs the rollup job at the end, exactly like seed.py does.
 
-Optional columns: if you add session_id / quiz_type to Attempt and session_id / question_id to
-InteractionEvent (see 0002 migration), they are filled automatically. Without them they are dropped.
+Session columns: attempts.session_id / quiz_type and interaction_events.session_id / question_id come from
+migration 0002 and are filled here (dataset session ids become uuid5, like live quiz sessions are UUIDs).
+
+Safety and consistency rules
+----------------------------
+* Refuses to run when ENVIRONMENT is production (demo accounts share one known password); override with
+  --allow-production only for a deliberate staging-like load.
+* Mastery eta/beta are read from the `mastery_parameters` DB config (NFR-13), falling back to the
+  settings defaults, exactly like KnowledgeService does. Confidence follows the same +0.15/attempt rule.
+* Every attempt/event must be at or after its learner's consent_at (FR-104), otherwise the load aborts.
+* After loading, cached Redis mastery vectors for the loaded users are dropped so reads rebuild from PostgreSQL.
+* --check-ground-truth compares the replayed mastery with ground_truth_skill.csv (validation only).
 """
 import argparse
 import csv
 import math
+import os
+import statistics
 import sys
 import uuid
 from datetime import datetime, timezone
@@ -67,7 +79,9 @@ EVENT_TYPE_MAP = {
 CONTENT_TYPE_MAP = {"reading": "text"}  # video/exercise pass through unchanged
 
 # SRS 7.1 defaults (same values the dataset generator used on the "system" side)
-ETA, BETA = 0.10, 4.0
+ETA, BETA = 0.10, 4.0           # fallbacks only; the live values come from the DB config (see load_mastery_params)
+CONF_STEP = 0.15                # confidence gained per attempt, same as KnowledgeService.update_mastery
+PRODUCTION_ENVS = {"production", "prod"}
 
 REQUIRED_FILES = ["users", "topics", "questions", "content_items", "attempts", "interaction_events"]
 
@@ -91,13 +105,70 @@ def difficulty_from_level(level: int) -> float:
 
 
 def sigmoid(z: float) -> float:
-    return 1.0 / (1.0 + math.exp(-z))
+    return 1.0 / (1.0 + math.exp(-max(min(z, 20.0), -20.0)))   # same clamp as KnowledgeService
+
+
+def guard_environment(environment: str, allow_production: bool) -> None:
+    """Demo data uses one shared, known password, so it must never land in production by accident."""
+    if (environment or "").strip().lower() in PRODUCTION_ENVS and not allow_production:
+        raise ValueError(
+            "Refusing to load demo data while ENVIRONMENT=production. "
+            "Use a development/staging environment (or pass --allow-production if you really mean it)."
+        )
+
+
+def load_mastery_params() -> tuple:
+    """(eta, beta) from the `mastery_parameters` config row, falling back to settings defaults (NFR-13)."""
+    from app.core.config import settings
+    from app.core.config_client import ConfigClient
+    from app.db.session import SessionLocal
+    db = SessionLocal()
+    try:
+        cfg = ConfigClient(db).get("mastery_parameters", {}) or {}
+    finally:
+        db.close()
+    return (float(cfg.get("learning_rate", settings.DEFAULT_ETA_LEARNING_RATE)),
+            float(cfg.get("beta", settings.DEFAULT_BETA_SENSITIVITY)))
+
+
+def ground_truth_report(data_dir: Path, mastery_rows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Validation only: how well do replayed mastery scores track the generator's hidden final skill?"""
+    path = data_dir / "ground_truth_skill.csv"
+    if not path.exists():
+        return {}
+    replay = {(m["user_id"], m["topic_id"]): m["score"] for m in mastery_rows}
+    xs, ys = [], []
+    for r in read_csv(path):
+        key = (_id("user", r["user_id"]), _id("topic", r["topic_id"]))
+        if key in replay:
+            xs.append(replay[key])
+            ys.append(float(r["final_true_skill"]))
+    if len(xs) < 3:
+        return {"pairs": len(xs)}
+    return {
+        "pairs": len(xs),
+        "correlation": round(statistics.correlation(xs, ys), 3),
+        "mae": round(sum(abs(a - b) for a, b in zip(xs, ys)) / len(xs), 3),
+        "bias": round(statistics.mean(xs) - statistics.mean(ys), 3),   # >0 = model is more optimistic than truth
+    }
+
+
+def invalidate_mastery_cache(user_ids: List[uuid.UUID]) -> None:
+    """Redis rule: cache must be rebuildable from PostgreSQL, so drop stale vectors after a (re)load."""
+    try:
+        from app.core.redis import get_redis_client
+        client = get_redis_client()
+        keys = [f"mastery:{u}" for u in user_ids]
+        for i in range(0, len(keys), 500):
+            client.delete(*keys[i:i + 500])
+    except Exception as e:  # cache is optional
+        logger.warning(f"Could not invalidate mastery cache: {e}")
 
 
 # ----------------------------------------------------------------------------------------------
 # Pure transformation (no DB access)  ->  dict of table name -> list of row dicts
 # ----------------------------------------------------------------------------------------------
-def build_rows(data_dir: Path, password_hash: str) -> Dict[str, List[Dict[str, Any]]]:
+def build_rows(data_dir: Path, password_hash: str, eta: float = ETA, beta: float = BETA) -> Dict[str, List[Dict[str, Any]]]:
     missing = [n for n in REQUIRED_FILES if not (data_dir / f"{n}.csv").exists()]
     if missing:
         raise FileNotFoundError(
@@ -110,8 +181,10 @@ def build_rows(data_dir: Path, password_hash: str) -> Dict[str, List[Dict[str, A
     # ---- users -------------------------------------------------------------------------------
     user_uuid = {r["user_id"]: _id("user", r["user_id"]) for r in raw["users"]}
     users = []
+    consent_at: Dict[str, Any] = {}
     for r in raw["users"]:
         consent = parse_ts(r["consent_at"]) if r["consent_at"] else None
+        consent_at[r["user_id"]] = consent
         users.append({
             "user_id": user_uuid[r["user_id"]],
             "email": STAFF_EMAIL_OVERRIDES.get(r["email"], r["email"]),
@@ -194,6 +267,8 @@ def build_rows(data_dir: Path, password_hash: str) -> Dict[str, List[Dict[str, A
         if q_topic[r["question_id"]] != r["topic_id"] or q_level[r["question_id"]] != int(r["difficulty_level"]):
             raise ValueError(f"Attempt {r['attempt_id']}: topic/difficulty disagree with questions.csv")
         ts, y = parse_ts(r["answered_at"]), int(r["correct"])
+        if consent_at[r["user_id"]] is None or ts < consent_at[r["user_id"]]:
+            raise ValueError(f"Attempt {r['attempt_id']}: activity before consent (FR-104)")
         attempts.append({
             "attempt_id": _id("attempt", r["attempt_id"]),
             "user_id": user_uuid[r["user_id"]],
@@ -202,19 +277,19 @@ def build_rows(data_dir: Path, password_hash: str) -> Dict[str, List[Dict[str, A
             "time_taken": float(r["time_taken_sec"]),
             "answered_at": ts,
             # optional columns (dropped automatically if the model does not have them)
-            "session_id": r["session_id"],
+            "session_id": _id("session", r["session_id"]) if r["session_id"] else None,
             "quiz_type": r["quiz_type"],
         })
         key = (r["user_id"], r["topic_id"])
         m, n, _ = mastery_state.get(key, (0.5, 0, ts))
         d = difficulty_from_level(q_level[r["question_id"]])
-        m = max(0.0, min(1.0, m + ETA * (y - sigmoid(BETA * (m - d)))))   # SRS 7.1
+        m = max(0.0, min(1.0, m + eta * (y - sigmoid(beta * (m - d)))))   # SRS 7.1
         mastery_state[key] = (m, n + 1, ts)
 
     mastery = [{
         "user_id": user_uuid[u], "topic_id": topic_uuid[t],
         "score": round(m, 4),
-        "confidence": round(min(0.95, 0.3 + 0.04 * n), 4),  # same convention as seed.py
+        "confidence": round(min(1.0, CONF_STEP * n), 4),  # same rule as KnowledgeService.update_mastery
         "updated_at": ts,
     } for (u, t), (m, n, ts) in mastery_state.items()]
 
@@ -227,15 +302,18 @@ def build_rows(data_dir: Path, password_hash: str) -> Dict[str, List[Dict[str, A
             raise ValueError(f"Event {r['event_id']}: unknown user {r['user_id']}")
         if r["content_id"] and r["content_id"] not in content_uuid:
             raise ValueError(f"Event {r['event_id']}: unknown content {r['content_id']}")
+        ev_ts = parse_ts(r["timestamp"])
+        if consent_at[r["user_id"]] is None or ev_ts < consent_at[r["user_id"]]:
+            raise ValueError(f"Event {r['event_id']}: activity before consent (FR-104)")
         events.append({
             "event_id": _id("event", r["event_id"]),
-            "timestamp": parse_ts(r["timestamp"]),
+            "timestamp": ev_ts,
             "user_id": user_uuid[r["user_id"]],
             "content_id": content_uuid[r["content_id"]] if r["content_id"] else None,
             "event_type": EVENT_TYPE_MAP[r["event_type"]],
             "duration": float(r["duration_sec"]),
             # optional columns
-            "session_id": r["session_id"],
+            "session_id": _id("session", r["session_id"]) if r["session_id"] else None,
             "question_id": question_uuid[r["question_id"]] if r["question_id"] else None,
         })
 
@@ -295,6 +373,7 @@ def load_into_db(tables: Dict[str, List[Dict[str, Any]]], clean: bool, batch_siz
         if not skip_rollups:
             from app.worker.jobs import run_rollup_job
             logger.info(f"Rollups: {run_rollup_job(db)}")
+        invalidate_mastery_cache([row["user_id"] for row in tables["users"]])
     except Exception:
         db.rollback()
         raise
@@ -312,6 +391,9 @@ def main() -> None:
     ap.add_argument("--batch-size", type=int, default=5000)
     ap.add_argument("--skip-mastery", action="store_true", help="do not replay attempts into mastery_scores")
     ap.add_argument("--skip-rollups", action="store_true", help="do not run the rollup job afterwards")
+    ap.add_argument("--allow-production", action="store_true", help="bypass the production safety guard")
+    ap.add_argument("--check-ground-truth", action="store_true",
+                    help="compare replayed mastery with ground_truth_skill.csv and print the result")
     args = ap.parse_args()
 
     try:  # must run in every mode, otherwise the app logger prints nothing
@@ -320,16 +402,24 @@ def main() -> None:
     except Exception:
         pass
 
+    eta, beta = ETA, BETA
     if args.dry_run:
         pw_hash = "DRY-RUN"
     else:
+        from app.core.config import settings
+        guard_environment(os.environ.get("ENVIRONMENT") or settings.ENVIRONMENT, args.allow_production)
         from app.core.auth import get_password_hash
         pw_hash = get_password_hash(args.password)   # hash once, reuse for every account (bcrypt is slow)
+        eta, beta = load_mastery_params()
+        logger.info(f"Mastery replay parameters from config: eta={eta}, beta={beta}")
 
-    tables = build_rows(Path(args.data_dir), pw_hash)
+    tables = build_rows(Path(args.data_dir), pw_hash, eta, beta)
     for name, rows in tables.items():
         logger.info(f"{name:<20}{len(rows):>9,} rows prepared")
 
+    if args.check_ground_truth:
+        logger.info(f"Ground-truth check (replayed mastery vs final true skill): "
+                    f"{ground_truth_report(Path(args.data_dir), tables['mastery_scores'])}")
     if args.dry_run:
         logger.info("Dry run OK: all foreign keys and value mappings validated. Nothing written.")
         return
