@@ -217,8 +217,17 @@ class RecommenderService:
                 overall_completion_rate=completion_rate,
                 stretch=stretch,
                 templates=templates,
-                catalog=all_candidates
+                catalog=all_candidates,
+                completed_items=[
+                    item for item in all_candidates
+                    if item.content_id in completed_ids
+                ],
             )
+
+            strategy = STRATEGY_REGISTRY.get(
+                strategy_name, STRATEGY_REGISTRY["rule_based"]
+            )
+            
 
             strategy = STRATEGY_REGISTRY.get(strategy_name, STRATEGY_REGISTRY["rule_based"])
             try:
