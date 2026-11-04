@@ -11,18 +11,18 @@ from app.modules.content.schemas import ContentItemResponse
 @dataclass
 class LearnerContext:
     user_id: uuid.UUID
-    mastery_map: Dict[uuid.UUID, float]  # topic_id -> mastery score in [0, 1]
+    mastery_map: Dict[uuid.UUID, float]
     completed_item_ids: set[uuid.UUID]
     dismissed_item_ids: set[uuid.UUID]
-    weights: Dict[str, float]  # w1, w2, w3, w4
+    weights: Dict[str, float]
     topic_prereqs_map: Dict[uuid.UUID, List[str]] = None
     completion_rates_by_type: Dict[str, float] = None
     overall_completion_rate: float = 0.5
     stretch: float = 0.10
     templates: Dict[str, str] = None
-    catalog: List[ContentItemResponse] = None  # all course items; lets a strategy look up completed items
-    item_similarity: Dict[uuid.UUID, Dict[uuid.UUID, float]] = None  # content_id -> {content_id: similarity}
+    item_similarity: Dict[uuid.UUID, Dict[uuid.UUID, float]] = None
     successful_completed_item_ids: set[uuid.UUID] = None
+    catalog: List[ContentItemResponse] = None
     completed_items: List[ContentItemResponse] = None
 
 

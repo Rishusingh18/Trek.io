@@ -293,6 +293,10 @@ class KnowledgeService:
         """FR-502: Return set of completed content IDs for learner."""
         return self.repo.get_completed_content_ids(user_id)
 
+    def get_successful_completions(self, min_mastery: float) -> Dict[uuid.UUID, set]:
+        """FR-508: Completions by learners whose topic mastery is at least min_mastery."""
+        return self.repo.get_successful_completions(min_mastery)
+
     def get_learner_completion_rate(self, user_id: uuid.UUID) -> float:
         """FR-307, FR-504: Return learner's overall completion rate."""
         rollup = self.repo.get_engagement_rollup(user_id)
