@@ -86,6 +86,7 @@ class RecommenderService:
             "w2": float(cfg.get("w2", 0.3)),
             "w3": float(cfg.get("w3", 0.2)),
             "w4": float(cfg.get("w4", 0.1)),
+            "alpha": float(cfg.get("alpha", 0.5)),
         }
 
     def _get_thresholds(self) -> Dict[str, float]:
@@ -148,9 +149,11 @@ class RecommenderService:
                 if strategy_name is None:
                     strategy_name = exp_info["strategy"]
 
-        if strategy_name is None:
+        if strategy_name not in STRATEGY_REGISTRY:
+            logger.warning(
+                f"Unknown strategy '{strategy_name}'. Using rule_based."
+            )
             strategy_name = "rule_based"
-
         # 1. Load mastery vector (Redis first, fallback to DB) - NFR-01
         mastery_vector = self.knowledge_service.get_user_mastery_vector(user_id)
         mastery_map = {m.topic_id: m.score for m in mastery_vector}
@@ -227,36 +230,40 @@ class RecommenderService:
         # 4. Fallback chain for cold start / no mastery data (FR-510)
         scored_items: List[ScoredItem] = []
 
-        if not has_mastery_data or not filtered_candidates:
+        if not filtered_candidates:
+            fallback_step = "no_eligible_items"
+
+        elif not has_mastery_data:
+            eligible_ids = {item.content_id for item in filtered_candidates}
             popular_ids = self.repo.get_popular_content_ids(limit=limit)
 
-            if popular_ids:
-                id_to_item = {item.content_id: item for item in all_candidates}
-                popular_candidates = [
-                    id_to_item[cid]
-                    for cid in popular_ids
-                    if cid in id_to_item
-                ]
+            id_to_item = {
+                item.content_id: item for item in filtered_candidates
+            }
 
-                if popular_candidates:
-                    fallback_step = "popularity"
-                    for idx, pop_item in enumerate(popular_candidates[:limit]):
-                        scored_items.append(
-                            ScoredItem(
-                                item=pop_item,
-                                score=1.0 - (idx * 0.05),
-                                dominant_factor="eng",
-                                reason="Popular lesson among other learners",
-                            )
+            popular_candidates = [
+                id_to_item[cid]
+                for cid in popular_ids
+                if cid in eligible_ids
+            ]
+
+            if popular_candidates:
+                fallback_step = "popularity"
+
+                for idx, pop_item in enumerate(popular_candidates[:limit]):
+                    scored_items.append(
+                        ScoredItem(
+                            item=pop_item,
+                            score=1.0 - (idx * 0.05),
+                            dominant_factor="eng",
+                            reason="Popular lesson among other learners",
                         )
+                    )
 
             if not scored_items:
                 fallback_step = "entry_level"
-                candidates_pool = (
-                    filtered_candidates if filtered_candidates else all_candidates
-                )
                 entry_candidates = sorted(
-                    candidates_pool,
+                    filtered_candidates,
                     key=lambda item: (item.difficulty, item.duration),
                 )
 
@@ -362,10 +369,10 @@ class RecommenderService:
         )
 
     def dismiss_recommendation(
-        self, rec_id: uuid.UUID
+        self, rec_id: uuid.UUID, user_id: uuid.UUID
     ) -> DismissRecommendationResponse:
-        """FR-509: Dismiss a recommendation."""
-        self.repo.dismiss_recommendation(rec_id)
+        """FR-509: Dismiss only the current learner's recommendation."""
+        self.repo.dismiss_recommendation(rec_id, user_id)
         return DismissRecommendationResponse(rec_id=rec_id)
 
     def anonymize_learner_data(

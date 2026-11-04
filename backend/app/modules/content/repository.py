@@ -1,3 +1,4 @@
+
 """
 Content repository (FR-201 to FR-203).
 Only this file touches the content tables (courses, topics, content_items, questions).
@@ -50,7 +51,6 @@ class ContentRepository:
         self.db.commit()
         self.db.refresh(course)
         return course
-
 
     def retire_course(self, course_id: uuid.UUID) -> Optional[Course]:
         course = self.get_course(course_id)
@@ -108,7 +108,9 @@ class ContentRepository:
         type_: str,
         difficulty: int,
         duration: int,
-        prerequisite_topic_ids: list
+        prerequisite_topic_ids: list,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None
     ) -> ContentItem:
         item = ContentItem(
             topic_id=topic_id,
@@ -117,6 +119,8 @@ class ContentRepository:
             difficulty=difficulty,
             duration=duration,
             prerequisite_topic_ids=prerequisite_topic_ids,
+            description=description,
+            tags=tags or [],
             is_retired=False
         )
         self.db.add(item)
@@ -131,7 +135,9 @@ class ContentRepository:
         type_: Optional[str] = None,
         difficulty: Optional[int] = None,
         duration: Optional[int] = None,
-        prerequisite_topic_ids: Optional[list] = None
+        prerequisite_topic_ids: Optional[list] = None,
+        description: Optional[str] = None,
+        tags: Optional[List[str]] = None
     ) -> Optional[ContentItem]:
         item = self.get_content_item(content_id)
         if not item:
@@ -146,6 +152,10 @@ class ContentRepository:
             item.duration = duration
         if prerequisite_topic_ids is not None:
             item.prerequisite_topic_ids = prerequisite_topic_ids
+        if description is not None:
+            item.description = description
+        if tags is not None:
+            item.tags = tags
         self.db.commit()
         self.db.refresh(item)
         return item

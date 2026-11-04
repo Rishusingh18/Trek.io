@@ -34,8 +34,13 @@ class EmbeddingsStrategy(RecommendationStrategy):
 
     @staticmethod
     def _text(item: ContentItemResponse) -> str:
+        description = getattr(item, "description", None) or ""
+        tags = getattr(item, "tags", None) or []
+
         return (
             f"Title: {item.title}. "
+            f"Description: {description}. "
+            f"Tags: {', '.join(tags)}. "
             f"Content type: {item.type}. "
             f"Difficulty level: {item.difficulty} out of 5."
         )

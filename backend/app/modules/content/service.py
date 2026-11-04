@@ -1,3 +1,4 @@
+
 """
 Content service (FR-201 to FR-203).
 Public interface for content.
@@ -62,7 +63,6 @@ class ContentService:
         self._invalidate_course_catalog_cache(course_id)
         return CourseResponse.model_validate(course)
 
-
     def retire_course(self, course_id: uuid.UUID) -> RetireResponse:
         course = self.repo.retire_course(course_id)
         if not course:
@@ -126,7 +126,9 @@ class ContentService:
             type_=payload.type,
             difficulty=payload.difficulty,
             duration=payload.duration,
-            prerequisite_topic_ids=payload.prerequisite_topic_ids
+            prerequisite_topic_ids=payload.prerequisite_topic_ids,
+            description=payload.description,
+            tags=payload.tags
         )
         self._invalidate_course_catalog_cache(topic.course_id)
         return ContentItemResponse.model_validate(item)
@@ -138,7 +140,9 @@ class ContentService:
             type_=payload.type,
             difficulty=payload.difficulty,
             duration=payload.duration,
-            prerequisite_topic_ids=payload.prerequisite_topic_ids
+            prerequisite_topic_ids=payload.prerequisite_topic_ids,
+            description=payload.description,
+            tags=payload.tags
         )
         if not item:
             raise NotFoundException(f"Content item {content_id} not found")
@@ -209,6 +213,7 @@ class ContentService:
     # Course Catalog with Redis Expiry and DB Fallback (Redis rule)
     def get_course_catalog(self, course_id: uuid.UUID) -> CourseCatalogResponse:
         cache_key = f"catalog:course:{course_id}"
+
         # 1. Try Redis cache
         try:
             client = get_redis_client()
@@ -258,8 +263,14 @@ class ContentService:
         all_items = self.repo.list_all_content_items(include_retired=False)
         missing: List[Any] = []
         for item in all_items:
-            # Missing required tags: empty type, difficulty not in 1..5, duration <= 0, or empty topic
-            if not item.type or item.difficulty < 1 or item.difficulty > 5 or item.duration <= 0 or not item.topic_id:
+            if (
+                not item.tags
+                or not item.type
+                or item.difficulty < 1
+                or item.difficulty > 5
+                or item.duration <= 0
+                or not item.topic_id
+            ):
                 missing.append(item)
 
         return TagCoverageReportResponse(

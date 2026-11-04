@@ -41,5 +41,8 @@ def dismiss_recommendation(
 ):
     """FR-509, FR-104: Learner dismisses recommendation."""
     service = RecommenderService(db)
-    return service.dismiss_recommendation(rec_id)
+    return service.dismiss_recommendation(
+        rec_id=rec_id,
+        user_id=current_user.user_id,
+    )
 
