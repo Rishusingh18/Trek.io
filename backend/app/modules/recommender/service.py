@@ -5,6 +5,7 @@ Fixed pipeline: Hard filters -> Score -> Explain.
 """
 import time
 import uuid
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional, Dict
 
 from sqlalchemy.orm import Session
@@ -101,17 +102,24 @@ class RecommenderService:
         }
 
     def _get_stretch_and_periods(self) -> Dict[str, float]:
-        """Read stretch and quiet period from config."""
+        """Read stretch, dismissal quiet period, and review interval from config."""
         mastery_cfg = self.config_client.get(
             "mastery_parameters", {"stretch": 0.10}
         )
         period_cfg = self.config_client.get(
-            "quiz_and_periods", {"dismissal_quiet_period_days": 7}
+            "quiz_and_periods",
+            {
+                "dismissal_quiet_period_days": 7,
+                "review_interval_days": 7,
+            },
         )
         return {
             "stretch": float(mastery_cfg.get("stretch", 0.10)),
             "dismissal_quiet_period_days": int(
                 period_cfg.get("dismissal_quiet_period_days", 7)
+            ),
+            "review_interval_days": int(
+                period_cfg.get("review_interval_days", 7)
             ),
         }
 
@@ -154,6 +162,7 @@ class RecommenderService:
                 f"Unknown strategy '{strategy_name}'. Using rule_based."
             )
             strategy_name = "rule_based"
+
         # 1. Load mastery vector (Redis first, fallback to DB) - NFR-01
         mastery_vector = self.knowledge_service.get_user_mastery_vector(user_id)
         mastery_map = {m.topic_id: m.score for m in mastery_vector}
@@ -175,12 +184,20 @@ class RecommenderService:
         quiet_period_days = int(
             stretch_and_periods["dismissal_quiet_period_days"]
         )
+        review_interval_days = int(
+            stretch_and_periods["review_interval_days"]
+        )
         stretch = stretch_and_periods["stretch"]
         weights = self._get_dynamic_weights()
         templates = self._get_reason_templates()
 
         # 3. Hard Filters (FR-502, FR-503, FR-509)
-        completed_ids = self.knowledge_service.get_completed_content_ids(user_id)
+        completed_timestamps = (
+            self.knowledge_service.get_completed_content_timestamps(user_id)
+        )
+        completed_ids = set(completed_timestamps)
+        now = datetime.now(timezone.utc)
+
         dismissed_ids = set(
             self.repo.get_dismissed_content_ids(
                 user_id, quiet_period_days=quiet_period_days
@@ -194,10 +211,27 @@ class RecommenderService:
             if item.content_id in dismissed_ids:
                 continue
 
-            # (b) Drop completed items unless a review is due for a weak topic (FR-502)
-            item_topic_mastery = mastery_map.get(item.topic_id, 0.5)
-            if item.content_id in completed_ids:
+            # (b) Completed items are eligible only when weak-topic review is due (FR-502)
+            completion_time = completed_timestamps.get(item.content_id)
+
+            if completion_time is not None:
+                item_topic_mastery = mastery_map.get(item.topic_id, 0.5)
+
+                # Completed items from non-weak topics are never recommended again.
                 if item_topic_mastery >= weak_threshold:
+                    continue
+
+                # Normalize naive database timestamps to UTC.
+                if completion_time.tzinfo is None:
+                    completion_time = completion_time.replace(
+                        tzinfo=timezone.utc
+                    )
+
+                review_due_at = completion_time + timedelta(
+                    days=review_interval_days
+                )
+
+                if now < review_due_at:
                     continue
 
             # (c) Drop items whose prerequisite topics are still weak (FR-503)

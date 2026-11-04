@@ -1,14 +1,16 @@
+
 """
 Knowledge repository (FR-301 to FR-307, FR-604).
 Only this file touches attempts, mastery_scores, interaction_events, and learner_engagement_rollups.
 Employs parameterized queries and SELECT ... FOR UPDATE on mastery rows.
 """
 import uuid
-import math
 from datetime import datetime, timezone
 from typing import List, Optional
+
 from sqlalchemy.orm import Session
 from sqlalchemy import select, func, update, delete
+
 from app.db.models.knowledge import Attempt, MasteryScore, InteractionEvent
 from app.db.models.content import ContentItem
 from app.db.models.rollups import LearnerEngagementRollup
@@ -45,10 +47,14 @@ class KnowledgeRepository:
             answered_at=datetime.now(timezone.utc)
         )
         self.db.add(attempt)
-        # Note: caller coordinates commit when running in multi-step atomic transaction
         return attempt
 
-    def get_mastery(self, user_id: uuid.UUID, topic_id: uuid.UUID, for_update: bool = False) -> Optional[MasteryScore]:
+    def get_mastery(
+        self,
+        user_id: uuid.UUID,
+        topic_id: uuid.UUID,
+        for_update: bool = False
+    ) -> Optional[MasteryScore]:
         """FR-301, FR-302: Select with row lock (FOR UPDATE) to prevent concurrent overwrites."""
         stmt = select(MasteryScore).where(
             MasteryScore.user_id == user_id,
@@ -59,9 +65,19 @@ class KnowledgeRepository:
         return self.db.execute(stmt).scalar_one_or_none()
 
     def get_all_mastery_for_user(self, user_id: uuid.UUID) -> List[MasteryScore]:
-        return list(self.db.execute(select(MasteryScore).where(MasteryScore.user_id == user_id)).scalars().all())
+        return list(
+            self.db.execute(
+                select(MasteryScore).where(MasteryScore.user_id == user_id)
+            ).scalars().all()
+        )
 
-    def upsert_mastery(self, user_id: uuid.UUID, topic_id: uuid.UUID, score: float, confidence: float) -> MasteryScore:
+    def upsert_mastery(
+        self,
+        user_id: uuid.UUID,
+        topic_id: uuid.UUID,
+        score: float,
+        confidence: float
+    ) -> MasteryScore:
         """Upsert mastery score and confidence under row lock."""
         mastery = self.get_mastery(user_id, topic_id, for_update=True)
         if mastery:
@@ -97,14 +113,20 @@ class KnowledgeRepository:
         self.db.add(event)
         return event
 
-    def derive_and_update_engagement_rollups(self, user_id: uuid.UUID) -> LearnerEngagementRollup:
+    def derive_and_update_engagement_rollups(
+        self, user_id: uuid.UUID
+    ) -> LearnerEngagementRollup:
         """
         FR-307: Derive per-learner completion rate, skip rate and average session time from events.
         Persist in learner_engagement_rollups table.
         """
-        events = list(self.db.execute(
-            select(InteractionEvent).where(InteractionEvent.user_id == user_id)
-        ).scalars().all())
+        events = list(
+            self.db.execute(
+                select(InteractionEvent).where(
+                    InteractionEvent.user_id == user_id
+                )
+            ).scalars().all()
+        )
 
         total_events = len(events)
         if total_events == 0:
@@ -118,9 +140,16 @@ class KnowledgeRepository:
             )
             return rollup
 
-        completed_count = sum(1 for e in events if e.event_type == "completed")
-        skipped_count = sum(1 for e in events if e.event_type == "skipped")
-        denom = sum(1 for e in events if e.event_type in ("opened", "completed", "skipped"))
+        completed_count = sum(
+            1 for e in events if e.event_type == "completed"
+        )
+        skipped_count = sum(
+            1 for e in events if e.event_type == "skipped"
+        )
+        denom = sum(
+            1 for e in events
+            if e.event_type in ("opened", "completed", "skipped")
+        )
         if denom == 0:
             denom = total_events
 
@@ -128,10 +157,14 @@ class KnowledgeRepository:
         skip_rate = skipped_count / denom
 
         durations = [e.duration for e in events if e.duration > 0]
-        avg_session = (sum(durations) / len(durations)) if durations else 0.0
+        avg_session = (
+            sum(durations) / len(durations) if durations else 0.0
+        )
 
         existing = self.db.execute(
-            select(LearnerEngagementRollup).where(LearnerEngagementRollup.user_id == user_id)
+            select(LearnerEngagementRollup).where(
+                LearnerEngagementRollup.user_id == user_id
+            )
         ).scalar_one_or_none()
 
         if existing:
@@ -166,14 +199,39 @@ class KnowledgeRepository:
         results = self.db.execute(stmt).scalars().all()
         return set(results)
 
+    def get_completed_content_timestamps(
+        self, user_id: uuid.UUID
+    ) -> dict[uuid.UUID, datetime]:
+        """FR-502: Return the latest completion timestamp for each content item."""
+        stmt = (
+            select(
+                InteractionEvent.content_id,
+                func.max(InteractionEvent.timestamp),
+            )
+            .where(
+                InteractionEvent.user_id == user_id,
+                InteractionEvent.event_type == "completed",
+                InteractionEvent.content_id.is_not(None),
+            )
+            .group_by(InteractionEvent.content_id)
+        )
+        return {
+            content_id: timestamp
+            for content_id, timestamp in self.db.execute(stmt).all()
+        }
+
     def get_successful_completions(self, min_mastery: float) -> dict:
         """
-        FR-508: {user_id: {content_id}} for completions that count as successful, meaning the learner's
-        current mastery of the item's topic is at least min_mastery. Anonymised rows are excluded.
+        FR-508: {user_id: {content_id}} for completions that count as successful,
+        meaning the learner's current mastery of the item's topic is at least
+        min_mastery. Anonymised rows are excluded.
         """
         stmt = (
             select(InteractionEvent.user_id, InteractionEvent.content_id)
-            .join(ContentItem, ContentItem.content_id == InteractionEvent.content_id)
+            .join(
+                ContentItem,
+                ContentItem.content_id == InteractionEvent.content_id
+            )
             .join(
                 MasteryScore,
                 (MasteryScore.user_id == InteractionEvent.user_id)
@@ -191,13 +249,21 @@ class KnowledgeRepository:
             completions.setdefault(user_id, set()).add(content_id)
         return completions
 
-    def get_engagement_rollup(self, user_id: uuid.UUID) -> Optional[LearnerEngagementRollup]:
+    def get_engagement_rollup(
+        self, user_id: uuid.UUID
+    ) -> Optional[LearnerEngagementRollup]:
         """FR-307: Fetch learner engagement rollup."""
-        stmt = select(LearnerEngagementRollup).where(LearnerEngagementRollup.user_id == user_id)
+        stmt = select(LearnerEngagementRollup).where(
+            LearnerEngagementRollup.user_id == user_id
+        )
         return self.db.execute(stmt).scalar_one_or_none()
 
-    def get_learner_engagement(self, user_id: uuid.UUID) -> Optional[LearnerEngagementRollup]:
-        stmt = select(LearnerEngagementRollup).where(LearnerEngagementRollup.user_id == user_id)
+    def get_learner_engagement(
+        self, user_id: uuid.UUID
+    ) -> Optional[LearnerEngagementRollup]:
+        stmt = select(LearnerEngagementRollup).where(
+            LearnerEngagementRollup.user_id == user_id
+        )
         return self.db.execute(stmt).scalar_one_or_none()
 
     def list_attempts_for_user(
@@ -210,6 +276,7 @@ class KnowledgeRepository:
         """FR-703, FR-704: List learner attempts with optional question and date range filtering."""
         if question_ids is not None and len(question_ids) == 0:
             return []
+
         stmt = select(Attempt).where(Attempt.user_id == user_id)
         if question_ids is not None:
             stmt = stmt.where(Attempt.question_id.in_(question_ids))
@@ -217,6 +284,7 @@ class KnowledgeRepository:
             stmt = stmt.where(Attempt.answered_at >= start_date)
         if end_date:
             stmt = stmt.where(Attempt.answered_at <= end_date)
+
         stmt = stmt.order_by(Attempt.answered_at.desc())
         return list(self.db.execute(stmt).scalars().all())
 
@@ -230,37 +298,54 @@ class KnowledgeRepository:
         """FR-703, FR-704: List learner interaction events with optional content and date range filtering."""
         if content_ids is not None and len(content_ids) == 0:
             return []
-        stmt = select(InteractionEvent).where(InteractionEvent.user_id == user_id)
+
+        stmt = select(InteractionEvent).where(
+            InteractionEvent.user_id == user_id
+        )
         if content_ids is not None:
             stmt = stmt.where(InteractionEvent.content_id.in_(content_ids))
         if start_date:
             stmt = stmt.where(InteractionEvent.timestamp >= start_date)
         if end_date:
             stmt = stmt.where(InteractionEvent.timestamp <= end_date)
+
         stmt = stmt.order_by(InteractionEvent.timestamp.desc())
         return list(self.db.execute(stmt).scalars().all())
 
     def get_user_activity_dates(self, user_id: uuid.UUID) -> List[datetime]:
         """FR-701: Fetch timestamps of user activity for calculating streaks."""
-        stmt1 = select(Attempt.answered_at).where(Attempt.user_id == user_id)
-        stmt2 = select(InteractionEvent.timestamp).where(InteractionEvent.user_id == user_id)
+        stmt1 = select(Attempt.answered_at).where(
+            Attempt.user_id == user_id
+        )
+        stmt2 = select(InteractionEvent.timestamp).where(
+            InteractionEvent.user_id == user_id
+        )
         dates1 = self.db.execute(stmt1).scalars().all()
         dates2 = self.db.execute(stmt2).scalars().all()
         return sorted(list(dates1) + list(dates2), reverse=True)
 
-
-    def anonymize_learner_data(self, user_id: uuid.UUID, anonymous_id: uuid.UUID) -> None:
+    def anonymize_learner_data(
+        self, user_id: uuid.UUID, anonymous_id: uuid.UUID
+    ) -> None:
         """SRS section 5.3, NFR-07: Replace learner ID with anonymous ID and delete personal mastery."""
         self.db.execute(
-            update(Attempt).where(Attempt.user_id == user_id).values(user_id=anonymous_id)
+            update(Attempt).where(
+                Attempt.user_id == user_id
+            ).values(user_id=anonymous_id)
         )
         self.db.execute(
-            update(InteractionEvent).where(InteractionEvent.user_id == user_id).values(user_id=anonymous_id)
+            update(InteractionEvent).where(
+                InteractionEvent.user_id == user_id
+            ).values(user_id=anonymous_id)
         )
         self.db.execute(
-            delete(MasteryScore).where(MasteryScore.user_id == user_id)
+            delete(MasteryScore).where(
+                MasteryScore.user_id == user_id
+            )
         )
         self.db.execute(
-            delete(LearnerEngagementRollup).where(LearnerEngagementRollup.user_id == user_id)
+            delete(LearnerEngagementRollup).where(
+                LearnerEngagementRollup.user_id == user_id
+            )
         )
         self.db.commit()

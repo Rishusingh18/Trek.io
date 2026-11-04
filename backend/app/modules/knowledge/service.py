@@ -1,3 +1,4 @@
+
 """
 Knowledge model service (FR-301 to FR-307, FR-604, NFR-03).
 Calculates mastery updates via SRS Section 7.1 formula, idle topic decay,
@@ -108,11 +109,21 @@ class KnowledgeService:
         # Populate Redis with TTL (Redis rule: key has expiry)
         try:
             client = get_redis_client()
-            client.set(cache_key, json.dumps([r.model_dump(mode="json") for r in results]), ex=3600)
+            client.set(
+                cache_key,
+                json.dumps([r.model_dump(mode="json") for r in results]),
+                ex=3600
+            )
         except Exception as e:
             logger.warning(f"Failed to cache mastery vector in Redis: {e}")
 
         return results
+
+    def get_completed_content_timestamps(
+        self, user_id: uuid.UUID
+    ) -> Dict[uuid.UUID, datetime]:
+        """FR-502: Get the latest completion timestamp for each content item."""
+        return self.repo.get_completed_content_timestamps(user_id)
 
     def update_mastery(
         self,
@@ -348,5 +359,3 @@ class KnowledgeService:
         attempts = self.repo.list_attempts_for_user(user_id, question_ids=question_ids, start_date=start_date, end_date=end_date)
         events = self.repo.list_events_for_user(user_id, content_ids=content_ids, start_date=start_date, end_date=end_date)
         return attempts, events
-
-
