@@ -288,7 +288,7 @@ class RecommenderService:
                 )
                 item_similarity = self._get_item_similarity(weak_threshold)
 
-                       ctx = LearnerContext(
+            ctx = LearnerContext(
                 user_id=user_id,
                 mastery_map=mastery_map,
                 completed_item_ids=completed_ids,
@@ -305,16 +305,6 @@ class RecommenderService:
                     item for item in all_candidates
                     if item.content_id in completed_ids
                 ],
-            )
-
-            strategy = STRATEGY_REGISTRY.get(
-                strategy_name, STRATEGY_REGISTRY["rule_based"]
-            )
-            
-
-            strategy = STRATEGY_REGISTRY.get(strategy_name, STRATEGY_REGISTRY["rule_based"])
-                item_similarity=item_similarity,
-                catalog=all_candidates,
             )
 
             strategy = STRATEGY_REGISTRY.get(
