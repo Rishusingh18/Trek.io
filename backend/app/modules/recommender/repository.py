@@ -37,13 +37,21 @@ class RecommenderRepository:
         self.db.refresh(rec)
         return rec
 
-    def dismiss_recommendation(self, rec_id: uuid.UUID) -> Optional[Recommendation]:
-        """FR-509: Mark recommendation as dismissed."""
-        rec = self.db.execute(select(Recommendation).where(Recommendation.rec_id == rec_id)).scalar_one_or_none()
+    def dismiss_recommendation(
+        self, rec_id: uuid.UUID, user_id: uuid.UUID
+    ) -> Optional[Recommendation]:
+        rec = self.db.execute(
+            select(Recommendation).where(
+                Recommendation.rec_id == rec_id,
+                Recommendation.user_id == user_id,
+            )
+        ).scalar_one_or_none()
+
         if rec:
             rec.outcome = "dismissed"
             self.db.commit()
             self.db.refresh(rec)
+
         return rec
 
     def get_dismissed_content_ids(self, user_id: uuid.UUID, quiet_period_days: int = 7) -> List[uuid.UUID]:

@@ -69,6 +69,8 @@ class ContentItem(Base, TimestampMixin):
         UUID(as_uuid=True), ForeignKey("topics.topic_id", ondelete="CASCADE"), nullable=False, index=True
     )
     title: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    tags: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
     type: Mapped[str] = mapped_column(String(50), nullable=False)  # e.g., "video", "article", "exercise"
     difficulty: Mapped[int] = mapped_column(Integer, nullable=False)  # 1 to 5 scale
     duration: Mapped[int] = mapped_column(Integer, nullable=False)  # in seconds

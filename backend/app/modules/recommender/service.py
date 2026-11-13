@@ -5,6 +5,7 @@ Fixed pipeline: Hard filters -> Score -> Explain.
 """
 import time
 import uuid
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional, Dict
 
 from sqlalchemy.orm import Session
@@ -86,6 +87,7 @@ class RecommenderService:
             "w2": float(cfg.get("w2", 0.3)),
             "w3": float(cfg.get("w3", 0.2)),
             "w4": float(cfg.get("w4", 0.1)),
+            "alpha": float(cfg.get("alpha", 0.5)),
         }
 
     def _get_thresholds(self) -> Dict[str, float]:
@@ -100,17 +102,24 @@ class RecommenderService:
         }
 
     def _get_stretch_and_periods(self) -> Dict[str, float]:
-        """Read stretch and quiet period from config."""
+        """Read stretch, dismissal quiet period, and review interval from config."""
         mastery_cfg = self.config_client.get(
             "mastery_parameters", {"stretch": 0.10}
         )
         period_cfg = self.config_client.get(
-            "quiz_and_periods", {"dismissal_quiet_period_days": 7}
+            "quiz_and_periods",
+            {
+                "dismissal_quiet_period_days": 7,
+                "review_interval_days": 7,
+            },
         )
         return {
             "stretch": float(mastery_cfg.get("stretch", 0.10)),
             "dismissal_quiet_period_days": int(
                 period_cfg.get("dismissal_quiet_period_days", 7)
+            ),
+            "review_interval_days": int(
+                period_cfg.get("review_interval_days", 7)
             ),
         }
 
@@ -148,7 +157,10 @@ class RecommenderService:
                 if strategy_name is None:
                     strategy_name = exp_info["strategy"]
 
-        if strategy_name is None:
+        if strategy_name not in STRATEGY_REGISTRY:
+            logger.warning(
+                f"Unknown strategy '{strategy_name}'. Using rule_based."
+            )
             strategy_name = "rule_based"
 
         # 1. Load mastery vector (Redis first, fallback to DB) - NFR-01
@@ -172,12 +184,20 @@ class RecommenderService:
         quiet_period_days = int(
             stretch_and_periods["dismissal_quiet_period_days"]
         )
+        review_interval_days = int(
+            stretch_and_periods["review_interval_days"]
+        )
         stretch = stretch_and_periods["stretch"]
         weights = self._get_dynamic_weights()
         templates = self._get_reason_templates()
 
         # 3. Hard Filters (FR-502, FR-503, FR-509)
-        completed_ids = self.knowledge_service.get_completed_content_ids(user_id)
+        completed_timestamps = (
+            self.knowledge_service.get_completed_content_timestamps(user_id)
+        )
+        completed_ids = set(completed_timestamps)
+        now = datetime.now(timezone.utc)
+
         dismissed_ids = set(
             self.repo.get_dismissed_content_ids(
                 user_id, quiet_period_days=quiet_period_days
@@ -191,10 +211,27 @@ class RecommenderService:
             if item.content_id in dismissed_ids:
                 continue
 
-            # (b) Drop completed items unless a review is due for a weak topic (FR-502)
-            item_topic_mastery = mastery_map.get(item.topic_id, 0.5)
-            if item.content_id in completed_ids:
+            # (b) Completed items are eligible only when weak-topic review is due (FR-502)
+            completion_time = completed_timestamps.get(item.content_id)
+
+            if completion_time is not None:
+                item_topic_mastery = mastery_map.get(item.topic_id, 0.5)
+
+                # Completed items from non-weak topics are never recommended again.
                 if item_topic_mastery >= weak_threshold:
+                    continue
+
+                # Normalize naive database timestamps to UTC.
+                if completion_time.tzinfo is None:
+                    completion_time = completion_time.replace(
+                        tzinfo=timezone.utc
+                    )
+
+                review_due_at = completion_time + timedelta(
+                    days=review_interval_days
+                )
+
+                if now < review_due_at:
                     continue
 
             # (c) Drop items whose prerequisite topics are still weak (FR-503)
@@ -227,36 +264,40 @@ class RecommenderService:
         # 4. Fallback chain for cold start / no mastery data (FR-510)
         scored_items: List[ScoredItem] = []
 
-        if not has_mastery_data or not filtered_candidates:
+        if not filtered_candidates:
+            fallback_step = "no_eligible_items"
+
+        elif not has_mastery_data:
+            eligible_ids = {item.content_id for item in filtered_candidates}
             popular_ids = self.repo.get_popular_content_ids(limit=limit)
 
-            if popular_ids:
-                id_to_item = {item.content_id: item for item in all_candidates}
-                popular_candidates = [
-                    id_to_item[cid]
-                    for cid in popular_ids
-                    if cid in id_to_item
-                ]
+            id_to_item = {
+                item.content_id: item for item in filtered_candidates
+            }
 
-                if popular_candidates:
-                    fallback_step = "popularity"
-                    for idx, pop_item in enumerate(popular_candidates[:limit]):
-                        scored_items.append(
-                            ScoredItem(
-                                item=pop_item,
-                                score=1.0 - (idx * 0.05),
-                                dominant_factor="eng",
-                                reason="Popular lesson among other learners",
-                            )
+            popular_candidates = [
+                id_to_item[cid]
+                for cid in popular_ids
+                if cid in eligible_ids
+            ]
+
+            if popular_candidates:
+                fallback_step = "popularity"
+
+                for idx, pop_item in enumerate(popular_candidates[:limit]):
+                    scored_items.append(
+                        ScoredItem(
+                            item=pop_item,
+                            score=1.0 - (idx * 0.05),
+                            dominant_factor="eng",
+                            reason="Popular lesson among other learners",
                         )
+                    )
 
             if not scored_items:
                 fallback_step = "entry_level"
-                candidates_pool = (
-                    filtered_candidates if filtered_candidates else all_candidates
-                )
                 entry_candidates = sorted(
-                    candidates_pool,
+                    filtered_candidates,
                     key=lambda item: (item.difficulty, item.duration),
                 )
 
@@ -301,6 +342,10 @@ class RecommenderService:
                 templates=templates,
                 item_similarity=item_similarity,
                 catalog=all_candidates,
+                completed_items=[
+                    item for item in all_candidates
+                    if item.content_id in completed_ids
+                ],
             )
 
             strategy = STRATEGY_REGISTRY.get(
@@ -358,10 +403,10 @@ class RecommenderService:
         )
 
     def dismiss_recommendation(
-        self, rec_id: uuid.UUID
+        self, rec_id: uuid.UUID, user_id: uuid.UUID
     ) -> DismissRecommendationResponse:
-        """FR-509: Dismiss a recommendation."""
-        self.repo.dismiss_recommendation(rec_id)
+        """FR-509: Dismiss only the current learner's recommendation."""
+        self.repo.dismiss_recommendation(rec_id, user_id)
         return DismissRecommendationResponse(rec_id=rec_id)
 
     def anonymize_learner_data(

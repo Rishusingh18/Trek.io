@@ -60,6 +60,8 @@ class ContentItemCreate(BaseModel):
     difficulty: int = Field(..., ge=1, le=5, description="Difficulty 1 to 5 scale")
     duration: int = Field(..., gt=0, description="Estimated duration in seconds")
     prerequisite_topic_ids: List[str] = []
+    description: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
 
 
 class ContentItemUpdate(BaseModel):
@@ -68,7 +70,8 @@ class ContentItemUpdate(BaseModel):
     difficulty: Optional[int] = Field(None, ge=1, le=5)
     duration: Optional[int] = Field(None, gt=0)
     prerequisite_topic_ids: Optional[List[str]] = None
-
+    description: Optional[str] = None
+    tags: Optional[List[str]] = None
 
 class ContentItemResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -81,6 +84,8 @@ class ContentItemResponse(BaseModel):
     duration: int
     prerequisite_topic_ids: list = []
     is_retired: bool = False
+    description: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
 
 
 # Question Schemas
