@@ -35,6 +35,9 @@ class Attempt(Base):
     answered_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
     )
+    # Quiz session linkage (migration 0002). Nullable so legacy rows stay valid.
+    session_id: Mapped[Optional[uuid.UUID]] = mapped_column(UUID(as_uuid=True), nullable=True, index=True)
+    quiz_type: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)  # diagnostic | adaptive
 
     __table_args__ = (
         Index("ix_attempts_user_answered_at", "user_id", "answered_at"),
@@ -80,6 +83,9 @@ class InteractionEvent(Base):
     content_id: Mapped[Optional[uuid.UUID]] = mapped_column(UUID(as_uuid=True), nullable=True)
     event_type: Mapped[str] = mapped_column(String(50), nullable=False)  # opened, completed, skipped, time_on_task, quiz_answered
     duration: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
+    # Quiz session linkage (migration 0002); set for quiz_answered events.
+    session_id: Mapped[Optional[uuid.UUID]] = mapped_column(UUID(as_uuid=True), nullable=True)
+    question_id: Mapped[Optional[uuid.UUID]] = mapped_column(UUID(as_uuid=True), nullable=True)
 
     __table_args__ = (
         PrimaryKeyConstraint("event_id", "timestamp"),

@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 # ==============================================================================
 # Canonical Service Topology (Staging & Production Image Parity NFR-14)
@@ -27,7 +27,7 @@ services:
 
   # PgBouncer Connection Pooler (Transaction Mode)
   pgbouncer:
-    image: edoburu/pgbouncer:v1.22.0
+    image: edoburu/pgbouncer:1.22.0-p0
     container_name: recommender_pgbouncer
     environment:
       DB_USER: ${POSTGRES_USER:-postgres}
@@ -41,7 +41,7 @@ services:
       DEFAULT_POOL_SIZE: ${PGBOUNCER_DEFAULT_POOL_SIZE:-25}
       RESERVE_POOL_SIZE: ${PGBOUNCER_RESERVE_POOL_SIZE:-5}
       ADMIN_USERS: ${POSTGRES_USER:-postgres}
-      AUTH_TYPE: ${PGBOUNCER_AUTH_TYPE:-any}
+      AUTH_TYPE: ${PGBOUNCER_AUTH_TYPE:-trust}
     ports:
       - "${PGBOUNCER_PORT:-6432}:6432"
     depends_on:
@@ -152,6 +152,28 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@pgbouncer:6432/${POSTGRES_DB:-learning_recommender}
       - REDIS_URL=redis://${REDIS_HOST:-redis}:6379/0
       - ENVIRONMENT=${ENVIRONMENT:-production}
+    profiles:
+      - seed
+    depends_on:
+      pgbouncer:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  # Learner-interaction dataset loader (CSV -> Postgres)
+  seed-dataset:
+    image: ${BACKEND_IMAGE:-learning-recommender-backend:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recommender_seed_dataset
+    command: python -m app.db.seed_dataset --clean
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@pgbouncer:6432/${POSTGRES_DB:-learning_recommender}
+      - REDIS_URL=redis://${REDIS_HOST:-redis}:6379/0
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - DATASET_DIR=/demo_data
+    volumes:
+      - "../demo data:/demo_data:ro"
     profiles:
       - seed
     depends_on:

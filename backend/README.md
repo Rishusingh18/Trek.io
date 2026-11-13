@@ -172,12 +172,33 @@ make seed-docker
 
 ---
 
+## 6b. Learner-Interaction Dataset Loader (CSV -> PostgreSQL)
+
+Loads the CSV learner dataset (503 accounts, 1 course, 8 topics, 48 content items, 120 questions, ~37k attempts,
+~51k interaction events) and replays the attempts through the SRS 7.1 mastery formula to fill `mastery_scores`.
+Apply migration `0002_quiz_session_columns` first (`make db-upgrade`).
+
+```bash
+python -m app.db.seed_dataset --data-dir "../demo data" --dry-run --check-ground-truth   # validate only, no DB
+python -m app.db.seed_dataset --data-dir "../demo data" --clean                          # wipe + load
+# Or: make seed-dataset-dry / make seed-dataset / make seed-dataset-docker
+```
+
+- **Safety:** refuses to run when `ENVIRONMENT=production` (all demo accounts share one known password).
+- **Config-driven:** mastery `eta`/`beta` come from the `mastery_parameters` DB config (NFR-13); confidence uses the same +0.15/attempt rule as the live service.
+- **Consent:** any attempt or event older than its learner's `consent_at` aborts the load (FR-104).
+- **Idempotent:** ids are uuid5-derived and inserts use `ON CONFLICT DO NOTHING`, so re-runs are safe.
+- **Ground truth:** `ground_truth_skill.csv` is never loaded; `--check-ground-truth` reports correlation, MAE and bias of the replayed mastery against it.
+- Tests: `python -m pytest tests/test_seed_dataset.py -v`
+
+---
+
 ## 7. Running Tests & Coverage
 
 ### Quick Test Run
 Run the entire automated test suite:
 ```bash
-pytest -v
+python -m pytest -v
 # Or via Makefile:
 make test
 ```
@@ -185,7 +206,7 @@ make test
 ### Run Tests with Code Coverage (NFR-12)
 Fail the build if statement coverage on `app/modules/*/service.py` is below 70%:
 ```bash
-pytest --cov=app/modules --cov-report=term-missing --cov-fail-under=70
+python -m pytest --cov=app/modules --cov-report=term-missing --cov-fail-under=70
 # Or via Makefile:
 make test-cov
 ```
@@ -193,31 +214,31 @@ make test-cov
 ### Running Specific Test Suites
 ```bash
 # 1. Immediate mastery visibility integration test (< 1 sec, NFR-03)
-pytest tests/test_integration_nfr03.py -v
+python -m pytest tests/test_integration_nfr03.py -v
 
 # 2. Comprehensive Access-Control Matrix (every role against every route group)
-pytest tests/test_access_control_matrix.py -v
+python -m pytest tests/test_access_control_matrix.py -v
 
 # 3. Recommendation strategy error fallback to rule-based (NFR-08)
-pytest tests/test_strategy_fallback_nfr08.py -v
+python -m pytest tests/test_strategy_fallback_nfr08.py -v
 
 # 4. Daily backup and disaster recovery restore drill (NFR-09)
-pytest tests/test_backup_restore_nfr09.py -v
+python -m pytest tests/test_backup_restore_nfr09.py -v
 
 # 5. Staging/Production image parity & PgBouncer routing (NFR-14)
-pytest tests/test_image_parity_nfr14.py -v
+python -m pytest tests/test_image_parity_nfr14.py -v
 
 # 6. Service coverage threshold verification (NFR-12)
-pytest tests/test_coverage_threshold.py -v
+python -m pytest tests/test_coverage_threshold.py -v
 
 # 7. Experiments, A/B assignment, and background worker jobs
-pytest tests/test_experiments_and_worker.py -v
+python -m pytest tests/test_experiments_and_worker.py -v
 
 # 8. Recommender pipeline and explanations (FR-501 to FR-510, UC-02)
-pytest tests/test_recommender.py -v
+python -m pytest tests/test_recommender.py -v
 
 # 9. Adaptive quiz stepping rules and knowledge model (FR-301 to FR-307, FR-601 to FR-605, UC-01, UC-03)
-pytest tests/test_quiz_and_knowledge.py -v
+python -m pytest tests/test_quiz_and_knowledge.py -v
 
 # 10. Learner and instructor dashboards (FR-701 to FR-705, UC-04, NFR-02)
 pytest tests/test_dashboard.py -v
