@@ -4,6 +4,13 @@ SQLAlchemy 2.x Declarative Base and common mixins.
 from datetime import datetime, timezone
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import DateTime
+from sqlalchemy.ext.compiler import compiles
+from sqlalchemy.dialects.postgresql import JSONB
+
+# SQLite compatibility for PostgreSQL JSONB dialect
+@compiles(JSONB, "sqlite")
+def compile_jsonb_sqlite(type_, compiler, **kw):
+    return "JSON"
 
 
 class Base(DeclarativeBase):

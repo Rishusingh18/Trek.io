@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>PathWise — Student Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../assets/css/tailwind.min.css">
+<script>window.tailwind = window.tailwind || {};</script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container-low": "#eff4ff",
+          "secondary-fixed": "#85f8c4",
+          "on-surface-variant": "#47464f",
+          "error-container": "#ffdad6",
+          "tertiary": "#170700",
+          "outline-variant": "#c8c5d0",
+          "on-primary": "#ffffff",
+          "primary-fixed-dim": "#c4c1fb",
+          "on-primary-fixed-variant": "#444173",
+          "on-secondary-fixed": "#002114",
+          "surface-dim": "#ccdbf3",
+          "on-secondary-fixed-variant": "#005137",
+          "tertiary-fixed-dim": "#ffb77d",
+          "surface": "#f8f9ff",
+          "outline": "#787680",
+          "surface-container": "#e6eeff",
+          "on-tertiary-fixed": "#2f1500",
+          "secondary": "#006c4a",
+          "surface-container-high": "#dce9ff",
+          "inverse-surface": "#233144",
+          "on-surface": "#0d1c2e",
+          "background": "#f8f9ff",
+          "surface-variant": "#d5e3fc",
+          "on-primary-fixed": "#181445",
+          "on-tertiary": "#ffffff",
+          "on-background": "#0d1c2e",
+          "surface-bright": "#f8f9ff",
+          "surface-tint": "#5b598c",
+          "inverse-primary": "#c4c1fb",
+          "on-error-container": "#93000a",
+          "inverse-on-surface": "#eaf1ff",
+          "on-primary-container": "#8683ba",
+          "primary-container": "#1e1b4b",
+          "on-secondary": "#ffffff",
+          "primary-fixed": "#e3dfff",
+          "secondary-container": "#82f5c1",
+          "on-tertiary-container": "#cf7100",
+          "on-error": "#ffffff",
+          "surface-container-highest": "#d5e3fc",
+          "surface-container-lowest": "#ffffff",
+          "on-secondary-container": "#00714e",
+          "secondary-fixed-dim": "#68dba9",
+          "error": "#ba1a1a",
+          "tertiary-fixed": "#ffdcc3",
+          "on-tertiary-fixed-variant": "#6e3900",
+          "primary": "#070235",
+          "tertiary-container": "#381a00"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "margin-mobile": "1rem",
+          "space-md": "1rem",
+          "space-xs": "0.25rem",
+          "space-sm": "0.5rem",
+          "gutter": "1.5rem",
+          "margin": "2rem",
+          "space-xl": "2.5rem",
+          "space-lg": "1.5rem",
+          "gutter-mobile": "1rem"
+        },
+        "fontFamily": {
+          "label-sm": ["Inter"],
+          "body-sm": ["Inter"],
+          "title-md": ["Inter"],
+          "data-metric": ["Plus Jakarta Sans"],
+          "label-md": ["Inter"],
+          "body-md": ["Inter"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "body-lg": ["Inter"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "display": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "label-sm": ["0.75rem", {"lineHeight": "1rem", "letterSpacing": "0.025em", "fontWeight": "600"}],
+          "body-sm": ["0.75rem", {"lineHeight": "1.125rem", "fontWeight": "400"}],
+          "title-md": ["1rem", {"lineHeight": "1.5rem", "letterSpacing": "-0.005em", "fontWeight": "600"}],
+          "data-metric": ["1.75rem", {"lineHeight": "2rem", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "label-md": ["0.875rem", {"lineHeight": "1.25rem", "fontWeight": "500"}],
+          "body-md": ["0.875rem", {"lineHeight": "1.375rem", "fontWeight": "400"}],
+          "headline-lg-mobile": ["1.75rem", {"lineHeight": "2.25rem", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+          "headline-md": ["1.5rem", {"lineHeight": "2rem", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+          "body-lg": ["1.125rem", {"lineHeight": "1.75rem", "fontWeight": "400"}],
+          "headline-sm": ["1.25rem", {"lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "display": ["3.5rem", {"lineHeight": "4rem", "letterSpacing": "-0.025em", "fontWeight": "700"}],
+          "headline-lg": ["2.25rem", {"lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  @layer base {
+    html, body { margin: 0; padding: 0; }
+    body { overscroll-behavior: none; }
+  }
+  ::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased min-h-screen">
+<!-- TOP APP BAR -->
+<header class="sticky top-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md transition-all shadow-xs border-b border-surface-container-high">
+<div class="max-w-7xl mx-auto px-margin-mobile sm:px-gutter lg:px-margin">
+<div class="flex items-center justify-between h-16 gap-space-md">
+<!-- Brand Logo & Title -->
+<div class="flex items-center gap-space-sm">
+<img alt="PathWise Logo" class="w-auto object-contain h-10" src="../assets/images/logo.png"/>
+<span class="font-headline-sm text-headline-sm text-primary tracking-tight hidden sm:inline">Trek</span>
+</div>
+<!-- Center Search -->
+<div class="hidden md:flex flex-1 max-w-md mx-space-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-4 bg-surface-container-low text-on-surface placeholder-on-surface-variant text-label-md font-label-md rounded-full border-none focus:ring-2 focus:ring-primary-container outline-none" placeholder="Find lessons, topics, quizzes..." type="text"/>
+</div>
+</div>
+<!-- Right Controls: Role Switcher, Notifications, Avatar -->
+<div class="flex items-center gap-space-sm sm:gap-space-md">
+<!-- Role Switcher -->
+<div class="relative">
+<button aria-expanded="false" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-colors border border-surface-container-high font-label-sm text-label-sm cursor-pointer" id="role-menu-button">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-primary font-semibold" id="current-role-label">Student</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span>
+</button>
+<!-- Dropdown -->
+<div class="hidden absolute right-0 mt-2 w-52 rounded-xl bg-surface-container-lowest shadow-lg border border-surface-container-high py-1 z-50 animate-in fade-in zoom-in-95" id="role-dropdown">
+<div class="px-3 py-1.5 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Switch Workspace</div>
+<button class="role-option w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-surface-container-low text-primary font-semibold" data-role="Student">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-secondary">school</span> Student View</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">check</span>
+</button>
+<button class="role-option w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-surface-container-low text-on-surface" data-role="Teacher / Dr. Thorne">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">co_present</span> Instructor View</span>
+</button>
+<button class="role-option w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-surface-container-low text-on-surface" data-role="Admin">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">admin_panel_settings</span> Admin Console</span>
+</button>
+</div>
+</div>
+<!-- Notifications -->
+<button class="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary"></span>
+</button>
+<!-- User Avatar -->
+<div class="flex items-center gap-2 pl-1">
+<div class="relative">
+<img alt="Asha Sharma" class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high" src="../assets/images/avatar_asha.png"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-white"></span>
+</div>
+<span class="hidden lg:block font-label-sm text-label-sm text-primary">Asha</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav aria-label="Student Sub-navigation" class="flex items-center gap-space-xs sm:gap-space-sm overflow-x-auto py-2.5 border-t border-surface-container-high/60" data-active-classes="bg-primary text-on-primary font-semibold shadow-xs">
+<a class="nav-tab px-3.5 py-1.5 rounded-full font-label-sm text-label-sm transition-all whitespace-nowrap text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface" data-path="overview-up-next" href="#">
+        Overview &amp; Up Next
+      </a>
+<a class="nav-tab px-3.5 py-1.5 rounded-full font-label-sm text-label-sm transition-all whitespace-nowrap text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface" data-path="topics-mastery" href="#">
+        Topics &amp; Mastery
+      </a>
+<a aria-current="page" class="nav-tab px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap bg-primary text-on-primary font-semibold shadow-xs" data-path="my-quizzes-history" href="#">
+        My Quizzes &amp; History
+      </a>
+<a class="nav-tab px-3.5 py-1.5 rounded-full font-label-sm text-label-sm transition-all whitespace-nowrap text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface" data-path="achievements" href="#">
+        Achievements
+      </a>
+</nav>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="max-w-7xl mx-auto w-full px-margin-mobile sm:px-gutter lg:px-margin py-space-lg space-y-space-lg pt-16"><div class="flex flex-col w-full">
+<!-- BREADCRUMB & HEADER BLOCK -->
+<section class="flex flex-col gap-space-sm mb-space-lg">
+<!-- Breadcrumb -->
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="hover:text-primary transition-colors cursor-pointer">Student Portal</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-primary transition-colors cursor-pointer">Evaluations &amp; Assessments</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-semibold">My Quizzes &amp; History</span>
+</div>
+<!-- Title & CTA Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mt-1">
+<div class="max-w-3xl">
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Quiz Attempts &amp; Performance History</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+          Review past adaptive quizzes, analyze question-level explanations, and track your conceptual accuracy across Data Structures &amp; Algorithms (CS 301 / CS-602).
+        </p>
+</div>
+<div class="flex items-center gap-space-sm self-start lg:self-auto shrink-0">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container-low transition-all font-label-md text-label-md shadow-xs" onclick="showToast('Exporting PDF quiz transcript...')">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">picture_as_pdf</span>
+          Export Transcript
+        </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-container text-on-primary hover:opacity-95 transition-all font-label-md text-label-md shadow-sm" onclick="showToast('Initializing adaptive drill engine...')">
+<span class="material-symbols-outlined text-[18px] text-secondary-fixed">bolt</span>
+<span>Adaptive Practice Drill</span>
+</button>
+</div>
+</div>
+</section>
+<!-- METRIC STATS STRIP (Academic KPI Bar) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Stat 1: Total Completed -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-xs flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Total Quizzes</span>
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-data-metric text-data-metric text-primary">28 Completed</div>
+<div class="flex items-center gap-1.5 mt-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="text-secondary font-semibold flex items-center">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 78.4%
+          </span>
+<span>cohort baseline avg</span>
+</div>
+</div>
+</div>
+<!-- Stat 2: Total Questions Answered -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-xs flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Question Volume</span>
+<span class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">quiz</span>
+</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-data-metric text-data-metric text-primary">342 Questions</div>
+<div class="flex items-center gap-1.5 mt-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="text-secondary font-semibold">76% overall</span>
+<span>cumulative correctness</span>
+</div>
+</div>
+</div>
+<!-- Stat 3: Strongest Area -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-xs flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Highest Mastery</span>
+<span class="w-7 h-7 rounded-lg bg-secondary-fixed/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-title-md text-title-md text-primary truncate">Arrays &amp; Sorting</div>
+<div class="flex items-center gap-1.5 mt-1 font-label-sm text-label-sm">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold">92% Mastered</span>
+<span class="text-on-surface-variant">Level 5 Tier</span>
+</div>
+</div>
+</div>
+<!-- Stat 4: Needs Revision -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-xs flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-error">Critical Focus Area</span>
+<span class="w-7 h-7 rounded-lg bg-error-container/40 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</span>
+</div>
+<div class="mt-space-sm">
+<div class="font-title-md text-title-md text-error truncate">Dynamic Programming</div>
+<div class="flex items-center gap-1.5 mt-1 font-label-sm text-label-sm">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-semibold">42% Accuracy</span>
+<span class="text-on-surface-variant">Needs memoization drill</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SEARCH, FILTER CHIPS & SORT TOOLBAR -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-xs mb-space-lg flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Bar -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-10 pl-9 pr-4 bg-surface-container-low text-on-surface placeholder-on-surface-variant text-label-md font-label-md rounded-lg focus:ring-2 focus:ring-primary-container outline-none transition-all" id="quiz-search-input" oninput="filterQuizList(this.value)" placeholder="Search quizzes by topic, keyword, or score..." type="text"/>
+</div>
+<!-- Segmented Filter Pills -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" id="filter-pill-group">
+<button class="filter-pill px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm whitespace-nowrap shadow-xs" onclick="setActiveFilter(this, 'all')">
+        All Quizzes (4)
+      </button>
+<button class="filter-pill px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm whitespace-nowrap transition-colors" onclick="setActiveFilter(this, 'week')">
+        This Week (3)
+      </button>
+<button class="filter-pill px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm whitespace-nowrap transition-colors" onclick="setActiveFilter(this, 'review')">
+        Needs Review (&lt;60%) (1)
+      </button>
+<button class="filter-pill px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm whitespace-nowrap transition-colors" onclick="setActiveFilter(this, 'drills')">
+        Adaptive Drills (3)
+      </button>
+<button class="filter-pill px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm whitespace-nowrap transition-colors" onclick="setActiveFilter(this, 'diagnostics')">
+        Diagnostics &amp; Midterms (1)
+      </button>
+</div>
+<!-- Sort Selector -->
+<div class="flex items-center gap-2 shrink-0 self-end lg:self-center">
+<span class="text-on-surface-variant font-label-sm text-label-sm">Sort:</span>
+<select class="h-9 px-3 py-1 bg-surface-container-low text-on-surface font-label-sm text-label-sm rounded-lg outline-none cursor-pointer" onchange="sortQuizAttempts(this.value)">
+<option value="Newest First">Newest First</option>
+<option value="Highest Score">Highest Score</option>
+<option value="Lowest Score">Lowest Score</option>
+<option value="Longest Duration">Duration</option>
+</select>
+</div>
+</section>
+<!-- MAIN DUAL-COLUMN WORKSPACE: GROUPED ATTEMPTS & EXPANDED QUESTION VIEWER -->
+<div class="flex flex-col gap-space-lg w-full" id="history-ledger-container">
+<!-- Full-Width Date Group: TODAY -->
+<div class="quiz-date-group flex flex-col gap-space-sm w-full" data-category="week drills review">
+<div class="flex items-center justify-between px-2 py-1 border-b border-surface-container-high/60">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-primary-container/20"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Today — Saturday, Oct 31, 2026</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-xs">1 attempt</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Dynamic Programming Focus Session</span>
+</div>
+<!-- Attempt 1: Active & Expanded Review Item -->
+<div class="quiz-card flex flex-col bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-xs overflow-hidden transition-all" id="attempt-row-dp" data-score="38" data-duration="860" data-timestamp="1793444640">
+<!-- Attempt Primary Row / Header Bar -->
+<div class="p-space-md flex flex-col lg:flex-row lg:items-center justify-between gap-space-md hover:bg-surface-container-low/40 transition-colors cursor-pointer" onclick="toggleInlineReview('dp-review-drawer')">
+<div class="flex items-center gap-space-md min-w-0 flex-1">
+<!-- Time Stamp & Status Icon -->
+<div class="flex items-center gap-2 shrink-0 text-on-surface-variant font-mono text-xs w-20">
+<span class="material-symbols-outlined text-[16px] text-error">history</span>
+<span>10:24 AM</span>
+</div>
+<!-- Title & Badges -->
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="font-title-md text-title-md font-bold text-primary truncate hover:text-primary-container transition-colors">
+                Dynamic Programming: 1D &amp; 2D Memoization Checkpoint #4
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-xs">Adaptive Drill</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">DP &amp; Recurrence</span>
+</div>
+<div class="flex flex-wrap items-center gap-3 text-on-surface-variant font-body-sm text-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">timer</span> 14m 20s total duration</span>
+<span>·</span>
+<span>Attempt ID: <code class="font-mono">#DP-4409</code></span>
+<span>·</span>
+<span class="text-error font-medium">Requires state transition remediation</span>
+</div>
+</div>
+</div>
+<!-- Right Side: Accuracy Dots & Action Pill -->
+<div class="flex items-center justify-between lg:justify-end gap-space-md shrink-0">
+<!-- Accuracy Micro Bar Dots -->
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-surface-container-high/60">
+<span class="font-label-sm text-xs text-on-surface-variant font-medium mr-1">8 Qs:</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold" title="Q1 Correct">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold" title="Q2 Incorrect">✗</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold" title="Q3 Incorrect">✗</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold" title="Q4 Correct">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold" title="Q5 Incorrect">✗</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold" title="Q6 Correct">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold" title="Q7 Incorrect">✗</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold" title="Q8 Incorrect">✗</span>
+</div>
+<!-- Score Pill -->
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+              3 / 8 Correct (38%)
+            </span>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-sm text-xs font-semibold transition-colors">
+<span class="material-symbols-outlined text-[16px]" id="dp-chevron">expand_less</span>
+<span id="dp-btn-label">Collapse Review</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Expandable Inline Question Review Ledger Drawer -->
+<div class="border-t border-surface-container-high bg-surface-container-low/30 p-space-md lg:p-space-lg flex flex-col gap-space-md" id="dp-review-drawer">
+<!-- Drawer Subheader & Filters -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-sm border-b border-surface-container-high/60">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-label-sm text-xs font-bold uppercase tracking-wider text-on-surface-variant">Question Breakdown:</span>
+<button class="q-filter-btn px-3 py-1 rounded-lg bg-primary-container text-on-primary font-label-sm text-xs font-semibold shadow-xs" onclick="filterQuestions('all')">
+              All Questions (8)
+            </button>
+<button class="q-filter-btn px-3 py-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-error font-label-sm text-xs font-semibold transition-colors" onclick="filterQuestions('incorrect')">
+              Incorrect Only (5)
+            </button>
+<button class="q-filter-btn px-3 py-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high text-secondary font-label-sm text-xs font-semibold transition-colors" onclick="filterQuestions('correct')">
+              Correct (3)
+            </button>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant font-label-sm text-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px] text-secondary">psychology</span> Adaptive Confidence: Low (38%)</span>
+<button class="text-primary hover:underline font-semibold flex items-center gap-0.5" onclick="toggleInlineReview('dp-review-drawer')">
+<span class="material-symbols-outlined text-[14px]">close</span> Close Drawer
+            </button>
+</div>
+</div>
+<!-- Question Cards Stack -->
+<div class="flex flex-col gap-space-md" id="questions-container">
+<!-- Question 1: Correct -->
+<article class="question-item bg-surface-container-lowest rounded-xl p-space-md border border-surface-container-high/80 shadow-xs flex flex-col gap-space-sm" data-correctness="correct">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-xs font-bold">1</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Question 1 of 8</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">Difficulty: Level 2 (Foundational)</span>
+</div>
+<span class="flex items-center gap-1 font-label-sm text-xs text-secondary font-semibold">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Correct · 48s
+              </span>
+</div>
+<p class="font-title-md text-title-md text-primary font-medium mt-1">
+              What is the primary prerequisite property required for a problem to be solvable via Dynamic Programming with memoization?
+            </p>
+<div class="p-3 rounded-lg bg-secondary-container/20 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check</span>
+<div>
+<span class="font-label-sm text-xs text-secondary font-semibold block">Your Answer &amp; Correct Option:</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Overlapping subproblems and optimal substructure</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low flex items-start gap-3">
+<div class="w-7 h-7 rounded-lg bg-primary-container text-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-xs text-primary font-semibold mb-0.5">Algorithmic Rationale</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                  Dynamic programming strictly requires overlapping subproblems so cached results can be reused across recursion trees, and optimal substructure so optimal local solutions compose the global optimum.
+                </p>
+</div>
+</div>
+</article>
+<!-- Question 2: Incorrect - Knapsack -->
+<article class="question-item bg-surface-container-lowest rounded-xl p-space-md border border-surface-container-high/80 shadow-xs flex flex-col gap-space-sm" data-correctness="incorrect">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-error text-on-error flex items-center justify-center font-label-sm text-xs font-bold">2</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Question 2 of 8</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-xs font-semibold">Difficulty: Level 4 (Advanced)</span>
+</div>
+<span class="flex items-center gap-1 font-label-sm text-xs text-error font-semibold">
+<span class="material-symbols-outlined text-[16px]">cancel</span> Incorrect · 2m 14s (High cognitive load)
+              </span>
+</div>
+<p class="font-title-md text-title-md text-primary font-medium mt-1">
+              In the 0/1 Knapsack problem with capacity <code class="px-1.5 py-0.5 rounded bg-surface-container-high text-xs font-mono">W</code> and items with weights <code class="px-1.5 py-0.5 rounded bg-surface-container-high text-xs font-mono">w_i</code> and values <code class="px-1.5 py-0.5 rounded bg-surface-container-high text-xs font-mono">v_i</code>, what is the optimal state transition when considering item <code class="px-1.5 py-0.5 rounded bg-surface-container-high text-xs font-mono">i</code> with subproblem capacity <code class="px-1.5 py-0.5 rounded bg-surface-container-high text-xs font-mono">j &lt; w_i</code>?
+            </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-1">
+<div class="p-3 rounded-lg bg-error-container/30 flex items-start gap-2.5 border border-error/20">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">close</span>
+<div>
+<span class="font-label-sm text-xs text-error font-bold block">Your Answer:</span>
+<code class="font-body-sm text-xs text-on-surface font-mono block mt-1">dp[i][j] = max(dp[i-1][j], dp[i-1][j - w_i] + v_i)</code>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-secondary-container/30 flex items-start gap-2.5 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check</span>
+<div>
+<span class="font-label-sm text-xs text-secondary font-bold block">Correct Formulation:</span>
+<code class="font-body-sm text-xs text-on-surface font-mono block mt-1">dp[i][j] = dp[i-1][j]</code>
+<span class="font-body-sm text-xs text-on-surface-variant mt-1 block">Item cannot fit since its weight exceeds current capacity j.</span>
+</div>
+</div>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3 mt-1">
+<div class="w-7 h-7 rounded-lg bg-primary-container text-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">psychology</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-xs text-primary font-semibold mb-0.5">Instructor &amp; AI Algorithmic Explanation</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                  When the current item's weight <code class="font-mono text-xs font-semibold">w_i</code> exceeds the remaining subproblem capacity <code class="font-mono text-xs font-semibold">j</code>, you strictly cannot include item <code class="font-mono text-xs font-semibold">i</code>. Therefore, the maximum attainable value is inherited from excluding item <code class="font-mono text-xs font-semibold">i</code>: <code class="font-mono text-xs font-bold text-primary">dp[i][j] = dp[i-1][j]</code>. Attempting to subtract <code class="font-mono text-xs font-semibold">w_i</code> when <code class="font-mono text-xs font-semibold">j &lt; w_i</code> triggers a negative index boundary error.
+                </p>
+<div class="flex items-center gap-2 mt-3 pt-2">
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-label-sm text-xs flex items-center gap-1 transition-all shadow-xs" onclick="showToast('Added Knapsack state transition to spaced repetition deck!')">
+<span class="material-symbols-outlined text-[14px] text-on-tertiary-container">style</span> Add to Flashcards
+                  </button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest hover:bg-surface-container-high text-primary font-label-sm text-xs flex items-center gap-1 transition-all shadow-xs" onclick="showToast('Loading practice drill for 0/1 Knapsack...')">
+<span class="material-symbols-outlined text-[14px] text-secondary">tune</span> Practice Similar Subproblem
+                  </button>
+</div>
+</div>
+</div>
+</article>
+<!-- Question 3: Incorrect - LCS -->
+<article class="question-item bg-surface-container-lowest rounded-xl p-space-md border border-surface-container-high/80 shadow-xs flex flex-col gap-space-sm" data-correctness="incorrect">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-error text-on-error flex items-center justify-center font-label-sm text-xs font-bold">3</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Question 3 of 8</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-xs font-semibold">Difficulty: Level 3 (Intermediate)</span>
+</div>
+<span class="flex items-center gap-1 font-label-sm text-xs text-error font-semibold">
+<span class="material-symbols-outlined text-[16px]">cancel</span> Incorrect · 1m 45s
+</span>
+</div>
+<p class="font-title-md text-title-md text-primary font-medium mt-1">
+In the Longest Common Subsequence (LCS) problem on strings X and Y, what is the state transition when X[i] == Y[j]?
+</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-1">
+<div class="p-3 rounded-lg bg-error-container/30 flex items-start gap-2.5 border border-error/20">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">close</span>
+<div>
+<span class="font-label-sm text-xs text-error font-bold block">Your Answer:</span>
+<code class="font-body-sm text-xs text-on-surface font-mono block mt-1">dp[i][j] = dp[i-1][j-1]</code>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-secondary-container/30 flex items-start gap-2.5 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check</span>
+<div>
+<span class="font-label-sm text-xs text-secondary font-bold block">Correct Optimal Formulation:</span>
+<code class="font-body-sm text-xs text-on-surface font-mono block mt-1">dp[i][j] = dp[i-1][j-1] + 1</code>
+</div>
+</div>
+</div>
+</article>
+<!-- Question 4: Correct - Coin Change Base Case -->
+<article class="question-item bg-surface-container-lowest rounded-xl p-space-md border border-surface-container-high/80 shadow-xs flex flex-col gap-space-sm" data-correctness="correct">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-xs font-bold">4</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Question 4 of 8</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">Difficulty: Level 2 (Foundational)</span>
+</div>
+<span class="flex items-center gap-1 font-label-sm text-xs text-secondary font-semibold">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Correct · 35s
+</span>
+</div>
+<p class="font-title-md text-title-md text-primary font-medium mt-1">
+In the Coin Change (Fewest Coins) dynamic programming formulation, what is the mandatory base case initialization for amount = 0?
+</p>
+<div class="p-3 rounded-lg bg-secondary-container/20 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check</span>
+<div>
+<span class="font-label-sm text-xs text-secondary font-semibold block">Your Answer &amp; Correct Option:</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">dp[0] = 0 (zero coins required to make amount zero)</span>
+</div>
+</div>
+</article>
+<!-- Question 5: Intermediate (Incorrect - Fibonacci Space) -->
+<article class="question-item bg-surface-container-lowest rounded-xl p-space-md border border-surface-container-high/80 shadow-xs flex flex-col gap-space-sm" data-correctness="incorrect">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-error text-on-error flex items-center justify-center font-label-sm text-xs font-bold">5</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Question 5 of 8</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">Difficulty: Level 3 (Intermediate)</span>
+</div>
+<span class="flex items-center gap-1 font-label-sm text-xs text-error font-semibold">
+<span class="material-symbols-outlined text-[16px]">cancel</span> Incorrect · 1m 02s
+              </span>
+</div>
+<p class="font-title-md text-title-md text-primary font-medium mt-1">
+              In bottom-up tabulation for the Fibonacci sequence, what is the minimal auxiliary space complexity achievable?
+            </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-1">
+<div class="p-3 rounded-lg bg-error-container/30 flex items-start gap-2.5 border border-error/20">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">close</span>
+<div>
+<span class="font-label-sm text-xs text-error font-bold block">Your Answer:</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">O(n) space using a 1D array of size n+1</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-secondary-container/30 flex items-start gap-2.5 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check</span>
+<div>
+<span class="font-label-sm text-xs text-secondary font-bold block">Correct Optimal Answer:</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">O(1) auxiliary space using two sliding variables</span>
+</div>
+</div>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3 mt-1">
+<div class="w-7 h-7 rounded-lg bg-primary-container text-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[16px]">code</span>
+</div>
+<div class="flex-1">
+<div class="font-label-sm text-xs text-primary font-semibold mb-0.5">Space Optimization Principle</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                  While an <code class="font-mono text-xs">O(n)</code> table functions correctly, Fibonacci computations only reference the immediately preceding two states (<code class="font-mono text-xs">prev1</code> and <code class="font-mono text-xs">prev2</code>). Maintaining two rolling scalar registers reduces memory from linear to constant <code class="font-mono text-xs font-bold text-primary">O(1)</code> space.
+                </p>
+</div>
+</div>
+</article>
+<!-- Question 6: Correct - Memoization vs Tabulation -->
+<article class="question-item bg-surface-container-lowest rounded-xl p-space-md border border-surface-container-high/80 shadow-xs flex flex-col gap-space-sm" data-correctness="correct">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-xs font-bold">6</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Question 6 of 8</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">Difficulty: Level 3 (Intermediate)</span>
+</div>
+<span class="flex items-center gap-1 font-label-sm text-xs text-secondary font-semibold">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Correct · 52s
+</span>
+</div>
+<p class="font-title-md text-title-md text-primary font-medium mt-1">
+What is the primary trade-off of Top-Down Memoization compared to Bottom-Up Tabulation?
+</p>
+<div class="p-3 rounded-lg bg-secondary-container/20 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check</span>
+<div>
+<span class="font-label-sm text-xs text-secondary font-semibold block">Your Answer &amp; Correct Option:</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Top-down only computes subproblems strictly required along the recursion path, but incurs call stack overhead</span>
+</div>
+</div>
+</article>
+<!-- Question 7: Incorrect - Matrix Chain Multiplication -->
+<article class="question-item bg-surface-container-lowest rounded-xl p-space-md border border-surface-container-high/80 shadow-xs flex flex-col gap-space-sm" data-correctness="incorrect">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-error text-on-error flex items-center justify-center font-label-sm text-xs font-bold">7</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Question 7 of 8</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-xs font-semibold">Difficulty: Level 4 (Advanced)</span>
+</div>
+<span class="flex items-center gap-1 font-label-sm text-xs text-error font-semibold">
+<span class="material-symbols-outlined text-[16px]">cancel</span> Incorrect · 2m 05s
+</span>
+</div>
+<p class="font-title-md text-title-md text-primary font-medium mt-1">
+In Matrix Chain Multiplication (MCM), in what topological sequence must subproblem tables be evaluated?
+</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-1">
+<div class="p-3 rounded-lg bg-error-container/30 flex items-start gap-2.5 border border-error/20">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">close</span>
+<div>
+<span class="font-label-sm text-xs text-error font-bold block">Your Answer:</span>
+<span class="font-body-sm text-xs text-on-surface block mt-1">Row by row from top to bottom</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-secondary-container/30 flex items-start gap-2.5 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check</span>
+<div>
+<span class="font-label-sm text-xs text-secondary font-bold block">Correct Optimal Formulation:</span>
+<span class="font-body-sm text-xs text-on-surface block mt-1">By increasing chain length L from 2 to n</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Question 8: Incorrect - Edit Distance -->
+<article class="question-item bg-surface-container-lowest rounded-xl p-space-md border border-surface-container-high/80 shadow-xs flex flex-col gap-space-sm" data-correctness="incorrect">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-error text-on-error flex items-center justify-center font-label-sm text-xs font-bold">8</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">Question 8 of 8</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-xs font-semibold">Difficulty: Level 4 (Advanced)</span>
+</div>
+<span class="flex items-center gap-1 font-label-sm text-xs text-error font-semibold">
+<span class="material-symbols-outlined text-[16px]">cancel</span> Incorrect · 1m 55s
+</span>
+</div>
+<p class="font-title-md text-title-md text-primary font-medium mt-1">
+In Levenshtein Edit Distance between strings word1 and word2, what is the cost function when word1[i-1] != word2[j-1]?
+</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm mt-1">
+<div class="p-3 rounded-lg bg-error-container/30 flex items-start gap-2.5 border border-error/20">
+<span class="material-symbols-outlined text-error text-[18px] shrink-0 mt-0.5">close</span>
+<div>
+<span class="font-label-sm text-xs text-error font-bold block">Your Answer:</span>
+<code class="font-body-sm text-xs text-on-surface font-mono block mt-1">dp[i][j] = min(dp[i-1][j], dp[i][j-1])</code>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-secondary-container/30 flex items-start gap-2.5 border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">check</span>
+<div>
+<span class="font-label-sm text-xs text-secondary font-bold block">Correct Optimal Formulation:</span>
+<code class="font-body-sm text-xs text-on-surface font-mono block mt-1">1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])</code>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Drawer Remediation Action Bar -->
+<div class="mt-space-sm p-space-md rounded-xl bg-surface-container-high/60 flex flex-col sm:flex-row sm:items-center justify-between gap-space-md border border-surface-container-high">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px] text-secondary-fixed">school</span>
+</div>
+<div>
+<span class="font-label-sm text-xs uppercase tracking-wide text-primary font-bold block">Suggested Remediation Plan</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Retake DP Base Cases Drill (6 questions) or inspect interactive algorithm workbench.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-xs hover:bg-surface transition-all shadow-xs" onclick="toggleInlineReview('dp-review-drawer')">
+              Minimize Review
+            </button>
+<button class="px-4 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-md text-xs font-semibold hover:opacity-95 transition-all shadow-sm flex items-center gap-1" onclick="showToast('Launching Dynamic Programming remediation drill...')">
+<span>Launch Drill</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Full-Width Date Group: YESTERDAY -->
+<div class="quiz-date-group flex flex-col gap-space-sm w-full" data-category="week diagnostics">
+<div class="flex items-center justify-between px-2 py-1 border-b border-surface-container-high/60">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Yesterday — Friday, Oct 30, 2026</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-xs">1 diagnostic</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Theta Mastery Gain: +12%</span>
+</div>
+<!-- Attempt 2 Row -->
+<div class="quiz-card flex flex-col bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-xs hover:shadow-md transition-all overflow-hidden" id="attempt-row-graph" data-score="87" data-duration="1320" data-timestamp="1793379300">
+<div class="p-space-md flex flex-col lg:flex-row lg:items-center justify-between gap-space-md hover:bg-surface-container-low/40 transition-colors cursor-pointer" onclick="toggleInlineReview('graph-review-drawer')">
+<div class="flex items-center gap-space-md min-w-0 flex-1">
+<div class="flex items-center gap-2 shrink-0 text-on-surface-variant font-mono text-xs w-20">
+<span class="material-symbols-outlined text-[16px] text-secondary">history</span>
+<span>4:15 PM</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="font-title-md text-title-md font-bold text-primary truncate hover:text-primary-container transition-colors">
+                Graph Fundamentals &amp; BFS/DFS Traversal Diagnostic
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">Diagnostic Assessment</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface font-label-sm text-xs">Graph Theory</span>
+</div>
+<div class="flex flex-wrap items-center gap-3 text-on-surface-variant font-body-sm text-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">timer</span> 22 mins duration</span>
+<span>·</span>
+<span>Attempt ID: <code class="font-mono">#GT-2891</code></span>
+<span>·</span>
+<span class="text-secondary font-semibold">+12% theta score gain</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between lg:justify-end gap-space-md shrink-0">
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-surface-container-high/60">
+<span class="font-label-sm text-xs text-on-surface-variant font-medium mr-1">15 Qs:</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold">✗</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold">✗</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+              13 / 15 Correct (87%)
+            </span>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-primary font-label-sm text-xs font-semibold transition-colors">
+<span>Inspect Questions</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Graph Review Drawer -->
+<div class="border-t border-surface-container-high bg-surface-container-low/30 p-space-md lg:p-space-lg flex flex-col gap-space-md hidden" id="graph-review-drawer">
+  <div class="flex items-center justify-between pb-space-sm border-b border-surface-container-high/60">
+    <div class="flex items-center gap-2">
+      <span class="font-label-sm text-xs font-bold uppercase tracking-wider text-primary">Graph Traversal Review (13 / 15 Correct · 87%)</span>
+    </div>
+    <button class="text-primary hover:underline font-semibold text-xs flex items-center gap-0.5" onclick="toggleInlineReview('graph-review-drawer')">
+      <span class="material-symbols-outlined text-[14px]">close</span> Close Drawer
+    </button>
+  </div>
+  <div class="p-3 rounded-lg bg-surface-container-lowest border border-surface-container-high text-xs">
+    <p class="font-bold text-primary">Key Takeaway:</p>
+    <p class="text-on-surface-variant mt-1">Mastered BFS queue transitions and DAG topological sort. Two missed questions involved cycle detection in directed graphs via DFS recursion back-edges.</p>
+  </div>
+</div>
+</div>
+</div>
+<!-- Full-Width Date Group: EARLIER THIS WEEK -->
+<div class="quiz-date-group flex flex-col gap-space-sm w-full" data-category="week drills">
+<div class="flex items-center justify-between px-2 py-1 border-b border-surface-container-high/60">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Earlier This Week — Wednesday, Oct 28, 2026</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-xs">1 adaptive quiz</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Trees &amp; Binary Search Trees</span>
+</div>
+<!-- Attempt 3 Row -->
+<div class="quiz-card flex flex-col bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-xs hover:shadow-md transition-all overflow-hidden" id="attempt-row-tree" data-score="70" data-duration="660" data-timestamp="1793218800">
+<div class="p-space-md flex flex-col lg:flex-row lg:items-center justify-between gap-space-md hover:bg-surface-container-low/40 transition-colors cursor-pointer" onclick="toggleInlineReview('tree-review-drawer')">
+<div class="flex items-center gap-space-md min-w-0 flex-1">
+<div class="flex items-center gap-2 shrink-0 text-on-surface-variant font-mono text-xs w-20">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container">history</span>
+<span>7:40 PM</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="font-title-md text-title-md font-bold text-primary truncate hover:text-primary-container transition-colors">
+                Binary Tree Traversals &amp; AVL Balance Invariants
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">Adaptive Micro-Quiz</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface font-label-sm text-xs">Trees &amp; BSTs</span>
+</div>
+<div class="flex flex-wrap items-center gap-3 text-on-surface-variant font-body-sm text-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">timer</span> 11 mins duration</span>
+<span>·</span>
+<span>Attempt ID: <code class="font-mono">#TR-1980</code></span>
+<span>·</span>
+<span class="text-on-surface-variant font-medium">Stable (+2%)</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between lg:justify-end gap-space-md shrink-0">
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-surface-container-high/60">
+<span class="font-label-sm text-xs text-on-surface-variant font-medium mr-1">10 Qs:</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold">✗</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-error text-on-error font-bold">✗</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+              7 / 10 Correct (70%)
+            </span>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-primary font-label-sm text-xs font-semibold transition-colors">
+<span>Inspect Questions</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Tree Review Drawer -->
+<div class="border-t border-surface-container-high bg-surface-container-low/30 p-space-md lg:p-space-lg flex flex-col gap-space-md hidden" id="tree-review-drawer">
+  <div class="flex items-center justify-between pb-space-sm border-b border-surface-container-high/60">
+    <div class="flex items-center gap-2">
+      <span class="font-label-sm text-xs font-bold uppercase tracking-wider text-primary">Tree & AVL Traversals Review (7 / 10 Correct · 70%)</span>
+    </div>
+    <button class="text-primary hover:underline font-semibold text-xs flex items-center gap-0.5" onclick="toggleInlineReview('tree-review-drawer')">
+      <span class="material-symbols-outlined text-[14px]">close</span> Close Drawer
+    </button>
+  </div>
+  <div class="p-3 rounded-lg bg-surface-container-lowest border border-surface-container-high text-xs">
+    <p class="font-bold text-primary">Key Takeaway:</p>
+    <p class="text-on-surface-variant mt-1">Strong performance in post-order and level-order traversal. Three misses related to calculating AVL balance factors during double rotations (Left-Right and Right-Left).</p>
+  </div>
+</div>
+</div>
+</div>
+<!-- Full-Width Date Group: LAST WEEK -->
+<div class="quiz-date-group flex flex-col gap-space-sm w-full" data-category="drills">
+<div class="flex items-center justify-between px-2 py-1 border-b border-surface-container-high/60">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Last Week — Saturday, Oct 24, 2026</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-xs">1 benchmark</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Mastery threshold cleared</span>
+</div>
+<!-- Attempt 4 Row -->
+<div class="quiz-card flex flex-col bg-surface-container-lowest rounded-xl border border-surface-container-high shadow-xs hover:shadow-md transition-all overflow-hidden" id="attempt-row-arrays" data-score="93" data-duration="900" data-timestamp="1792869900">
+<div class="p-space-md flex flex-col lg:flex-row lg:items-center justify-between gap-space-md hover:bg-surface-container-low/40 transition-colors cursor-pointer" onclick="toggleInlineReview('arrays-review-drawer')">
+<div class="flex items-center gap-space-md min-w-0 flex-1">
+<div class="flex items-center gap-2 shrink-0 text-on-surface-variant font-mono text-xs w-20">
+<span class="material-symbols-outlined text-[16px] text-secondary">workspace_premium</span>
+<span>2:05 PM</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="font-title-md text-title-md font-bold text-primary truncate hover:text-primary-container transition-colors">
+                Sorting Algorithms &amp; Contiguous Arrays Benchmark
+              </span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-xs">Benchmark Quiz</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-on-surface font-label-sm text-xs">Arrays &amp; Sorting</span>
+</div>
+<div class="flex flex-wrap items-center gap-3 text-on-surface-variant font-body-sm text-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">timer</span> 18 mins duration</span>
+<span>·</span>
+<span>Attempt ID: <code class="font-mono">#AR-9104</code></span>
+<span>·</span>
+<span class="text-secondary font-semibold">Mastery threshold cleared (Level 5)</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between lg:justify-end gap-space-md shrink-0">
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1.5 rounded-lg border border-surface-container-high/60">
+<span class="font-label-sm text-xs text-on-surface-variant font-medium mr-1">12 Qs:</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+<span class="w-5 h-5 rounded flex items-center justify-center font-label-sm text-[11px] bg-secondary text-on-secondary font-bold">✓</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">workspace_premium</span>
+              12 / 12 Correct (100%)
+            </span>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-primary font-label-sm text-xs font-semibold transition-colors" onclick="event.stopPropagation(); toggleInlineReview('arrays-review-drawer')">
+<span>Inspect Questions</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Arrays Review Drawer -->
+<div class="border-t border-surface-container-high bg-surface-container-low/30 p-space-md lg:p-space-lg flex flex-col gap-space-md hidden" id="arrays-review-drawer">
+  <div class="flex items-center justify-between pb-space-sm border-b border-surface-container-high/60">
+    <div class="flex items-center gap-2">
+      <span class="font-label-sm text-xs font-bold uppercase tracking-wider text-primary">Sorting &amp; Contiguous Arrays Review (12 / 12 Correct · 100%)</span>
+    </div>
+    <button class="text-primary hover:underline font-semibold text-xs flex items-center gap-0.5" onclick="toggleInlineReview('arrays-review-drawer')">
+      <span class="material-symbols-outlined text-[14px]">close</span> Close Drawer
+    </button>
+  </div>
+  <div class="p-3 rounded-lg bg-surface-container-lowest border border-surface-container-high text-xs">
+    <p class="font-bold text-primary">Key Takeaway:</p>
+    <p class="text-on-surface-variant mt-1">Mastered in-place partitioning, quickselect kth-smallest lookup, and two-pointer prefix boundaries with 100% precision across all benchmark items.</p>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Filter Questions inside the Review Workbench
+  function filterQuestions(type) {
+    const qCards = document.querySelectorAll('.question-item');
+    const buttons = document.querySelectorAll('.q-filter-btn');
+    
+    // Style active button
+    buttons.forEach(btn => {
+      btn.className = 'q-filter-btn px-3 py-1 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-semibold transition-colors';
+    });
+    
+    event.target.className = 'q-filter-btn px-3 py-1 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold shadow-xs';
+
+    qCards.forEach(card => {
+      if (type === 'all') {
+        card.style.display = 'flex';
+      } else {
+        const correctness = card.getAttribute('data-correctness');
+        if (correctness === type) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      }
+    });
+  }
+
+  // Quiz Card Selection Micro-Interaction
+  function selectQuizForReview(quizKey) {
+    const cards = document.querySelectorAll('.quiz-card');
+    cards.forEach(c => {
+      c.classList.remove('bg-gradient-to-r', 'from-surface-container-low/80', 'to-surface-container-lowest', 'shadow-md');
+      c.classList.add('shadow-xs');
+    });
+
+    const activeCard = document.getElementById('quiz-card-' + quizKey);
+    if (activeCard) {
+      activeCard.classList.add('bg-gradient-to-r', 'from-surface-container-low/80', 'to-surface-container-lowest', 'shadow-md');
+    }
+
+    const titleElem = document.getElementById('review-quiz-title');
+    if (quizKey === 'dp') {
+      if (titleElem) titleElem.textContent = 'Quiz Review: Dynamic Programming Checkpoint #4';
+      showToast('Loaded review for Dynamic Programming Checkpoint #4');
+    } else if (quizKey === 'graph') {
+      if (titleElem) titleElem.textContent = 'Quiz Review: Graph Fundamentals & BFS/DFS Traversal';
+      showToast('Loaded review for Graph Fundamentals Diagnostic');
+    } else if (quizKey === 'tree') {
+      if (titleElem) titleElem.textContent = 'Quiz Review: Binary Tree Traversals & AVL Balance';
+      showToast('Loaded review for Binary Trees & AVL Micro-Quiz');
+    } else if (quizKey === 'arrays') {
+      if (titleElem) titleElem.textContent = 'Quiz Review: Sorting & Contiguous Arrays Benchmark';
+      showToast('Loaded review for Sorting Algorithms Benchmark');
+    }
+  }
+
+  // Page-level binding for toggleInlineReview drawer control
+  function toggleInlineReview(drawerId) {
+    const drawer = document.getElementById(drawerId);
+    if (!drawer) return;
+    const isHidden = drawer.classList.contains('hidden') || drawer.style.display === 'none';
+    if (isHidden) {
+      drawer.classList.remove('hidden');
+      drawer.style.display = 'flex';
+    } else {
+      drawer.classList.add('hidden');
+      drawer.style.display = 'none';
+    }
+  }
+  window.toggleInlineReview = toggleInlineReview;
+
+  // Retain and apply both category and search query in one combined predicate
+  let currentCategoryFilter = 'all';
+  let currentSearchQuery = '';
+
+  function applyCombinedFilters() {
+    const query = currentSearchQuery.toLowerCase().trim();
+    const groups = document.querySelectorAll('.quiz-date-group');
+
+    groups.forEach(group => {
+      const groupCategory = (group.getAttribute('data-category') || '').toLowerCase();
+      const cards = group.querySelectorAll('.quiz-card');
+      let matchingCardsCount = 0;
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const cardCategory = (card.getAttribute('data-category') || groupCategory).toLowerCase();
+        const matchesCategory = (currentCategoryFilter === 'all' || cardCategory.includes(currentCategoryFilter.toLowerCase()));
+        const matchesQuery = (!query || text.includes(query));
+
+        if (matchesCategory && matchesQuery) {
+          card.style.display = 'flex';
+          matchingCardsCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Show date group only when it contains at least one card matching both criteria
+      group.style.display = matchingCardsCount > 0 ? 'flex' : 'none';
+    });
+  }
+
+  // Segment Filter Pills
+  function setActiveFilter(button, filter) {
+    const pills = document.querySelectorAll('.filter-pill');
+    pills.forEach(p => {
+      p.className = 'filter-pill px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm whitespace-nowrap transition-colors';
+    });
+    button.className = 'filter-pill px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm whitespace-nowrap shadow-xs';
+
+    currentCategoryFilter = filter;
+    applyCombinedFilters();
+  }
+
+  // Comprehensive Quiz Search Filter with combined predicate
+  function filterQuizList(query) {
+    currentSearchQuery = query;
+    applyCombinedFilters();
+  }
+
+  // Sorting functionality preserving each attempt's original date group
+  function sortQuizAttempts(criteria) {
+    const groups = document.querySelectorAll('.quiz-date-group');
+    groups.forEach(group => {
+      const cards = Array.from(group.querySelectorAll('.quiz-card'));
+      cards.sort((a, b) => {
+        const scoreA = parseFloat(a.getAttribute('data-score') || '0');
+        const scoreB = parseFloat(b.getAttribute('data-score') || '0');
+        const durA = parseInt(a.getAttribute('data-duration') || '0');
+        const durB = parseInt(b.getAttribute('data-duration') || '0');
+        const timeA = parseInt(a.getAttribute('data-timestamp') || '0');
+        const timeB = parseInt(b.getAttribute('data-timestamp') || '0');
+
+        if (criteria === 'Highest Score') return scoreB - scoreA;
+        if (criteria === 'Lowest Score') return scoreA - scoreB;
+        if (criteria === 'Duration' || criteria === 'Longest Duration') return durB - durA;
+        return timeB - timeA; // default Newest First
+      });
+      // Preserve attempts inside their original date group container
+      cards.forEach(card => group.appendChild(card));
+    });
+    applyCombinedFilters();
+    showToast(`Sorted quiz attempts by ${criteria}`);
+  }
+
+  function _old_filterQuizList(query) {
+    const lower = query.toLowerCase().trim();
+    const cards = document.querySelectorAll('.quiz-card');
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      if (text.includes(lower)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+</script></main>
+<!-- FLOATING QUICK TOAST FOR FEEDBACK -->
+<div class="fixed bottom-5 right-5 z-50 bg-primary text-on-primary px-4 py-2.5 rounded-xl shadow-lg text-xs font-semibold flex items-center gap-2 hidden" id="toast">
+<span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>
+<span id="toast-message">Action completed</span>
+</div>
+<script>
+  // Toast Helper
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    if (toast && toastMsg) {
+      toastMsg.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2500);
+    }
+  }
+  // Role Switcher Interaction
+  const roleBtn = document.getElementById('role-menu-button');
+  const roleMenu = document.getElementById('role-dropdown');
+  const roleLbl = document.getElementById('current-role-label');
+  if (roleBtn && roleMenu) {
+    roleBtn.setAttribute('aria-expanded', !roleMenu.classList.contains('hidden'));
+    roleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      roleMenu.classList.toggle('hidden');
+      roleBtn.setAttribute('aria-expanded', !roleMenu.classList.contains('hidden'));
+    });
+    document.addEventListener('click', () => {
+      roleMenu.classList.add('hidden');
+      roleBtn.setAttribute('aria-expanded', 'false');
+    });
+    document.querySelectorAll('.role-option').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const r = opt.getAttribute('data-role');
+        if (roleLbl) roleLbl.textContent = r.split('/')[0].trim();
+        roleMenu.classList.add('hidden');
+        roleBtn.setAttribute('aria-expanded', 'false');
+        showToast(`Switched view to: ${r}`);
+      });
+    });
+  }
+</script>
+
+<!-- Trek.io Unified API & ML Integration Hook -->
+<script src="../assets/js/api.js"></script>
+<script>
+  (function() {
+    // 1. Role switcher dropdown navigation
+    document.querySelectorAll('.role-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        const role = option.getAttribute('data-role') || '';
+        if (window.TrekAPI) TrekAPI.setCurrentRole(role);
+        if (role.includes('Teacher') || role.includes('Instructor') || role.includes('Thorne')) {
+          window.location.href = '../teacher_dashboard_simplified_class_mastery_interventions/code.html';
+        } else if (role.includes('Admin')) {
+          window.location.href = '../admin_console_user_management_system_telemetry/code.html';
+        } else if (role.includes('Student')) {
+          window.location.href = '../student_dashboard_consolidated_overview_roadmap/code.html';
+        }
+      });
+    });
+
+    // 2. Portal Hub Back-Link Button
+    if (!document.getElementById('trek-portal-pill')) {
+      const pill = document.createElement('div');
+      pill.id = 'trek-portal-pill';
+      pill.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;align-items:center;gap:8px;';
+      pill.innerHTML = `
+        <a href="../index.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#070235;color:#ffffff;border-radius:9999px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(7,2,53,0.3);border:1px solid #1e1b4b;transition:transform 0.15s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <span class="material-symbols-outlined" style="font-size:15px;color:#82f5c1;">grid_view</span>
+          <span>Portal Hub</span>
+        </a>
+      `;
+      document.body.appendChild(pill);
+    }
+
+    // 3. Auto-load live recommendations & stats
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!window.TrekAPI) return;
+      try {
+        const health = await TrekAPI.checkHealth();
+        if (health && health.status === 'healthy') {
+          console.log('[Trek Portal] Connected to Live API backend.');
+          // If on Student Dashboard, log live recommendations
+          if (window.location.pathname.includes('student_dashboard')) {
+            const recs = await TrekAPI.getRecommendations();
+            if (recs && recs.items && recs.items.length > 0) {
+              console.log('[Trek Portal] Live ML recommendations loaded:', recs);
+            }
+          }
+        }
+      } catch (err) {
+        console.log('[Trek Portal] Using local presentation state.');
+      }
+    });
+  })();
+</script>
+
+</body></html>

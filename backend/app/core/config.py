@@ -2,25 +2,40 @@
 Application configuration loaded from environment variables and .env file.
 Adheres to NFR-13 (dynamic config defaults).
 """
+import os
 from typing import Optional
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_env_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
+if not os.path.exists(_env_file):
+    _env_file = ".env"
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Personalized Learning Path Recommender"
+    PROJECT_NAME: str = "Trek.io Academic Management Portal"
     ENVIRONMENT: str = "development"
     API_V1_STR: str = "/v1"
 
-    # Database
-    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/learning_recommender"
+    # Database: SQLite default for zero-config local run, or PostgreSQL
+    DATABASE_URL: str = "sqlite:///trek.db"
 
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
 
-    # Security
-    SECRET_KEY: str = "change_this_to_a_super_secure_random_key_for_production"
+    # Security - Deployment-provided private key required, no published fallback
+    SECRET_KEY: str = ""
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 120
+
+    @field_validator("SECRET_KEY")
+    @classmethod
+    def validate_secret_key(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError(
+                "SECRET_KEY must be provided via deployment environment or .env and cannot be empty."
+            )
+        return v
 
     # SRS Section 7.3 Default Parameters (can be overridden by DB config)
     DEFAULT_WEIGHT_GAP: float = 0.4
@@ -33,7 +48,7 @@ class Settings(BaseSettings):
     DEFAULT_LAMBDA_DECAY: float = 0.01
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=_env_file,
         env_file_encoding="utf-8",
         extra="ignore"
     )

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trek.io — Academic Management Portal & Adaptive Learning Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/tailwind.min.css">
+<script>window.tailwind = window.tailwind || {};</script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#070235',
+            'primary-container': '#1e1b4b',
+            'secondary': '#006c4a',
+            'secondary-container': '#82f5c1',
+            'on-secondary-container': '#00714e',
+            'background': '#f8f9ff',
+            'surface': '#f8f9ff',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-low': '#eff4ff',
+            'surface-container': '#e6eeff',
+            'surface-container-high': '#dce9ff',
+            'surface-container-highest': '#d5e3fc',
+            'on-surface': '#0d1c2e',
+            'on-surface-variant': '#47464f',
+            'outline': '#787680',
+            'outline-variant': '#c8c5d0',
+            'error': '#ba1a1a',
+            'error-container': '#ffdad6',
+          },
+          fontFamily: {
+            headline: ['Plus Jakarta Sans', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+    h1, h2, h3, h4, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col text-on-surface antialiased">
+
+  <!-- Top Global Header -->
+  <header class="sticky top-0 z-50 glass-nav border-b border-surface-container-high">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-md">
+          <span class="material-symbols-outlined text-[24px] text-[#82f5c1]">explore</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-headline font-bold text-xl text-primary tracking-tight">Trek.io</span>
+            <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold uppercase tracking-wider">Unified Platform</span>
+          </div>
+          <p class="text-xs text-on-surface-variant font-medium">Academic Management &amp; Adaptive ML Learning Engine</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Live Backend Status Pill -->
+        <div class="backend-status-indicator flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low border border-surface-container-high text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+          <span class="text-primary font-bold">API Connecting...</span>
+        </div>
+
+        <a href="academic_precision/DESIGN.md" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-low text-on-surface text-xs font-semibold border border-surface-container-high transition-colors shadow-sm">
+          <span class="material-symbols-outlined text-[16px] text-secondary">palette</span>
+          <span class="hidden sm:inline">Design Tokens</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Showcase Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Hero / Welcome Banner -->
+    <div class="relative overflow-hidden rounded-3xl bg-primary text-white p-8 md:p-10 shadow-xl">
+      <div class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-secondary/20 blur-3xl pointer-events-none"></div>
+      <div class="absolute right-1/3 -bottom-20 w-60 h-60 rounded-full bg-[#c4c1fb]/15 blur-2xl pointer-events-none"></div>
+      
+      <div class="relative z-10 max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold tracking-wide text-[#82f5c1]">
+          <span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+          <span>Full-Stack Integration: FastAPI + PyTorch/TF-IDF Recommender + Stitch UI</span>
+        </div>
+        <h1 class="font-headline text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+          Personalized Learning Path &amp; Academic Management Portal
+        </h1>
+        <p class="text-sm sm:text-base text-gray-200 leading-relaxed">
+          Integrated multi-role academic suite powered by an Item Response Theory (IRT) knowledge model, dual-arm A/B recommender (Rule-Based vs. Embedding-Hybrid), and real-time instructor intervention telemetry.
+        </p>
+      </div>
+
+      <!-- Quick Metrics Bar (Hydrated from Live Backend) -->
+      <div class="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-white/15 text-xs">
+        <div>
+          <span class="text-gray-300 block">Target Course</span>
+          <span class="font-bold text-white text-sm" id="banner-course">CS 301 (Adv. DSA)</span>
+        </div>
+        <div>
+          <span class="text-gray-300 block">Learner Persona</span>
+          <span class="font-bold text-white text-sm" id="banner-learner">Asha Sharma (asha@campus.edu)</span>
+        </div>
+        <div>
+          <span class="text-gray-300 block">Instructor Persona</span>
+          <span class="font-bold text-white text-sm" id="banner-instructor">Prof. Rao (342 Cohort)</span>
+        </div>
+        <div>
+          <span class="text-gray-300 block">Active ML Strategy</span>
+          <span class="font-bold text-[#82f5c1] text-sm" id="banner-strategy">Arm B: Embedding-Hybrid Vector</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live ML Recommender Banner (Shows Live Scored Item) -->
+    <div id="ml-recommendation-banner" class="rounded-2xl bg-surface-container-low border border-surface-container-high p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-[22px]">psychology</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-secondary" id="rec-banner-badge">Demo Data Preview</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-on-surface-variant border border-surface-container-high" id="rec-strategy-pill">Awaiting Live API</span>
+          </div>
+          <p class="text-sm font-semibold text-primary mt-0.5" id="rec-item-title">
+            Dynamic Programming: Interactive Drill 5 (Demo Baseline)
+          </p>
+          <p class="text-xs text-on-surface-variant" id="rec-item-reason">
+            Demo baseline preview: Dynamic Programming remediation • Hydrates with live ML recommendations upon API initialization
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="student_dashboard_consolidated_overview_roadmap/code.html" class="px-4 py-2 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-primary-container transition-colors shadow-sm flex items-center gap-1.5">
+          <span>Start Drill</span>
+          <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Role Filter & Navigation Controls -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <h2 class="font-headline text-xl sm:text-2xl font-bold text-primary">Application Views &amp; Portals</h2>
+        <p class="text-xs sm:text-sm text-on-surface-variant">Select any portal view below to open full screen or preview interactively</p>
+      </div>
+
+      <!-- Filter Pills -->
+      <div class="flex items-center gap-1.5 p-1 rounded-xl bg-surface-container-low border border-surface-container-high">
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white shadow-sm" data-role="all">All Views (6)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-highest transition-colors" data-role="student">Student (4)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-highest transition-colors" data-role="teacher">Instructor (1)</button>
+        <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-highest transition-colors" data-role="admin">Admin (1)</button>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="portal-cards-grid">
+
+      <!-- Card 1: Student Consolidated Overview & Roadmap -->
+      <div class="portal-card bg-surface-container-lowest rounded-2xl border border-surface-container-high hover:border-primary/30 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group" data-role="student">
+        <div class="p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-headline text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">school</span> Student Portal
+            </span>
+            <span class="text-[11px] font-semibold text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-md border border-surface-container-high">Primary Hub</span>
+          </div>
+
+          <div>
+            <h3 class="font-headline text-lg font-bold text-primary group-hover:text-secondary transition-colors">Consolidated Overview &amp; Roadmap</h3>
+            <p class="text-xs text-on-surface-variant mt-1 line-clamp-2">
+              Asha's central learning cockpit: personalized recommendations, interactive 7-stop curriculum workbench, and quick-quiz launchpad.
+            </p>
+          </div>
+
+          <!-- Feature tags -->
+          <div class="space-y-1.5 pt-2 border-t border-surface-container-high/60 text-xs text-on-surface-variant">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Live ML recommendation engine with reasons</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Interactive curriculum stops (Arrays to DP)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Dynamic topic mastery radar (Asha: 74%)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-surface-container-low/70 border-t border-surface-container-high flex items-center justify-between gap-2">
+          <button onclick="previewScreen('student_dashboard_consolidated_overview_roadmap/code.html', 'Student: Consolidated Overview & Roadmap')" class="px-3 py-1.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-xs font-semibold text-on-surface border border-surface-container-high shadow-sm flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">visibility</span>
+            <span>Live Preview</span>
+          </button>
+          <a href="student_dashboard_consolidated_overview_roadmap/code.html" class="px-3.5 py-1.5 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-semibold flex items-center gap-1 shadow-sm">
+            <span>Launch View</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 2: Student Topics Mastery & Dynamic Roadmap -->
+      <div class="portal-card bg-surface-container-lowest rounded-2xl border border-surface-container-high hover:border-primary/30 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group" data-role="student">
+        <div class="p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-headline text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">school</span> Student Portal
+            </span>
+            <span class="text-[11px] font-semibold text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-md border border-surface-container-high">FR-301 Mastery</span>
+          </div>
+
+          <div>
+            <h3 class="font-headline text-lg font-bold text-primary group-hover:text-secondary transition-colors">Topics Mastery &amp; Roadmap</h3>
+            <p class="text-xs text-on-surface-variant mt-1 line-clamp-2">
+              In-depth topic competency breakdown with confidence intervals, knowledge decay indicators, and weak-to-strong skill categorizations.
+            </p>
+          </div>
+
+          <!-- Feature tags -->
+          <div class="space-y-1.5 pt-2 border-t border-surface-container-high/60 text-xs text-on-surface-variant">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Unit-by-unit proficiency progress bars</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Confidence level &amp; decay indicators</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Dynamic next-action recommendation triggers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-surface-container-low/70 border-t border-surface-container-high flex items-center justify-between gap-2">
+          <button onclick="previewScreen('student_dashboard_topics_mastery_roadmap/code.html', 'Student: Topics Mastery & Roadmap')" class="px-3 py-1.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-xs font-semibold text-on-surface border border-surface-container-high shadow-sm flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">visibility</span>
+            <span>Live Preview</span>
+          </button>
+          <a href="student_dashboard_topics_mastery_roadmap/code.html" class="px-3.5 py-1.5 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-semibold flex items-center gap-1 shadow-sm">
+            <span>Launch View</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 3: Student Quiz Attempts & Browser-History View -->
+      <div class="portal-card bg-surface-container-lowest rounded-2xl border border-surface-container-high hover:border-primary/30 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group" data-role="student">
+        <div class="p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-headline text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">school</span> Student Portal
+            </span>
+            <span class="text-[11px] font-semibold text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-md border border-surface-container-high">FR-601 Quizzes</span>
+          </div>
+
+          <div>
+            <h3 class="font-headline text-lg font-bold text-primary group-hover:text-secondary transition-colors">Quiz History &amp; Attempts</h3>
+            <p class="text-xs text-on-surface-variant mt-1 line-clamp-2">
+              Browser-history style timeline tracking quiz sessions, dynamic question difficulty adaptations, question traces, and scoring breakdown.
+            </p>
+          </div>
+
+          <!-- Feature tags -->
+          <div class="space-y-1.5 pt-2 border-t border-surface-container-high/60 text-xs text-on-surface-variant">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Timeline chronological attempt logs</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Adaptive IRT difficulty step adjustments (+0.05/-0.05)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Question-level pass/fail diagnostics</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-surface-container-low/70 border-t border-surface-container-high flex items-center justify-between gap-2">
+          <button onclick="previewScreen('student_dashboard_browser_history_style_quiz_attempts/code.html', 'Student: Quiz Attempts & Performance History')" class="px-3 py-1.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-xs font-semibold text-on-surface border border-surface-container-high shadow-sm flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">visibility</span>
+            <span>Live Preview</span>
+          </button>
+          <a href="student_dashboard_browser_history_style_quiz_attempts/code.html" class="px-3.5 py-1.5 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-semibold flex items-center gap-1 shadow-sm">
+            <span>Launch View</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 4: Curriculum Roadmap & Study Hub -->
+      <div class="portal-card bg-surface-container-lowest rounded-2xl border border-surface-container-high hover:border-primary/30 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group" data-role="student">
+        <div class="p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-headline text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">school</span> Student Portal
+            </span>
+            <span class="text-[11px] font-semibold text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-md border border-surface-container-high">Study Hub</span>
+          </div>
+
+          <div>
+            <h3 class="font-headline text-lg font-bold text-primary group-hover:text-secondary transition-colors">Curriculum Study Hub</h3>
+            <p class="text-xs text-on-surface-variant mt-1 line-clamp-2">
+              Detailed module drilldowns with prerequisite tracks, cheat sheets, coding practice labs, and interactive curriculum roadmaps.
+            </p>
+          </div>
+
+          <!-- Feature tags -->
+          <div class="space-y-1.5 pt-2 border-t border-surface-container-high/60 text-xs text-on-surface-variant">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Interactive node inspection &amp; study materials</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Prerequisite dependencies &amp; lock status</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Diagnostic drill triggers</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-surface-container-low/70 border-t border-surface-container-high flex items-center justify-between gap-2">
+          <button onclick="previewScreen('topics_mastery_detailed_curriculum_roadmap_study_hub/code.html', 'Student: Curriculum Study Hub')" class="px-3 py-1.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-xs font-semibold text-on-surface border border-surface-container-high shadow-sm flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">visibility</span>
+            <span>Live Preview</span>
+          </button>
+          <a href="topics_mastery_detailed_curriculum_roadmap_study_hub/code.html" class="px-3.5 py-1.5 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-semibold flex items-center gap-1 shadow-sm">
+            <span>Launch View</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 5: Teacher / Instructor Dashboard -->
+      <div class="portal-card bg-surface-container-lowest rounded-2xl border border-surface-container-high hover:border-primary/30 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group" data-role="teacher">
+        <div class="p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-full bg-[#ffdcc3] text-[#cf7100] font-headline text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">co_present</span> Instructor View
+            </span>
+            <span class="text-[11px] font-semibold text-error bg-error-container/60 px-2 py-0.5 rounded-md">Bottleneck Alert</span>
+          </div>
+
+          <div>
+            <h3 class="font-headline text-lg font-bold text-primary group-hover:text-secondary transition-colors">Class Mastery &amp; Interventions</h3>
+            <p class="text-xs text-on-surface-variant mt-1 line-clamp-2">
+              Prof. Rao's cohort control room: class-wide topic proficiency distribution, students needing attention, and 1-click drill dispatch.
+            </p>
+          </div>
+
+          <!-- Feature tags -->
+          <div class="space-y-1.5 pt-2 border-t border-surface-container-high/60 text-xs text-on-surface-variant">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>342 learners monitored across 3 sections</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Curriculum bottleneck detector (DP 48% alert)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Direct intervention dispatch &amp; office hours</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-surface-container-low/70 border-t border-surface-container-high flex items-center justify-between gap-2">
+          <button onclick="previewScreen('teacher_dashboard_simplified_class_mastery_interventions/code.html', 'Instructor: Class Mastery & Interventions')" class="px-3 py-1.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-xs font-semibold text-on-surface border border-surface-container-high shadow-sm flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">visibility</span>
+            <span>Live Preview</span>
+          </button>
+          <a href="teacher_dashboard_simplified_class_mastery_interventions/code.html" class="px-3.5 py-1.5 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-semibold flex items-center gap-1 shadow-sm">
+            <span>Launch View</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Card 6: Admin Console & Platform Telemetry -->
+      <div class="portal-card bg-surface-container-lowest rounded-2xl border border-surface-container-high hover:border-primary/30 hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group" data-role="admin">
+        <div class="p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-full bg-primary-container text-on-primary font-headline text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">admin_panel_settings</span> Admin Console
+            </span>
+            <span class="text-[11px] font-semibold text-secondary bg-secondary-container/50 px-2 py-0.5 rounded-md">FR-807 Switch</span>
+          </div>
+
+          <div>
+            <h3 class="font-headline text-lg font-bold text-primary group-hover:text-secondary transition-colors">Platform Telemetry &amp; Governance</h3>
+            <p class="text-xs text-on-surface-variant mt-1 line-clamp-2">
+              A/B experiment switchboard (Arm A rule-based vs. Arm B embedding hybrid), zero-downtime override, and GDPR user credential manager.
+            </p>
+          </div>
+
+          <!-- Feature tags -->
+          <div class="space-y-1.5 pt-2 border-t border-surface-container-high/60 text-xs text-on-surface-variant">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>A/B Experiment #04 split &amp; live kill-switch</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Sub-200ms recommendation latency metrics</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+              <span>Instant user &amp; credential generation modal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-surface-container-low/70 border-t border-surface-container-high flex items-center justify-between gap-2">
+          <button onclick="previewScreen('admin_console_user_management_system_telemetry/code.html', 'Admin: Platform Telemetry & Credential Engine')" class="px-3 py-1.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-xs font-semibold text-on-surface border border-surface-container-high shadow-sm flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">visibility</span>
+            <span>Live Preview</span>
+          </button>
+          <a href="admin_console_user_management_system_telemetry/code.html" class="px-3.5 py-1.5 rounded-xl bg-primary text-white hover:bg-primary-container text-xs font-semibold flex items-center gap-1 shadow-sm">
+            <span>Launch View</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Live Interactive Preview Panel (Collapsible / Modal Drawer) -->
+    <div id="preview-container" class="hidden rounded-3xl bg-surface-container-lowest border border-surface-container-high shadow-2xl overflow-hidden transition-all">
+      <!-- Preview Header -->
+      <div class="p-4 bg-surface-container-low border-b border-surface-container-high flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-secondary"></span>
+          <span class="font-headline font-bold text-sm sm:text-base text-primary" id="preview-title">Interactive Preview</span>
+        </div>
+
+        <!-- Viewport Size Controls -->
+        <div class="flex items-center gap-2">
+          <div class="flex items-center bg-surface-container-lowest rounded-xl border border-surface-container-high p-1 text-xs">
+            <button onclick="setFrameWidth('100%')" class="device-btn px-2.5 py-1 rounded-lg bg-primary text-white font-semibold">Full</button>
+            <button onclick="setFrameWidth('1024px')" class="device-btn px-2.5 py-1 rounded-lg text-on-surface-variant hover:text-on-surface">Tablet</button>
+            <button onclick="setFrameWidth('420px')" class="device-btn px-2.5 py-1 rounded-lg text-on-surface-variant hover:text-on-surface">Mobile</button>
+          </div>
+
+          <a id="preview-direct-link" href="#" target="_blank" class="p-2 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface-variant border border-surface-container-high transition-colors" title="Open in New Tab">
+            <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+          </a>
+
+          <button onclick="closePreview()" class="p-2 rounded-xl bg-surface-container-lowest hover:bg-error-container text-on-surface-variant hover:text-error border border-surface-container-high transition-colors" title="Close Preview">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Iframe Frame -->
+      <div class="bg-surface-container-low/40 p-4 flex justify-center items-center min-h-[650px]">
+        <div id="frame-wrapper" class="w-full h-[750px] bg-white rounded-2xl shadow-md border border-surface-container-high overflow-hidden transition-all duration-300">
+          <iframe id="preview-iframe" src="" title="Portal Screen Preview" class="w-full h-full border-0"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design System Reference Section -->
+    <div class="rounded-2xl bg-surface-container-lowest border border-surface-container-high p-6 md:p-8 space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="font-headline text-lg sm:text-xl font-bold text-primary">Design System: Academic Precision</h3>
+          <p class="text-xs sm:text-sm text-on-surface-variant">Crafted for high cognitive focus, pedagogical clarity, and algorithmic transparency.</p>
+        </div>
+        <a href="academic_precision/DESIGN.md" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-secondary hover:underline">
+          <span>View DESIGN.md specifications</span>
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+        <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container-high space-y-2">
+          <div class="w-6 h-6 rounded-lg bg-primary"></div>
+          <span class="font-bold text-primary block">Primary (#070235)</span>
+          <p class="text-[11px] text-on-surface-variant">Deep Navy for headings, primary buttons, and navigational anchors.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container-high space-y-2">
+          <div class="w-6 h-6 rounded-lg bg-secondary"></div>
+          <span class="font-bold text-secondary block">Secondary (#006c4a)</span>
+          <p class="text-[11px] text-on-surface-variant">Academic Mint for mastery milestones, positive trends, and verified completions.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container-high space-y-2">
+          <div class="w-6 h-6 rounded-lg bg-[#cf7100]"></div>
+          <span class="font-bold text-[#cf7100] block">Tertiary (#cf7100)</span>
+          <p class="text-[11px] text-on-surface-variant">Amber for developing skills, warm milestones, and ongoing practice cycles.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container-high space-y-2">
+          <div class="w-6 h-6 rounded-lg bg-error"></div>
+          <span class="font-bold text-error block">Error / Warning (#ba1a1a)</span>
+          <p class="text-[11px] text-on-surface-variant">High-priority alerts, critical intervention thresholds, and quiz failure markers.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-surface-container-high bg-surface-container-lowest mt-12 py-6 text-center text-xs text-on-surface-variant">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-headline font-bold text-primary">Trek.io</span>
+        <span>• Academic Management Portal &amp; Adaptive Learning Engine</span>
+      </div>
+      <div>
+        <span>Design Specification: Academic Precision • FastAPI + PyTorch/TF-IDF ML Backend</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Unified API Client -->
+  <script src="assets/js/api.js"></script>
+  <script>
+    // Role filter functionality
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.portal-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        filterBtns.forEach(b => {
+          b.className = 'filter-btn px-3 py-1.5 rounded-lg text-xs font-medium text-on-surface hover:bg-surface-container-highest transition-colors';
+        });
+        btn.className = 'filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-white shadow-sm';
+
+        const role = btn.getAttribute('data-role');
+        cards.forEach(card => {
+          if (role === 'all' || card.getAttribute('data-role') === role) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Preview functionality
+    const previewContainer = document.getElementById('preview-container');
+    const previewIframe = document.getElementById('preview-iframe');
+    const previewTitle = document.getElementById('preview-title');
+    const previewDirectLink = document.getElementById('preview-direct-link');
+    const frameWrapper = document.getElementById('frame-wrapper');
+
+    function previewScreen(path, title) {
+      previewTitle.textContent = title;
+      previewIframe.src = path;
+      previewIframe.title = title || 'Portal Screen Preview';
+      previewDirectLink.href = path;
+      previewContainer.classList.remove('hidden');
+      previewContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closePreview() {
+      previewContainer.classList.add('hidden');
+      previewIframe.src = '';
+      previewIframe.title = 'Portal Screen Preview';
+    }
+
+    function setFrameWidth(width) {
+      frameWrapper.style.maxWidth = width;
+      const deviceBtns = document.querySelectorAll('.device-btn');
+      deviceBtns.forEach(btn => {
+        btn.className = 'device-btn px-2.5 py-1 rounded-lg text-on-surface-variant hover:text-on-surface';
+      });
+      event.target.className = 'device-btn px-2.5 py-1 rounded-lg bg-primary text-white font-semibold';
+    }
+
+    // Live Backend Data Hydration
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!window.TrekAPI) return;
+      try {
+        const recs = await TrekAPI.getRecommendations();
+        if (recs && recs.items && recs.items.length > 0) {
+          const topRec = recs.items[0];
+          const badge = document.getElementById('rec-banner-badge');
+          if (badge) badge.textContent = 'Active ML Recommendation';
+          document.getElementById('rec-item-title').textContent = topRec.title;
+          document.getElementById('rec-item-reason').textContent = `Reason: "${topRec.reason}" • Ranked #${topRec.rank} by ${recs.strategy_used} engine`;
+          const pill = document.getElementById('rec-strategy-pill');
+          if (pill) {
+            pill.textContent = recs.strategy_used.toUpperCase();
+            pill.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-white text-primary border border-surface-container-high';
+          }
+        }
+      } catch (err) {
+        console.log('[Trek Portal] Offline presentation mode');
+      }
+    });
+  </script>
+</body>
+</html>

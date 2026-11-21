@@ -1,12 +1,15 @@
 """
 FastAPI Main Application and API Gateway.
-Registers all six module routers under /v1 and provides GET /health endpoint.
+Registers all six module routers under /v1, provides GET /health endpoint,
+and mounts the Stitch frontend portal suite.
 Enforces Request ID, Latency Logging, and Rate Limiting middlewares.
 """
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.core.config import settings
 from app.core.logging import setup_logging, logger
@@ -27,6 +30,10 @@ from app.modules.experiments.router import router as experiments_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     setup_logging()
+    if not settings.SECRET_KEY or not settings.SECRET_KEY.strip():
+        raise RuntimeError(
+            "FATAL: SECRET_KEY is not configured. A private deployment-provided SECRET_KEY is required before accepting traffic."
+        )
     logger.info(f"Starting {settings.PROJECT_NAME} in {settings.ENVIRONMENT} mode.")
     yield
     logger.info("Shutting down API server.")
@@ -60,7 +67,7 @@ app.add_middleware(
 def health_check():
     """
     GET /health endpoint.
-    Verifies API, PostgreSQL, and Redis connectivity status.
+    Verifies API, PostgreSQL/SQLite, and Redis connectivity status.
     """
     db_up = check_db_health()
     redis_up = check_redis_health()
@@ -84,3 +91,13 @@ app.include_router(knowledge_router, prefix=api_prefix)
 app.include_router(quiz_router, prefix=api_prefix)
 app.include_router(recommender_router, prefix=api_prefix)
 app.include_router(experiments_router, prefix=api_prefix)
+
+# Mount Stitch Academic Management Portal Frontend
+frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "frontend"))
+if os.path.exists(frontend_dir):
+    app.mount("/portal", StaticFiles(directory=frontend_dir, html=True), name="portal")
+
+    @app.get("/", include_in_schema=False)
+    def root_redirect():
+        """Redirect root requests to the academic portal hub."""
+        return RedirectResponse(url="/portal/index.html")

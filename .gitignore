@@ -25,6 +25,11 @@ htmlcov/
 !.env.production.example
 !.env.staging.example
 
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
 # OS files
 .DS_Store
 Thumbs.db

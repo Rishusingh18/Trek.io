@@ -1,0 +1,456 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link rel="stylesheet" href="../assets/css/tailwind.min.css">
+<script>window.tailwind = window.tailwind || {};</script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-lowest":"#ffffff","outline-variant":"#c8c5d0","inverse-on-surface":"#eaf1ff","tertiary-fixed":"#ffdcc3","secondary-fixed":"#85f8c4","on-secondary":"#ffffff","surface-container-highest":"#d5e3fc","error":"#ba1a1a","on-error-container":"#93000a","surface-variant":"#d5e3fc","on-tertiary":"#ffffff","tertiary-fixed-dim":"#ffb77d","on-primary":"#ffffff","surface-container-high":"#dce9ff","error-container":"#ffdad6","secondary":"#006c4a","on-tertiary-fixed":"#2f1500","on-primary-fixed":"#181445","on-background":"#0d1c2e","on-tertiary-fixed-variant":"#6e3900","on-surface":"#0d1c2e","surface-dim":"#ccdbf3","primary":"#070235","secondary-container":"#82f5c1","outline":"#787680","inverse-primary":"#c4c1fb","on-primary-fixed-variant":"#444173","surface-container":"#e6eeff","primary-container":"#1e1b4b","surface":"#f8f9ff","on-tertiary-container":"#cf7100","on-primary-container":"#8683ba","on-secondary-fixed-variant":"#005137","on-error":"#ffffff","on-surface-variant":"#47464f","tertiary":"#170700","background":"#f8f9ff","primary-fixed":"#e3dfff","primary-fixed-dim":"#c4c1fb","on-secondary-container":"#00714e","tertiary-container":"#381a00","secondary-fixed-dim":"#68dba9","surface-container-low":"#eff4ff","on-secondary-fixed":"#002114","inverse-surface":"#233144","surface-bright":"#f8f9ff","surface-tint":"#5b598c"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-xl":"2.5rem","space-sm":"0.5rem","margin-mobile":"1rem","space-md":"1rem",gutter:"1.5rem","gutter-mobile":"1rem","space-xs":"0.25rem",margin:"2rem","space-lg":"1.5rem"},fontFamily:{"headline-lg":["Plus Jakarta Sans"],"body-lg":["Inter"],"body-sm":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-md":["Inter"],display:["Plus Jakarta Sans"],"title-md":["Inter"],"label-sm":["Inter"],"body-md":["Inter"],"headline-lg-mobile":["Plus Jakarta Sans"],"data-metric":["Plus Jakarta Sans"]},fontSize:{"headline-lg":["2.25rem",{lineHeight:"2.75rem",letterSpacing:"-0.02em",fontWeight:"700"}],"body-lg":["1.125rem",{lineHeight:"1.75rem",fontWeight:"400"}],"body-sm":["0.75rem",{lineHeight:"1.125rem",fontWeight:"400"}],"headline-md":["1.5rem",{lineHeight:"2rem",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-sm":["1.25rem",{lineHeight:"1.75rem",letterSpacing:"-0.01em",fontWeight:"600"}],"label-md":["0.875rem",{lineHeight:"1.25rem",fontWeight:"500"}],display:["3.5rem",{lineHeight:"4rem",letterSpacing:"-0.025em",fontWeight:"700"}],"title-md":["1rem",{lineHeight:"1.5rem",letterSpacing:"-0.005em",fontWeight:"600"}],"label-sm":["0.75rem",{lineHeight:"1rem",letterSpacing:"0.025em",fontWeight:"600"}],"body-md":["0.875rem",{lineHeight:"1.375rem",fontWeight:"400"}],"headline-lg-mobile":["1.75rem",{lineHeight:"2.25rem",letterSpacing:"-0.015em",fontWeight:"700"}],"data-metric":["1.75rem",{lineHeight:"2rem",letterSpacing:"-0.02em",fontWeight:"700"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm bg-surface-container-lowest"><img alt="PathWise Logo" class="h-8 w-auto object-contain" src="../assets/images/logo.png"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">PathWise</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Adaptive Engine</span></div></div><div class="px-space-md py-space-sm"><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="system-overview-and-telemetry" href="#cohort-overview"><span class="material-symbols-outlined text-[20px]">query_stats</span><span class="">Cohort Overview &amp; Telemetry</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="user-and-credential-management" href="#risk-section"><span class="material-symbols-outlined text-[20px]">warning</span><span class="">Students Needing Attention</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="ab-experiments-and-strategies" href="#curriculum-mastery-section"><span class="material-symbols-outlined text-[20px]">insights</span><span class="">Curriculum Topic Mastery</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="content-tagging" href="../topics_mastery_detailed_curriculum_roadmap_study_hub/code.html"><span class="material-symbols-outlined text-[20px]">folder_open</span><span class="">Curriculum Study Hub</span></a></nav></div></div><div class="p-space-md m-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm font-semibold text-on-surface">Algorithmic Vector</span><span class="font-label-sm text-label-sm text-secondary font-bold">v3.4-live</span></div><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-secondary h-1.5 rounded-full w-[82%]"></div></div><span class="font-body-sm text-body-sm text-on-surface-variant">82% mastery convergence</span></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 bg-surface-container-lowest text-on-surface placeholder-on-surface-variant font-body-md text-body-md rounded-xl outline-none focus:ring-2 focus:ring-primary-container shadow-[0_1px_2px_rgba(15,23,42,0.04)]" placeholder="Search competencies, cohorts, remediation modules..." type="text"></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center gap-space-xs bg-surface-container-lowest px-2 py-1.5 rounded-full shadow-[0_1px_2px_rgba(15,23,42,0.04)]"><span class="font-label-sm text-label-sm text-on-surface-variant pl-2">Role:</span><button id="teacherRoleDropdownBtn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high hover:bg-surface-container-highest hover:text-on-surface transition-colors" type="button"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-sm text-label-sm font-semibold text-on-surface">Instructor / Prof. Rao</span><span class="material-symbols-outlined text-[18px] text-on-surface-variant">expand_more</span></button><div id="teacherRoleDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest border border-surface-container-high rounded-xl shadow-lg z-50 py-1"><button class="role-option w-full text-left px-3 py-2 text-xs font-semibold hover:bg-surface-container-high flex items-center gap-2 text-on-surface" data-role="Student"><span class="w-2 h-2 rounded-full bg-primary"></span>Student (Asha)</button><button class="role-option w-full text-left px-3 py-2 text-xs font-semibold bg-surface-container text-secondary flex items-center gap-2" data-role="Instructor"><span class="w-2 h-2 rounded-full bg-secondary"></span>Instructor (Prof. Rao)</button><button class="role-option w-full text-left px-3 py-2 text-xs font-semibold hover:bg-surface-container-high flex items-center gap-2 text-on-surface" data-role="Admin"><span class="w-2 h-2 rounded-full bg-outline"></span>Admin (Devon)</button></div></div><button aria-label="Notifications" class="relative p-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span></button><div class="h-6 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="../assets/images/avatar_instructor.png"><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"></span></div><div class="hidden xl:flex flex-col"><span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Asha Nair</span><span class="font-body-sm text-body-sm text-on-surface-variant leading-tight">ML Foundations Track</span></div></div></div></header><main class="relative pt-16 w-full flex-1 bg-surface"><div class="flex flex-col w-full">
+<div class="px-space-lg py-space-md bg-surface-container-low flex flex-col gap-space-md shadow-sm" id="cohort-overview"><div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md"><div class="flex flex-col gap-1"><div class="flex items-center gap-2"><h1 class="font-headline-md text-headline-md text-primary tracking-tight font-bold">CS 301: Advanced Data Structures &amp; Algorithms</h1><span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[11px] font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span>Active Term • Fall 2026</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Instructor Dashboard • Real-time learner progress, mastery trends, and targeted interventions</p></div><div class="flex flex-wrap items-center gap-space-sm"><div class="flex items-center bg-surface-container-lowest rounded-xl shadow-sm p-1 border border-surface-container-high"><button class="px-space-sm py-1.5 rounded-lg text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-colors flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">calendar_today</span><span class="">Last 30 Days</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></button><div class="w-px h-5 bg-surface-container-highest my-auto"></div><button class="px-space-sm py-1.5 rounded-lg text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-colors flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">group</span><span class="">All Sections (A1, B2, C1)</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></button></div><button class="flex items-center gap-1.5 px-space-md py-2 bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded-xl shadow-sm border border-surface-container-high transition-all" onclick="triggerExportToast()"><span class="material-symbols-outlined text-[18px] text-secondary">download</span><span class="">Export Report</span></button><button class="flex items-center gap-1.5 px-space-md py-2 bg-primary-container hover:opacity-95 text-on-primary font-label-md text-label-md rounded-xl shadow-sm transition-all" onclick="showToast('Cohort announcement draft opened', 'campaign')"><span class="material-symbols-outlined text-[18px]">campaign</span><span class="">Send Announcement</span></button></div></div><div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md"><div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm border border-surface-container-high flex flex-col justify-between"><div class="flex items-center justify-between text-on-surface-variant"><span class="font-label-sm text-label-sm uppercase tracking-wide font-semibold">Total Students</span><div class="p-1.5 rounded-lg bg-surface-container-low text-primary"><span class="material-symbols-outlined text-[20px]">groups</span></div></div><div class="mt-2 flex items-baseline gap-2"><span class="font-data-metric text-data-metric text-on-surface font-bold">342</span><span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-0.5"><span class="material-symbols-outlined text-[16px]">trending_up</span>+12 this mo</span></div><div class="mt-2 pt-2 border-t border-surface-container-high flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant"><span class="">Active today: <strong class="text-on-surface font-semibold">298 (87%)</strong></span><span class="text-outline">3 Sections</span></div></div><div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm border border-surface-container-high flex flex-col justify-between"><div class="flex items-center justify-between text-on-surface-variant"><span class="font-label-sm text-label-sm uppercase tracking-wide font-semibold">Class Average Mastery</span><div class="p-1.5 rounded-lg bg-surface-container-low text-secondary"><span class="material-symbols-outlined text-[20px]">insights</span></div></div><div class="mt-2 flex items-baseline gap-2"><span class="font-data-metric text-data-metric text-on-surface font-bold">64.2%</span><span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-0.5"><span class="material-symbols-outlined text-[16px]">arrow_upward</span>+3.4%</span></div><div class="mt-2 pt-2 border-t border-surface-container-high flex flex-col gap-1"><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-secondary h-1.5 rounded-full" style="width: 64.2%"></div></div><span class="font-body-sm text-body-sm text-on-surface-variant">Solid trajectory across foundational units</span></div></div><div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm border border-surface-container-high flex flex-col justify-between"><div class="flex items-center justify-between text-on-surface-variant"><span class="font-label-sm text-label-sm uppercase tracking-wide font-semibold">Practice Completion Rate</span><div class="p-1.5 rounded-lg bg-surface-container-low text-primary"><span class="material-symbols-outlined text-[20px]">task_alt</span></div></div><div class="mt-2 flex items-baseline gap-2"><span class="font-data-metric text-data-metric text-on-surface font-bold">68.4%</span><span class="px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container font-label-sm text-[11px] font-bold">Target &gt;60%</span></div><div class="mt-2 pt-2 border-t border-surface-container-high flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant"><span class="">Adaptive practice engagement</span><span class="text-secondary font-semibold">+14% vs baseline</span></div></div><div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm border border-error-container/80 flex flex-col justify-between"><div class="flex items-center justify-between text-error"><span class="font-label-sm text-label-sm uppercase tracking-wide font-semibold">Students Needing Attention</span><div class="p-1.5 rounded-lg bg-error-container text-error"><span class="material-symbols-outlined text-[20px]">warning</span></div></div><div class="mt-2 flex items-baseline gap-2"><span class="font-data-metric text-data-metric text-error font-bold">14</span><span class="font-label-sm text-label-sm text-on-surface-variant">of 342 learners (4.1%)</span></div><div class="mt-2 pt-2 border-t border-surface-container-high flex items-center justify-between"><span class="font-body-sm text-body-sm text-error font-medium">9 High Priority • 5 Moderate</span><button class="font-label-sm text-label-sm text-primary hover:underline font-semibold flex items-center gap-0.5" onclick="scrollToRisk()">View Cohort →</button></div></div></div></div>
+<div class="p-space-lg flex flex-col gap-space-xl"><section class="flex flex-col gap-space-md" id="curriculum-mastery-section"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm"><div><h2 class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">Curriculum Topic Mastery Overview</h2><p class="font-body-md text-body-md text-on-surface-variant mt-0.5">High-level proficiency distribution across the 6 core units in CS 301.</p></div><div class="flex items-center gap-space-sm bg-surface-container-lowest px-3 py-1.5 rounded-xl border border-surface-container-high text-body-sm"><span class="flex items-center gap-1.5 font-label-sm text-on-surface-variant"><span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>Proficient (≥80%)</span><span class="flex items-center gap-1.5 font-label-sm text-on-surface-variant"><span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span>Developing (50-79%)</span><span class="flex items-center gap-1.5 font-label-sm text-on-surface-variant"><span class="w-2.5 h-2.5 rounded-full bg-error"></span>Needs Review (&lt;50%)</span></div></div><div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm border border-surface-container-high flex flex-col gap-space-md"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md"><div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between gap-3"><div class="flex items-start justify-between"><div><span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Unit 1</span><h3 class="font-title-md text-title-md font-bold text-on-surface">Arrays &amp; Strings</h3></div><span class="px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">84% Proficient</span></div><div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden"><div class="bg-secondary h-2 rounded-full" style="width: 84%"></div></div><div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant"><span class="text-secondary font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span>Strong retention</span><span class="">342 learners</span></div></div><div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between gap-3"><div class="flex items-start justify-between"><div><span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Unit 2</span><h3 class="font-title-md text-title-md font-bold text-on-surface">Linked Lists</h3></div><span class="px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">78% Proficient</span></div><div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden"><div class="bg-secondary h-2 rounded-full" style="width: 78%"></div></div><div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant"><span class="text-secondary font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span>Steady progression</span><span class="">342 learners</span></div></div><div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between gap-3"><div class="flex items-start justify-between"><div><span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Unit 3</span><h3 class="font-title-md text-title-md font-bold text-on-surface">Trees &amp; BSTs</h3></div><span class="px-2 py-0.5 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">66% Developing</span></div><div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden"><div class="bg-tertiary-fixed-dim h-2 rounded-full" style="width: 66%"></div></div><div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant"><span class="text-on-tertiary-container font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">autorenew</span>Active practice cycle</span><span class="">342 learners</span></div></div><div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between gap-3"><div class="flex items-start justify-between"><div><span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Unit 4</span><h3 class="font-title-md text-title-md font-bold text-on-surface">Graph Theory</h3></div><span class="px-2 py-0.5 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">61% Developing</span></div><div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden"><div class="bg-tertiary-fixed-dim h-2 rounded-full" style="width: 61%"></div></div><div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant"><span class="text-error font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">info</span>Needs DFS/BFS review</span><span class="">342 learners</span></div></div><div class="p-space-md rounded-xl bg-error-container/40 border-2 border-error/40 flex flex-col justify-between gap-3 relative"><div class="flex items-start justify-between"><div><span class="font-label-sm text-label-sm text-error font-bold">Unit 5 • Action Needed</span><h3 class="font-title-md text-title-md font-bold text-on-surface">Dynamic Programming</h3></div><span class="px-2 py-0.5 rounded-md bg-error text-on-error font-label-sm text-label-sm font-bold">48% Struggling</span></div><div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden"><div class="bg-error h-2 rounded-full" style="width: 48%"></div></div><div class="flex items-center justify-between font-body-sm text-body-sm"><span class="text-error font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">priority_high</span>42% in weak zone</span><button class="text-primary font-semibold hover:underline font-label-sm text-label-sm" onclick="dispatchRemediationModule()">Assign Review Drill →</button></div></div><div class="p-space-md rounded-xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between gap-3"><div class="flex items-start justify-between"><div><span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Unit 6</span><h3 class="font-title-md text-title-md font-bold text-on-surface">Greedy Algorithms</h3></div><span class="px-2 py-0.5 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">59% Developing</span></div><div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden"><div class="bg-tertiary-fixed-dim h-2 rounded-full" style="width: 59%"></div></div><div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant"><span class="text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span>Upcoming module</span><span class="">342 learners</span></div></div></div><div class="p-space-md bg-surface-container-low rounded-xl border border-surface-container-high flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><div class="p-2.5 rounded-xl bg-error-container text-error flex items-center justify-center"><span class="material-symbols-outlined text-[22px]">lightbulb</span></div><div class="flex flex-col"><span class="font-title-md text-title-md font-bold text-on-surface">Dynamic Programming Bottleneck Detected</span><span class="font-body-sm text-body-sm text-on-surface-variant">42% of students (144 learners) are struggling with recurrence relations and overlapping subproblems.</span></div></div><div class="flex items-center gap-space-sm shrink-0"><button class="px-space-md py-2 bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded-lg border border-surface-container-high transition-colors shadow-sm" onclick="showToast('Displaying detailed DP quiz question breakdown...', 'analytics')">Review Breakdown</button><button class="px-space-md py-2 bg-primary-container hover:opacity-90 text-on-primary font-label-md text-label-md rounded-lg transition-all shadow-sm flex items-center gap-1.5" onclick="dispatchRemediationModule()"><span class="material-symbols-outlined text-[18px]">auto_fix_high</span><span class="">Auto-Assign Targeted Review Drill</span></button></div></div></div></section><div class="flex flex-col gap-space-lg w-full" id="risk-section"><div class="w-full flex flex-col gap-space-md"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm"><div><h2 class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">Students Needing Attention</h2><p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Learners flagged for consecutive quiz failures, rapid mastery decline, or prolonged inactivity.</p></div><div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-surface-container-high" id="risk-filter-group"><button class="risk-filter-btn px-3 py-1.5 rounded-lg bg-surface-container-lowest font-label-sm text-label-sm font-semibold text-primary shadow-sm" onclick="filterRiskCohort('all', this)">All (5)</button><button class="risk-filter-btn px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest font-label-sm text-label-sm text-on-surface-variant transition-colors" onclick="filterRiskCohort('high', this)">High Priority (3)</button><button class="risk-filter-btn px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest font-label-sm text-label-sm text-on-surface-variant transition-colors" onclick="filterRiskCohort('inactive', this)">Inactive &gt;3 Days (3)</button></div></div><div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container-high overflow-hidden"><div class="overflow-x-auto"><table class="w-full text-left font-body-md text-body-md"><thead class="bg-surface-container-low font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant border-b border-surface-container-high"><tr><th class="py-3 px-space-md">Student</th><th class="py-3 px-3">Mastery</th><th class="py-3 px-3">Primary Blocker</th><th class="py-3 px-3">Status Flag</th><th class="py-3 px-space-md text-right">Direct Action</th></tr></thead><tbody class="divide-y divide-surface-container-high/60"><tr class="hover:bg-surface-container-low/70 transition-colors bg-surface-container-low/40" data-inactive="5" data-priority="high"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><img class="w-10 h-10 rounded-full object-cover" alt="" src="../assets/images/avatar_marcus.png"><div class="flex flex-col"><span class="font-title-md text-title-md font-semibold text-on-surface leading-tight">Marcus Vance</span><span class="font-body-sm text-body-sm text-on-surface-variant">mvance@campus.edu • Sec A1</span></div></div></td><td class="py-space-md px-3"><div class="flex flex-col gap-1 w-20"><span class="font-label-md text-label-md font-bold text-error">32.0%</span><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-error h-1.5 rounded-full" style="width: 32%"></div></div></div></td><td class="py-space-md px-3"><span class="px-2.5 py-1 rounded-md bg-error-container text-on-error-container font-label-sm text-[12px] font-semibold">DP Recurrence</span></td><td class="py-space-md px-3"><div class="flex flex-col"><span class="text-error font-semibold font-label-sm text-label-sm flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>2 Failed Quizzes</span><span class="font-body-sm text-body-sm text-on-surface-variant">Inactive 5 days</span></div></td><td class="py-space-md px-space-md text-right"><div class="flex items-center justify-end gap-1.5"><button type="button" class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest border border-surface-container-high hover:bg-surface-container text-primary font-label-sm text-xs font-semibold focus:ring-2 focus:ring-primary flex items-center gap-1" onclick="selectStudent('Marcus Vance')"><span class="material-symbols-outlined text-[15px]">person_search</span><span>Profile</span></button><button class="px-2.5 py-1.5 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" onclick="sendTailoredPath('Marcus Vance')"><span class="material-symbols-outlined text-[16px]">send</span><span class="">Send Drill</span></button><button class="p-1.5 rounded-lg bg-surface-container-high hover:bg-secondary hover:text-on-secondary text-on-surface-variant transition-colors" onclick="scheduleOfficeHours('Marcus Vance')" title="Schedule 1-on-1 Office Hours"><span class="material-symbols-outlined text-[18px]">event</span></button></div></td></tr><tr class="hover:bg-surface-container-low/70 transition-colors" data-inactive="2" data-priority="high"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><img class="w-10 h-10 rounded-full object-cover" alt="" src="../assets/images/avatar_priya.png"><div class="flex flex-col"><span class="font-title-md text-title-md font-semibold text-on-surface leading-tight">Priya Patel</span><span class="font-body-sm text-body-sm text-on-surface-variant">ppatel@campus.edu • Sec B2</span></div></div></td><td class="py-space-md px-3"><div class="flex flex-col gap-1 w-20"><span class="font-label-md text-label-md font-bold text-error">38.4%</span><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-error h-1.5 rounded-full" style="width: 38.4%"></div></div></div></td><td class="py-space-md px-3"><span class="px-2.5 py-1 rounded-md bg-error-container text-on-error-container font-label-sm text-[12px] font-semibold">Base Cases</span></td><td class="py-space-md px-3"><div class="flex flex-col"><span class="text-error font-semibold font-label-sm text-label-sm flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>3 Failed Quizzes</span><span class="font-body-sm text-body-sm text-on-surface-variant">Inactive 2 days</span></div></td><td class="py-space-md px-space-md text-right"><div class="flex items-center justify-end gap-1.5"><button type="button" class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest border border-surface-container-high hover:bg-surface-container text-primary font-label-sm text-xs font-semibold focus:ring-2 focus:ring-primary flex items-center gap-1" onclick="selectStudent('Priya Patel')"><span class="material-symbols-outlined text-[15px]">person_search</span><span>Profile</span></button><button class="px-2.5 py-1.5 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" onclick="sendTailoredPath('Priya Patel')"><span class="material-symbols-outlined text-[16px]">send</span><span class="">Send Drill</span></button><button class="p-1.5 rounded-lg bg-surface-container-high hover:bg-secondary hover:text-on-secondary text-on-surface-variant transition-colors" onclick="scheduleOfficeHours('Priya Patel')" title="Schedule 1-on-1 Office Hours"><span class="material-symbols-outlined text-[18px]">event</span></button></div></td></tr><tr class="hover:bg-surface-container-low/70 transition-colors" data-inactive="6" data-priority="moderate"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><img class="w-10 h-10 rounded-full object-cover" alt="" src="../assets/images/avatar_ethan.png"><div class="flex flex-col"><span class="font-title-md text-title-md font-semibold text-on-surface leading-tight">Ethan Thorne</span><span class="font-body-sm text-body-sm text-on-surface-variant">ethorne@campus.edu • Sec C1</span></div></div></td><td class="py-space-md px-3"><div class="flex flex-col gap-1 w-20"><span class="font-label-md text-label-md font-bold text-on-tertiary-container">44.1%</span><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-tertiary-fixed-dim h-1.5 rounded-full" style="width: 44.1%"></div></div></div></td><td class="py-space-md px-3"><span class="px-2.5 py-1 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[12px] font-semibold">Graph Cycles</span></td><td class="py-space-md px-3"><div class="flex flex-col"><span class="text-on-tertiary-container font-semibold font-label-sm text-label-sm flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-fixed-variant"></span>1 Quiz Drop</span><span class="font-body-sm text-body-sm text-error font-medium">Inactive 6 days</span></div></td><td class="py-space-md px-space-md text-right"><div class="flex items-center justify-end gap-1.5"><button type="button" class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest border border-surface-container-high hover:bg-surface-container text-primary font-label-sm text-xs font-semibold focus:ring-2 focus:ring-primary flex items-center gap-1" onclick="selectStudent('Ethan Thorne')"><span class="material-symbols-outlined text-[15px]">person_search</span><span>Profile</span></button><button class="px-2.5 py-1.5 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" onclick="sendTailoredPath('Ethan Thorne')"><span class="material-symbols-outlined text-[16px]">send</span><span class="">Send Drill</span></button><button class="p-1.5 rounded-lg bg-surface-container-high hover:bg-secondary hover:text-on-secondary text-on-surface-variant transition-colors" onclick="scheduleOfficeHours('Ethan Thorne')" title="Schedule 1-on-1 Office Hours"><span class="material-symbols-outlined text-[18px]">event</span></button></div></td></tr><tr class="hover:bg-surface-container-low/70 transition-colors" data-inactive="4" data-priority="high"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><img class="w-10 h-10 rounded-full object-cover" alt="" src="../assets/images/avatar_samantha.png"><div class="flex flex-col"><span class="font-title-md text-title-md font-semibold text-on-surface leading-tight">Samantha Diaz</span><span class="font-body-sm text-body-sm text-on-surface-variant">sdiaz@campus.edu • Sec A1</span></div></div></td><td class="py-space-md px-3"><div class="flex flex-col gap-1 w-20"><span class="font-label-md text-label-md font-bold text-error">39.1%</span><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-error h-1.5 rounded-full" style="width: 39.1%"></div></div></div></td><td class="py-space-md px-3"><span class="px-2.5 py-1 rounded-md bg-error-container text-on-error-container font-label-sm text-[12px] font-semibold">BST Balancing</span></td><td class="py-space-md px-3"><div class="flex flex-col"><span class="text-error font-semibold font-label-sm text-label-sm flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>2 Failed Quizzes</span><span class="font-body-sm text-body-sm text-on-surface-variant">Inactive 4 days</span></div></td><td class="py-space-md px-space-md text-right"><div class="flex items-center justify-end gap-1.5"><button type="button" class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest border border-surface-container-high hover:bg-surface-container text-primary font-label-sm text-xs font-semibold focus:ring-2 focus:ring-primary flex items-center gap-1" onclick="selectStudent('Samantha Diaz')"><span class="material-symbols-outlined text-[15px]">person_search</span><span>Profile</span></button><button class="px-2.5 py-1.5 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" onclick="sendTailoredPath('Samantha Diaz')"><span class="material-symbols-outlined text-[16px]">send</span><span class="">Send Drill</span></button><button class="p-1.5 rounded-lg bg-surface-container-high hover:bg-secondary hover:text-on-secondary text-on-surface-variant transition-colors" onclick="scheduleOfficeHours('Samantha Diaz')" title="Schedule 1-on-1 Office Hours"><span class="material-symbols-outlined text-[18px]">event</span></button></div></td></tr><tr class="hover:bg-surface-container-low/70 transition-colors" data-inactive="3" data-priority="moderate"><td class="py-space-md px-space-md"><div class="flex items-center gap-space-sm"><img class="w-10 h-10 rounded-full object-cover" alt="" src="../assets/images/avatar_kofi.png"><div class="flex flex-col"><span class="font-title-md text-title-md font-semibold text-on-surface leading-tight">Kofi Mensah</span><span class="font-body-sm text-body-sm text-on-surface-variant">kmensah@campus.edu • Sec B2</span></div></div></td><td class="py-space-md px-3"><div class="flex flex-col gap-1 w-20"><span class="font-label-md text-label-md font-bold text-on-tertiary-container">46.5%</span><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-tertiary-fixed-dim h-1.5 rounded-full" style="width: 46.5%"></div></div></div></td><td class="py-space-md px-3"><span class="px-2.5 py-1 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[12px] font-semibold">Recursion Trees</span></td><td class="py-space-md px-3"><div class="flex flex-col"><span class="text-on-tertiary-container font-semibold font-label-sm text-label-sm flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-fixed-variant"></span>1 Quiz Drop</span><span class="font-body-sm text-body-sm text-on-surface-variant">Inactive 3 days</span></div></td><td class="py-space-md px-space-md text-right"><div class="flex items-center justify-end gap-1.5"><button type="button" class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest border border-surface-container-high hover:bg-surface-container text-primary font-label-sm text-xs font-semibold focus:ring-2 focus:ring-primary flex items-center gap-1" onclick="selectStudent('Kofi Mensah')"><span class="material-symbols-outlined text-[15px]">person_search</span><span>Profile</span></button><button class="px-2.5 py-1.5 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm font-semibold transition-colors flex items-center gap-1" onclick="sendTailoredPath('Kofi Mensah')"><span class="material-symbols-outlined text-[16px]">send</span><span class="">Send Drill</span></button><button class="p-1.5 rounded-lg bg-surface-container-high hover:bg-secondary hover:text-on-secondary text-on-surface-variant transition-colors" onclick="scheduleOfficeHours('Kofi Mensah')" title="Schedule 1-on-1 Office Hours"><span class="material-symbols-outlined text-[18px]">event</span></button></div></td></tr></tbody></table></div><div class="px-space-md py-space-sm bg-surface-container-low border-t border-surface-container-high flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant"><span class="font-medium text-primary" id="risk-displayed-count">Displaying 5 Priority Flagged Learners</span><span class="text-xs text-on-surface-variant">Live Intervention Queue</span></div></div></div><div class="w-full flex flex-col gap-space-sm mt-3"><div class="flex items-center justify-between px-1"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-error animate-pulse"></div><h3 class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">Student Focus &amp; Dispatch</h3><span class="text-body-sm text-on-surface-variant hidden sm:inline">• Real-time diagnostic profile and targeted intervention</span></div><div class="flex items-center gap-2"><span class="text-[11px] font-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Status:</span><span class="px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[11px] font-bold flex items-center gap-1 shadow-sm" id="drilldown-badge"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>High Priority</span></div></div><div class="bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden"><div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-surface-container-high"><div class="lg:col-span-4 p-space-md flex flex-col justify-between gap-space-md bg-surface-container-low/30"><div class="flex flex-col gap-space-md"><div class="flex items-start justify-between"><div class="flex items-center gap-3 min-w-0"><div class="relative shrink-0"><img alt="Marcus Vance" id="detail-avatar-img" class="w-12 h-12 rounded-full object-cover ring-2 ring-error/20 border border-surface-container-lowest shadow-sm" src="../assets/images/avatar_marcus.png"><span id="detail-avatar-fallback" class="hidden">MV</span><span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-error ring-2 ring-surface-container-lowest flex items-center justify-center text-[8px] text-white font-bold" title="Active Alert">!</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1.5"><h4 class="font-title-md text-title-md font-bold text-on-surface truncate" id="detail-name">Marcus Vance</h4><span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-error-container text-on-error-container leading-none uppercase tracking-wide">At Risk</span></div><span class="font-body-sm text-body-sm text-on-surface-variant truncate mt-0.5" id="detail-arm">Section A1 • ID #482910</span><span class="font-body-sm text-[11px] text-outline truncate" id="detail-email">mvance@campus.edu</span></div></div><div class="flex items-center gap-1 bg-surface-container-lowest rounded-lg border border-surface-container-high px-2 py-1 shadow-sm"><span class="material-symbols-outlined text-[14px] text-error">emergency</span><span class="text-[11px] font-label-sm font-semibold text-error">Intervention Req.</span></div></div><div class="bg-surface-container-lowest rounded-xl border border-surface-container-high overflow-hidden shadow-sm"><div class="grid grid-cols-3 divide-x divide-surface-container-high"><div class="p-2.5 flex flex-col justify-between gap-1"><div class="flex items-center justify-between"><span class="text-[10px] font-label-sm uppercase tracking-wider text-outline font-semibold">Mastery</span><span class="w-1.5 h-1.5 rounded-full bg-error"></span></div><span class="text-headline-sm font-headline-sm font-bold text-on-surface leading-tight" id="detail-mastery">32.0%</span><div class="pt-0.5"><span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-error-container/80 text-on-error-container leading-none">Critical</span></div></div><div class="p-2.5 flex flex-col justify-between gap-1"><div class="flex items-center justify-between"><span class="text-[10px] font-label-sm uppercase tracking-wider text-outline font-semibold">Streak</span><span class="w-1.5 h-1.5 rounded-full bg-error"></span></div><span class="text-headline-sm font-headline-sm font-bold text-on-surface leading-tight" id="detail-drops">2 Drops</span><div class="pt-0.5"><span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-error-container/80 text-on-error-container leading-none">Consecutive</span></div></div><div class="p-2.5 flex flex-col justify-between gap-1"><div class="flex items-center justify-between"><span class="text-[10px] font-label-sm uppercase tracking-wider text-outline font-semibold">Inactivity</span><span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span></div><span class="text-headline-sm font-headline-sm font-bold text-on-surface leading-tight" id="detail-inactivity">5 Days</span><div class="pt-0.5"><span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-tertiary-fixed text-on-tertiary-fixed leading-none" id="detail-inactivity-alert">&gt;3d alert</span></div></div></div></div></div><div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-sm flex flex-col gap-2"><div class="flex items-center justify-between font-label-sm text-label-sm"><span class="text-on-surface-variant font-medium flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-primary">assignment_turned_in</span>Quiz Completion</span><span class="text-on-surface font-bold text-[12px]" id="detail-units">4 of 6 Units (66%)</span></div><div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden"><div class="bg-secondary h-2 rounded-full" id="detail-units-bar" style="width: 66.6%"></div></div><div class="flex items-center justify-between text-[11px] text-on-surface-variant"><span class="" id="detail-pending-modules">2 modules pending</span><span class="text-error font-medium flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px]">schedule</span>Overdue 3 days</span></div></div></div><div class="lg:col-span-5 p-space-md flex flex-col justify-between gap-space-md"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><div class="p-1 rounded-lg bg-surface-container-high text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[16px]">show_chart</span></div><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Quiz Trajectory Performance</span><span class="font-body-sm text-[11px] text-outline">Historical retention curve across Q1–Q6</span></div></div><span class="font-label-sm text-label-sm text-error font-bold bg-error-container/60 px-2 py-0.5 rounded-full flex items-center gap-1 border border-error/20 shadow-sm" id="detail-trend"><span class="material-symbols-outlined text-[14px]">arrow_downward</span>-24% drop</span></div><div class="bg-surface-container-low/50 p-space-md rounded-xl border border-surface-container-high flex flex-col justify-between flex-1 gap-2"><div class="relative w-full"><svg class="w-full h-28 overflow-visible" fill="none" viewBox="0 0 320 85"><line class="text-on-surface" stroke="currentColor" stroke-dasharray="3 3" stroke-opacity="0.1" x1="0" x2="320" y1="15" y2="15"></line><line class="text-on-surface" stroke="currentColor" stroke-dasharray="3 3" stroke-opacity="0.1" x1="0" x2="320" y1="45" y2="45"></line><line class="text-on-surface" stroke="currentColor" stroke-dasharray="3 3" stroke-opacity="0.1" x1="0" x2="320" y1="75" y2="75"></line><path id="detail-chart-path" d="M 18 20 Q 72 26 128 36 T 235 62 T 298 72" fill="none" stroke="#ba1a1a" stroke-linecap="round" stroke-width="2.5"></path><g id="detail-chart-circles"><circle cx="18" cy="20" fill="#006c4a" r="4" stroke="#ffffff" stroke-width="1.5"></circle><circle cx="72" cy="26" fill="#006c4a" r="4" stroke="#ffffff" stroke-width="1.5"></circle><circle cx="128" cy="36" fill="#ffb77d" r="4" stroke="#ffffff" stroke-width="1.5"></circle><circle cx="182" cy="50" fill="#ba1a1a" r="4" stroke="#ffffff" stroke-width="1.5"></circle><circle cx="235" cy="62" fill="#ba1a1a" r="4" stroke="#ffffff" stroke-width="1.5"></circle><circle cx="298" cy="72" fill="#ba1a1a" r="4" stroke="#ffffff" stroke-width="1.5"></circle></g></svg></div><div id="detail-q-grid" class="grid grid-cols-6 text-center font-label-sm text-[11px] text-on-surface-variant font-medium pt-2 border-t border-surface-container-high/80"><div class="flex flex-col items-center"><span class="font-bold text-secondary text-[12px]">72%</span><span class="text-[10px] text-outline font-semibold">Q1</span></div><div class="flex flex-col items-center"><span class="font-bold text-secondary text-[12px]">65%</span><span class="text-[10px] text-outline font-semibold">Q2</span></div><div class="flex flex-col items-center"><span class="font-bold text-on-tertiary-container text-[12px]">58%</span><span class="text-[10px] text-outline font-semibold">Q3</span></div><div class="flex flex-col items-center"><span class="font-bold text-error text-[12px]">50%</span><span class="text-[10px] text-outline font-semibold">Q4</span></div><div class="flex flex-col items-center"><span class="font-bold text-error text-[12px]">38%</span><span class="text-[10px] text-outline font-semibold">Q5</span></div><div class="flex flex-col items-center"><span class="font-bold text-error text-[12px]">32%</span><span class="text-[10px] text-outline font-semibold">Q6</span></div></div></div><div class="flex items-center justify-between text-body-sm text-[11px] text-on-surface-variant px-1"><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span>Benchmark Target: 70%</span><span id="detail-trend-note" class="text-error font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">trending_down</span>Steepest decline between Q4 and Q6</span></div></div><div class="lg:col-span-3 p-space-md flex flex-col justify-between gap-space-md bg-surface-container-low/20"><div class="flex flex-col gap-2.5"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-bold">Telemetry Diagnostics</span><span class="material-symbols-outlined text-[16px] text-outline">tune</span></div><div class="flex flex-col gap-2"><div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-sm flex items-center justify-between"><div class="flex flex-col min-w-0 pr-1"><span class="text-outline text-[10px] font-bold uppercase tracking-wider">Primary Blocker</span><span class="text-error font-bold text-label-md truncate" id="detail-blocker">DP Recurrence Relations</span></div><span class="p-1 rounded-lg bg-error-container/60 text-error flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[16px]">warning</span></span></div><div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-sm flex items-center justify-between"><div class="flex flex-col"><span class="text-outline text-[10px] font-bold uppercase tracking-wider">Time Pacing</span><span class="text-on-surface font-bold text-label-md">4.2 min / item</span></div><span class="px-2 py-0.5 rounded-md bg-error-container text-on-error-container font-label-sm text-[10px] font-bold">+82% load</span></div><div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-sm flex items-center justify-between"><div class="flex flex-col"><span class="text-outline text-[10px] font-bold uppercase tracking-wider">Last Activity</span><span class="text-on-surface font-semibold text-body-sm">Missed review • Oct 25</span></div><span class="p-1 rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[16px]">event_busy</span></span></div></div></div><div class="flex flex-col gap-2 pt-1"><span class="font-label-sm text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Intervention Dispatch</span><div class="flex flex-col sm:flex-row gap-2"><button class="flex-1 px-3 py-2.5 rounded-xl bg-primary-container hover:opacity-90 text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all" onclick="dispatchRemediationAction('custom-path')"><span class="material-symbols-outlined text-[16px]">send</span><span class="">Send Drill</span></button><button class="flex-1 px-3 py-2.5 rounded-xl bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-sm border border-surface-container-high transition-all" onclick="dispatchRemediationAction('invite-meeting')"><span class="material-symbols-outlined text-[16px] text-secondary">calendar_month</span><span class="">Schedule 1:1</span></button></div></div></div></div></div></div></div></div>
+<div class="fixed bottom-6 right-6 z-50 transform transition-all duration-300 bg-primary text-on-primary px-space-md py-space-sm rounded-xl shadow-xl flex items-center gap-space-sm translate-y-20 opacity-0 pointer-events-none" id="toast">
+<span class="material-symbols-outlined text-secondary" id="toast-icon">alt_route</span>
+<span class="font-label-md text-label-md" id="toast-message">Tailored practice path dispatched directly to Marcus Vance</span>
+</div>
+</div>
+<script>
+  function showToast(message, icon = 'check_circle') {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    const toastIcon = document.getElementById('toast-icon');
+    
+    toastMsg.textContent = message;
+    toastIcon.textContent = icon;
+    
+    toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    
+    setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 3500);
+  }
+
+  function triggerExportToast() {
+    showToast('Exporting FR-705 Cohort Heatmap & Telemetry (CSV/PDF)...', 'download_done');
+  }
+
+  function scrollToRisk() {
+    const el = document.getElementById('risk-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function filterByTopic(topicName) {
+    showToast(`Filtered At-Risk table by competency: ${topicName}`, 'filter_alt');
+  }
+
+  function dispatchRemediationModule() {
+    showToast('[Demo Preview] Deployed Adaptive DP Foundation Module to students in Weak zone', 'auto_fix_high');
+  }
+
+  function sendTailoredPath(studentName) {
+    showToast(`[Demo Preview] Tailored practice path queued for ${studentName}`, 'alt_route');
+  }
+
+  function scheduleOfficeHours(studentName) {
+    showToast(`[Demo Preview] Office hours invitation queued for ${studentName}`, 'event_available');
+  }
+
+  function dispatchRemediationAction(type) {
+    const student = document.getElementById('detail-name').innerText;
+    if (type === 'custom-path') {
+      showToast(`[Demo Preview] Custom remedial path generated for ${student}`, 'send');
+    } else {
+      showToast(`[Demo Preview] Calendar slot queued for ${student}`, 'meeting_room');
+    }
+  }
+
+  const STUDENT_RECORDS = {
+    'Marcus Vance': {
+      name: 'Marcus Vance', score: '32.0%', drops: '2 Drops', inactivity: '5 Days',
+      arm: 'Section A1 • ID #482910', blocker: 'DP Recurrence Relations', severity: 'Critical',
+      email: 'mvance@campus.edu', avatar: '../assets/images/avatar_marcus.png',
+      units: '4 of 6 Units (66%)', unitsWidth: '66.6%', trend: '-24% drop',
+      trendNote: 'Steepest decline between Q4 and Q6',
+      qScores: [
+        { label: 'Q1', score: '72%', color: 'text-secondary' },
+        { label: 'Q2', score: '65%', color: 'text-secondary' },
+        { label: 'Q3', score: '58%', color: 'text-on-tertiary-container' },
+        { label: 'Q4', score: '50%', color: 'text-error' },
+        { label: 'Q5', score: '38%', color: 'text-error' },
+        { label: 'Q6', score: '32%', color: 'text-error' }
+      ],
+      chartPath: 'M 18 20 Q 72 26 128 36 T 235 62 T 298 72',
+      chartCircles: [
+        { cx: 18, cy: 20, fill: '#006c4a' },
+        { cx: 72, cy: 26, fill: '#006c4a' },
+        { cx: 128, cy: 36, fill: '#ffb77d' },
+        { cx: 182, cy: 50, fill: '#ba1a1a' },
+        { cx: 235, cy: 62, fill: '#ba1a1a' },
+        { cx: 298, cy: 72, fill: '#ba1a1a' }
+      ]
+    },
+    'Priya Patel': {
+      name: 'Priya Patel', score: '38.4%', drops: '3 Fails', inactivity: '2 Days',
+      arm: 'Section B2 • ID #491204', blocker: 'Base Cases', severity: 'Critical',
+      email: 'ppatel@campus.edu', avatar: '../assets/images/avatar_priya.png',
+      units: '3 of 6 Units (50%)', unitsWidth: '50%', trend: '-18% drop',
+      trendNote: 'Consistent failures on recursive base conditions',
+      qScores: [
+        { label: 'Q1', score: '68%', color: 'text-secondary' },
+        { label: 'Q2', score: '60%', color: 'text-on-tertiary-container' },
+        { label: 'Q3', score: '52%', color: 'text-on-tertiary-container' },
+        { label: 'Q4', score: '44%', color: 'text-error' },
+        { label: 'Q5', score: '40%', color: 'text-error' },
+        { label: 'Q6', score: '38%', color: 'text-error' }
+      ],
+      chartPath: 'M 18 24 Q 72 32 128 40 T 235 56 T 298 62',
+      chartCircles: [
+        { cx: 18, cy: 24, fill: '#006c4a' },
+        { cx: 72, cy: 32, fill: '#ffb77d' },
+        { cx: 128, cy: 40, fill: '#ffb77d' },
+        { cx: 182, cy: 48, fill: '#ba1a1a' },
+        { cx: 235, cy: 56, fill: '#ba1a1a' },
+        { cx: 298, cy: 62, fill: '#ba1a1a' }
+      ]
+    },
+    'Ethan Thorne': {
+      name: 'Ethan Thorne', score: '44.1%', drops: '1 Drop', inactivity: '6 Days',
+      arm: 'Section C1 • ID #501923', blocker: 'Graph Cycles', severity: 'Moderate',
+      email: 'ethorne@campus.edu', avatar: '../assets/images/avatar_ethan.png',
+      units: '4 of 6 Units (66%)', unitsWidth: '66.6%', trend: '-8% drop',
+      trendNote: 'Struggling with directed cycle detection logic',
+      qScores: [
+        { label: 'Q1', score: '76%', color: 'text-secondary' },
+        { label: 'Q2', score: '70%', color: 'text-secondary' },
+        { label: 'Q3', score: '62%', color: 'text-on-tertiary-container' },
+        { label: 'Q4', score: '54%', color: 'text-on-tertiary-container' },
+        { label: 'Q5', score: '48%', color: 'text-error' },
+        { label: 'Q6', score: '44%', color: 'text-error' }
+      ],
+      chartPath: 'M 18 16 Q 72 22 128 30 T 235 44 T 298 52',
+      chartCircles: [
+        { cx: 18, cy: 16, fill: '#006c4a' },
+        { cx: 72, cy: 22, fill: '#006c4a' },
+        { cx: 128, cy: 30, fill: '#ffb77d' },
+        { cx: 182, cy: 38, fill: '#ffb77d' },
+        { cx: 235, cy: 44, fill: '#ba1a1a' },
+        { cx: 298, cy: 52, fill: '#ba1a1a' }
+      ]
+    },
+    'Samantha Diaz': {
+      name: 'Samantha Diaz', score: '39.1%', drops: '2 Fails', inactivity: '4 Days',
+      arm: 'Section A1 • ID #510482', blocker: 'BST Balancing', severity: 'Critical',
+      email: 'sdiaz@campus.edu', avatar: '../assets/images/avatar_samantha.png',
+      units: '3 of 6 Units (50%)', unitsWidth: '50%', trend: '-15% drop',
+      trendNote: 'AVL rotation invariants incomplete',
+      qScores: [
+        { label: 'Q1', score: '70%', color: 'text-secondary' },
+        { label: 'Q2', score: '64%', color: 'text-secondary' },
+        { label: 'Q3', score: '54%', color: 'text-on-tertiary-container' },
+        { label: 'Q4', score: '46%', color: 'text-error' },
+        { label: 'Q5', score: '40%', color: 'text-error' },
+        { label: 'Q6', score: '39%', color: 'text-error' }
+      ],
+      chartPath: 'M 18 22 Q 72 28 128 38 T 235 52 T 298 60',
+      chartCircles: [
+        { cx: 18, cy: 22, fill: '#006c4a' },
+        { cx: 72, cy: 28, fill: '#ffb77d' },
+        { cx: 128, cy: 38, fill: '#ffb77d' },
+        { cx: 182, cy: 46, fill: '#ba1a1a' },
+        { cx: 235, cy: 52, fill: '#ba1a1a' },
+        { cx: 298, cy: 60, fill: '#ba1a1a' }
+      ]
+    },
+    'Kofi Mensah': {
+      name: 'Kofi Mensah', score: '46.5%', drops: '1 Fail', inactivity: '3 Days',
+      arm: 'Section B2 • ID #518933', blocker: 'Recursion Trees', severity: 'Moderate',
+      email: 'kmensah@campus.edu', avatar: '../assets/images/avatar_kofi.png',
+      units: '5 of 6 Units (83%)', unitsWidth: '83.3%', trend: '-5% drop',
+      trendNote: 'Subproblem branching factor estimation lag',
+      qScores: [
+        { label: 'Q1', score: '80%', color: 'text-secondary' },
+        { label: 'Q2', score: '74%', color: 'text-secondary' },
+        { label: 'Q3', score: '66%', color: 'text-on-tertiary-container' },
+        { label: 'Q4', score: '58%', color: 'text-on-tertiary-container' },
+        { label: 'Q5', score: '50%', color: 'text-error' },
+        { label: 'Q6', score: '46%', color: 'text-error' }
+      ],
+      chartPath: 'M 18 14 Q 72 18 128 26 T 235 38 T 298 46',
+      chartCircles: [
+        { cx: 18, cy: 14, fill: '#006c4a' },
+        { cx: 72, cy: 18, fill: '#006c4a' },
+        { cx: 128, cy: 26, fill: '#006c4a' },
+        { cx: 182, cy: 32, fill: '#ffb77d' },
+        { cx: 235, cy: 38, fill: '#ba1a1a' },
+        { cx: 298, cy: 46, fill: '#ba1a1a' }
+      ]
+    }
+  };
+
+  function selectStudent(name, notify = true) {
+    const student = STUDENT_RECORDS[name] || STUDENT_RECORDS['Marcus Vance'];
+    const setOrClear = (id, val, isHtml = false) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (val !== undefined && val !== null && val !== '') {
+        el.style.display = '';
+        if (isHtml) el.innerHTML = val;
+        else el.innerText = val;
+      } else {
+        if (isHtml) el.innerHTML = '';
+        else el.innerText = '';
+      }
+    };
+
+    setOrClear('detail-name', student.name);
+    setOrClear('detail-mastery', student.score);
+    setOrClear('detail-drops', student.drops);
+    setOrClear('detail-inactivity', student.inactivity);
+
+    // Refresh adjacent inactivity alert (>3 days)
+    const inactAlert = document.getElementById('detail-inactivity-alert');
+    if (inactAlert) {
+      const inactDays = parseInt((student.inactivity || '').match(/\d+/)?.[0] || '0', 10);
+      inactAlert.style.display = inactDays > 3 ? '' : 'none';
+    }
+
+    setOrClear('detail-arm', student.arm);
+    setOrClear('detail-blocker', student.blocker);
+    setOrClear('detail-email', student.email);
+
+    const avatarImg = document.getElementById('detail-avatar-img');
+    if (avatarImg) {
+      if (student.avatar) {
+        avatarImg.style.display = '';
+        avatarImg.src = student.avatar;
+        avatarImg.alt = student.name || '';
+      } else {
+        avatarImg.src = '';
+        avatarImg.alt = '';
+      }
+    }
+
+    const fallbackEl = document.getElementById('detail-avatar-fallback');
+    if (fallbackEl) {
+      fallbackEl.innerText = student.name ? student.name.split(' ').map(n => n[0]).join('') : '';
+    }
+
+    setOrClear('detail-units', student.units);
+    const unitsBar = document.getElementById('detail-units-bar');
+    if (unitsBar) {
+      unitsBar.style.width = student.unitsWidth || '0%';
+    }
+
+    // Refresh adjacent pending-module count from student's completion data
+    const unitsMatch = (student.units || '').match(/(\d+)\s+of\s+(\d+)/);
+    const completedUnits = unitsMatch ? parseInt(unitsMatch[1], 10) : 4;
+    const totalUnits = unitsMatch ? parseInt(unitsMatch[2], 10) : 6;
+    const pendingCount = Math.max(0, totalUnits - completedUnits);
+    setOrClear('detail-pending-modules', `${pendingCount} module${pendingCount === 1 ? '' : 's'} pending`);
+
+    const trendEl = document.getElementById('detail-trend');
+    if (trendEl) {
+      if (student.trend) {
+        trendEl.style.display = '';
+        trendEl.innerHTML = `<span class="material-symbols-outlined text-[14px]">arrow_downward</span>${student.trend}`;
+      } else {
+        trendEl.innerHTML = '';
+      }
+    }
+
+    const badge = document.getElementById('drilldown-badge');
+    if (badge) {
+      if (student.severity) {
+        badge.style.display = '';
+        badge.innerText = student.severity;
+        if (student.severity === 'Critical') {
+          badge.className = 'px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[11px] font-bold';
+        } else {
+          badge.className = 'px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] font-bold';
+        }
+      } else {
+        badge.innerText = '';
+      }
+    }
+
+    const trendNoteEl = document.getElementById('detail-trend-note');
+    if (trendNoteEl) {
+      if (student.trendNote) {
+        trendNoteEl.style.display = '';
+        trendNoteEl.innerHTML = `<span class="material-symbols-outlined text-[13px]">trending_down</span>${student.trendNote}`;
+      } else {
+        trendNoteEl.innerHTML = '';
+      }
+    }
+
+    // Render Q1-Q6 scores and colors
+    const qGrid = document.getElementById('detail-q-grid');
+    if (qGrid) {
+      if (student.qScores && student.qScores.length > 0) {
+        qGrid.style.display = '';
+        qGrid.innerHTML = student.qScores.map(q => `
+          <div class="flex flex-col items-center">
+            <span class="font-bold ${q.color} text-[12px]">${q.score}</span>
+            <span class="text-[10px] text-outline font-semibold">${q.label}</span>
+          </div>
+        `).join('');
+      } else {
+        qGrid.innerHTML = '';
+      }
+    }
+
+    // Render SVG chart path and marker points derived from qScores using a shared scale
+    const xCoords = [18, 72, 128, 182, 235, 298];
+    // Shared scale: score 0% -> y=75, score 100% -> y=15
+    const scoreToY = (pct) => 75 - (Math.max(0, Math.min(100, pct)) / 100) * 60;
+
+    const points = (student.qScores || []).map((q, idx) => {
+      const scoreVal = parseFloat(q.score) || 0;
+      const x = xCoords[idx] !== undefined ? xCoords[idx] : 18 + idx * 54;
+      const y = Math.round(scoreToY(scoreVal));
+      const fill = scoreVal >= 70 ? '#006c4a' : (scoreVal >= 50 ? '#ffb77d' : '#ba1a1a');
+      return { x, y, fill };
+    });
+
+    const chartPath = document.getElementById('detail-chart-path');
+    if (chartPath) {
+      if (points.length > 0) {
+        const pathD = points.map((p, i) => (i === 0 ? `M ${p.x} ${p.y}` : `L ${p.x} ${p.y}`)).join(' ');
+        chartPath.setAttribute('d', pathD);
+      } else {
+        chartPath.setAttribute('d', '');
+      }
+    }
+
+    const chartCircles = document.getElementById('detail-chart-circles');
+    if (chartCircles) {
+      if (points.length > 0) {
+        chartCircles.innerHTML = points.map(c => `
+          <circle cx="${c.x}" cy="${c.y}" fill="${c.fill}" r="4" stroke="#ffffff" stroke-width="1.5"></circle>
+        `).join('');
+      } else {
+        chartCircles.innerHTML = '';
+      }
+    }
+
+    if (notify) {
+      showToast(`Loaded live telemetry drill-down for ${student.name}`, 'person_search');
+    }
+  }
+
+  function filterRiskCohort(filterType, btn) {
+    const rows = document.querySelectorAll('#risk-section tbody tr');
+    let visibleCount = 0;
+    rows.forEach(row => {
+      const inactive = parseInt(row.getAttribute('data-inactive') || '0', 10);
+      const priority = row.getAttribute('data-priority') || 'moderate';
+      let matches = false;
+      if (filterType === 'all') {
+        matches = true;
+      } else if (filterType === 'high') {
+        matches = (priority === 'high');
+      } else if (filterType === 'inactive') {
+        matches = (inactive > 3);
+      }
+      if (matches) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    const btns = document.querySelectorAll('.risk-filter-btn');
+    btns.forEach(b => {
+      b.className = 'risk-filter-btn px-3 py-1.5 rounded-lg hover:bg-surface-container-lowest font-label-sm text-label-sm text-on-surface-variant transition-colors';
+    });
+    if (btn) {
+      btn.className = 'risk-filter-btn px-3 py-1.5 rounded-lg bg-surface-container-lowest font-label-sm text-label-sm font-semibold text-primary shadow-sm';
+    }
+
+    const footerCount = document.getElementById('risk-displayed-count');
+    if (footerCount) {
+      footerCount.textContent = `Displaying ${visibleCount} Priority Flagged Learners`;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Marcus's score chart using the shared chart renderer so reselecting leaves plotted points unchanged
+    selectStudent('Marcus Vance', false);
+  });
+</script></main></div>
+
+
+
+
+
+<!-- Trek.io Unified API & ML Integration Hook -->
+<script src="../assets/js/api.js"></script>
+<script>
+  (function() {
+    // 1. Role switcher dropdown navigation
+    
+    const teacherRoleBtn = document.getElementById('teacherRoleDropdownBtn');
+    const teacherRoleMenu = document.getElementById('teacherRoleDropdownMenu');
+    if (teacherRoleBtn && teacherRoleMenu) {
+      teacherRoleBtn.setAttribute('aria-expanded', !teacherRoleMenu.classList.contains('hidden'));
+      teacherRoleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        teacherRoleMenu.classList.toggle('hidden');
+        teacherRoleBtn.setAttribute('aria-expanded', !teacherRoleMenu.classList.contains('hidden'));
+      });
+      document.addEventListener('click', () => {
+        teacherRoleMenu.classList.add('hidden');
+        teacherRoleBtn.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    document.querySelectorAll('.role-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        const role = option.getAttribute('data-role') || '';
+        if (window.TrekAPI) TrekAPI.setCurrentRole(role);
+        if (role.includes('Teacher') || role.includes('Instructor') || role.includes('Thorne')) {
+          window.location.href = '../teacher_dashboard_simplified_class_mastery_interventions/code.html';
+        } else if (role.includes('Admin')) {
+          window.location.href = '../admin_console_user_management_system_telemetry/code.html';
+        } else if (role.includes('Student')) {
+          window.location.href = '../student_dashboard_consolidated_overview_roadmap/code.html';
+        }
+      });
+    });
+
+    // 2. Portal Hub Back-Link Button
+    if (!document.getElementById('trek-portal-pill')) {
+      const pill = document.createElement('div');
+      pill.id = 'trek-portal-pill';
+      pill.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;align-items:center;gap:8px;';
+      pill.innerHTML = `
+        <a href="../index.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#070235;color:#ffffff;border-radius:9999px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(7,2,53,0.3);border:1px solid #1e1b4b;transition:transform 0.15s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <span class="material-symbols-outlined" style="font-size:15px;color:#82f5c1;">grid_view</span>
+          <span>Portal Hub</span>
+        </a>
+      `;
+      document.body.appendChild(pill);
+    }
+
+    // 3. Auto-load live recommendations & stats
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!window.TrekAPI) return;
+      try {
+        const health = await TrekAPI.checkHealth();
+        if (health && health.status === 'healthy') {
+          console.log('[Trek Portal] Connected to Live API backend.');
+          // If on Student Dashboard, log live recommendations
+          if (window.location.pathname.includes('student_dashboard')) {
+            const recs = await TrekAPI.getRecommendations();
+            if (recs && recs.items && recs.items.length > 0) {
+              console.log('[Trek Portal] Live ML recommendations loaded:', recs);
+            }
+          }
+        }
+      } catch (err) {
+        console.log('[Trek Portal] Using local presentation state.');
+      }
+    });
+  })();
+</script>
+
+</body></html>

@@ -1,0 +1,1164 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="web_dashboard" name="shell-type">
+<title>PathWise — Student Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/tailwind.min.css">
+<script>window.tailwind = window.tailwind || {};</script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-secondary-container": "#00714e",
+            "on-tertiary-fixed": "#2f1500",
+            "on-tertiary-fixed-variant": "#6e3900",
+            "surface-tint": "#5b598c",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "on-background": "#0d1c2e",
+            "error-container": "#ffdad6",
+            "tertiary-fixed-dim": "#ffb77d",
+            "on-tertiary-container": "#cf7100",
+            "secondary-fixed-dim": "#68dba9",
+            "error": "#ba1a1a",
+            "primary-fixed-dim": "#c4c1fb",
+            "secondary-container": "#82f5c1",
+            "on-tertiary": "#ffffff",
+            "tertiary-container": "#381a00",
+            "primary-fixed": "#e3dfff",
+            "surface-container-high": "#dce9ff",
+            "on-secondary-fixed": "#002114",
+            "outline": "#787680",
+            "tertiary-fixed": "#ffdcc3",
+            "inverse-surface": "#233144",
+            "inverse-primary": "#c4c1fb",
+            "surface-dim": "#ccdbf3",
+            "on-secondary-fixed-variant": "#005137",
+            "surface-bright": "#f8f9ff",
+            "tertiary": "#170700",
+            "on-primary-fixed": "#181445",
+            "surface-variant": "#d5e3fc",
+            "secondary": "#006c4a",
+            "on-surface": "#0d1c2e",
+            "secondary-fixed": "#85f8c4",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#8683ba",
+            "primary": "#070235",
+            "surface-container": "#e6eeff",
+            "surface-container-highest": "#d5e3fc",
+            "surface-container-lowest": "#ffffff",
+            "on-error-container": "#93000a",
+            "primary-container": "#1e1b4b",
+            "inverse-on-surface": "#eaf1ff",
+            "on-primary-fixed-variant": "#444173",
+            "outline-variant": "#c8c5d0",
+            "surface": "#f8f9ff",
+            "on-error": "#ffffff",
+            "background": "#f8f9ff",
+            "on-surface-variant": "#47464f"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "3xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "display": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "title-md": ["Inter", "sans-serif"],
+            "data-metric": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .tab-active {
+      background-color: #070235;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(7, 2, 53, 0.15);
+    }
+    .tab-inactive {
+      color: #47464f;
+      background-color: transparent;
+    }
+    .tab-inactive:hover {
+      background-color: #e6eeff;
+      color: #0d1c2e;
+    }
+  </style>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TOP APP BAR -->
+<header class="sticky top-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-b border-surface-container-high transition-all">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16 gap-4">
+<!-- Brand & Cohort Badge -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2">
+<img alt="PathWise Logo" class="w-auto object-contain h-10" src="../assets/images/logo.png">
+<span class="font-headline-sm font-bold text-primary tracking-tight text-xl hidden sm:inline">Trek</span>
+</div>
+</div>
+<!-- Center Search / Context -->
+<div class="hidden md:flex flex-1 max-w-md mx-4">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full h-9 pl-9 pr-4 bg-surface-container-low text-on-surface placeholder-on-surface-variant text-sm rounded-full border-none focus:ring-2 focus:ring-primary-container outline-none" placeholder="Find lessons, topics, quizzes..." type="text">
+</div>
+</div>
+<!-- Right: Role Switcher Dropdown & Profile -->
+<div class="flex items-center gap-3">
+<!-- Interactive Role Switcher Dropdown -->
+<div class="relative">
+<button aria-expanded="false" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container-high text-on-surface transition-colors border border-surface-container-high text-xs font-medium cursor-pointer" id="role-menu-button">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-semibold text-primary" id="current-role-label">Student</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span>
+</button>
+<!-- Dropdown Menu -->
+<div class="hidden absolute right-0 mt-2 w-52 rounded-xl bg-surface-container-lowest shadow-lg border border-surface-container-high py-1 z-50 animate-in fade-in zoom-in-95" id="role-dropdown">
+<div class="px-3 py-1.5 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Switch Workspace</div>
+<button class="role-option w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-surface-container-low text-primary font-semibold" data-role="Student">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-secondary">school</span> Student View</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">check</span>
+</button>
+<button class="role-option w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-surface-container-low text-on-surface" data-role="Teacher / Dr. Thorne">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">co_present</span> Instructor View</span>
+</button>
+<button class="role-option w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-surface-container-low text-on-surface" data-role="Admin">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">admin_panel_settings</span> Admin Console</span>
+</button>
+</div>
+</div>
+<!-- Notification Bell -->
+<button class="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors" title="Notifications">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary"></span>
+</button>
+<!-- User Avatar -->
+<div class="flex items-center gap-2 pl-1">
+<div class="relative">
+<img alt="Asha Sharma" class="w-8 h-8 rounded-full object-cover ring-2 ring-surface-container-high" src="../assets/images/avatar_asha.png">
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-white"></span>
+</div>
+<span class="hidden lg:block text-xs font-semibold text-primary">Asha</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav aria-label="Dashboard Sub-navigation" class="flex items-center gap-1 sm:gap-2 overflow-x-auto py-2.5 no-scrollbar border-t border-surface-container-high/60">
+<a href="../student_dashboard_consolidated_overview_roadmap/code.html#overview" class="nav-tab px-3.5 py-1.5 rounded-full text-xs font-medium tab-inactive transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px]">home</span>
+<span>Overview &amp; Up Next</span>
+</a>
+<a href="../student_dashboard_consolidated_overview_roadmap/code.html#topics" class="nav-tab px-3.5 py-1.5 rounded-full text-xs font-semibold tab-active transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+<span>Topics &amp; Mastery</span>
+</a>
+<a href="../student_dashboard_consolidated_overview_roadmap/code.html#quizzes" class="nav-tab px-3.5 py-1.5 rounded-full text-xs font-medium tab-inactive transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px]">quiz</span>
+<span>My Quizzes &amp; History</span>
+</a>
+<a href="../student_dashboard_consolidated_overview_roadmap/code.html#achievements" class="nav-tab px-3.5 py-1.5 rounded-full text-xs font-medium tab-inactive transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+<span class="material-symbols-outlined text-[16px]">military_tech</span>
+<span>Achievements</span>
+</a>
+</nav>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6"><!-- TOP CONTEXT BANNER & COURSE BREADCRUMBS -->
+<div class="bg-surface-container-lowest rounded-2xl p-5 sm:p-6 border border-surface-container-high shadow-xs">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="space-y-1.5">
+<div class="flex items-center gap-2 text-xs font-semibold text-on-surface-variant flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-primary text-on-primary text-[10px] uppercase font-bold tracking-wider">Course Hub</span>
+<span>CS 301: Data Structures &amp; Algorithms</span>
+<span class="text-outline">/</span>
+<span class="text-primary font-bold">Curriculum Roadmap &amp; Skill Dependency Graph</span>
+</div>
+<h1 class="font-headline-md text-2xl sm:text-3xl font-bold text-primary tracking-tight flex items-center gap-2.5">
+<span>Topics &amp; Mastery Curriculum Hub</span>
+<span class="material-symbols-outlined text-secondary text-2xl">verified_user</span>
+</h1>
+<p class="font-body-md text-sm text-on-surface-variant leading-relaxed max-w-3xl">
+        Visual mastery timeline tracking prerequisite dependencies, interactive conceptual visualizers, memory sandboxes, and targeted diagnostic drills.
+      </p>
+</div>
+<div class="flex items-center gap-3 flex-wrap sm:flex-nowrap">
+<div class="p-3 rounded-xl bg-surface-container-low border border-surface-container-high text-left min-w-[130px]">
+<div class="text-[11px] font-medium text-on-surface-variant">Unlocked Modules</div>
+<div class="font-headline-sm text-lg font-bold text-primary mt-0.5">5 / 7 <span class="text-xs text-secondary font-semibold">(71%)</span></div>
+</div>
+<div class="p-3 rounded-xl bg-error-container/60 border border-error-container text-left min-w-[140px]">
+<div class="text-[11px] font-bold text-on-error-container flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span> Target Weak Area
+        </div>
+<div class="font-headline-sm text-base font-bold text-error mt-0.5">Dynamic Prog.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- IMMERSIVE INTERACTIVE ROADMAP & CONNECTED WORKBENCH SECTION -->
+<section class="bg-surface-container-lowest rounded-2xl p-5 sm:p-6 border border-surface-container-high shadow-xs space-y-6" id="mastery-roadmap-section">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-container-high/60 pb-4">
+<div>
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-xs">
+<span class="material-symbols-outlined text-[20px]">route</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-lg sm:text-xl font-bold text-primary tracking-tight">Curriculum Progression &amp; Prerequisite Timeline</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">Live Interactive Sequence</span>
+</div>
+<p class="text-xs text-on-surface-variant mt-0.5">Click any node along the dependency chain to inspect linked conceptual deep-dives, sandboxes, and practice drills.</p>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-semibold text-on-surface-variant hidden sm:inline">Roadmap Mode:</span>
+<div class="inline-flex items-center p-1 rounded-full bg-surface-container-low border border-surface-container-high text-xs font-medium">
+<button class="px-3 py-1 rounded-full bg-surface-container-lowest text-primary font-bold shadow-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">alt_route</span> Dependency Flow
+        </button>
+<button class="px-3 py-1 rounded-full text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">list</span> Syllabus View
+        </button>
+</div>
+</div>
+</div>
+<!-- 7-STOP SEQUENTIAL TIMELINE -->
+<div class="space-y-2">
+<div class="flex items-center justify-between text-xs font-medium text-on-surface-variant px-1">
+<span class="flex items-center gap-1.5 font-semibold text-primary"><span class="material-symbols-outlined text-[15px] text-secondary">timeline</span> Prerequisite Learning Pipeline (7 Stops)</span>
+<span id="roadmap-selected-label" class="text-[11px] text-secondary font-semibold">Stop 5 currently selected • Needs Attention</span>
+</div>
+<div class="overflow-x-auto pb-4 pt-2 no-scrollbar">
+<div class="min-w-[880px] relative px-4 py-2">
+<!-- Track lines -->
+<div class="absolute left-10 right-10 top-7 h-1 bg-surface-container-high rounded-full -z-0"></div>
+<div class="absolute left-10 top-7 h-1 bg-secondary rounded-full -z-0 transition-all duration-500" id="roadmap-progress-bar" style="width: 66%;"></div>
+<!-- Stop Nodes Grid -->
+<div class="grid grid-cols-7 gap-2 relative z-10" id="roadmap-stops-container">
+<!-- Stop 1 -->
+<button class="roadmap-node group text-left flex flex-col items-center focus:outline-none cursor-pointer" data-stop-id="stop-1">
+<div class="w-11 h-11 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-xs ring-4 ring-white shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<span class="mt-2 text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Stop 1</span>
+<span class="text-xs font-bold text-primary text-center truncate max-w-[100px]">Arrays &amp; Memory</span>
+<span class="mt-0.5 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold">96% Done</span>
+</button>
+<!-- Stop 2 -->
+<button class="roadmap-node group text-left flex flex-col items-center focus:outline-none cursor-pointer" data-stop-id="stop-2">
+<div class="w-11 h-11 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-xs ring-4 ring-white shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<span class="mt-2 text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Stop 2</span>
+<span class="text-xs font-bold text-primary text-center truncate max-w-[100px]">Sorting &amp; Search</span>
+<span class="mt-0.5 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold">91% Done</span>
+</button>
+<!-- Stop 3 -->
+<button class="roadmap-node group text-left flex flex-col items-center focus:outline-none cursor-pointer" data-stop-id="stop-3">
+<div class="w-11 h-11 rounded-full bg-surface-container-lowest border-2 border-primary text-primary flex items-center justify-center font-bold text-xs ring-4 ring-white shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">scatter_plot</span>
+</div>
+<span class="mt-2 text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Stop 3</span>
+<span class="text-xs font-bold text-primary text-center truncate max-w-[100px]">Hash Maps</span>
+<span class="mt-0.5 px-2 py-0.5 rounded-full bg-surface-container-high text-primary text-[10px] font-bold">74% Active</span>
+</button>
+<!-- Stop 4 -->
+<button class="roadmap-node group text-left flex flex-col items-center focus:outline-none cursor-pointer" data-stop-id="stop-4">
+<div class="w-11 h-11 rounded-full bg-surface-container-lowest border-2 border-amber-600 text-amber-600 flex items-center justify-center font-bold text-xs ring-4 ring-white shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+</div>
+<span class="mt-2 text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Stop 4</span>
+<span class="text-xs font-bold text-primary text-center truncate max-w-[100px]">Balanced Trees</span>
+<span class="mt-0.5 px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-bold">58% Active</span>
+</button>
+<!-- Stop 5 (Active in Focus) -->
+<button class="roadmap-node active-stop group text-left flex flex-col items-center focus:outline-none cursor-pointer" data-stop-id="stop-5">
+<div class="w-11 h-11 rounded-full bg-error text-on-error flex items-center justify-center font-bold text-xs ring-4 ring-error-container shadow-md group-hover:scale-110 transition-transform relative">
+<span class="material-symbols-outlined text-[20px]">priority_high</span>
+<span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-error border-2 border-white animate-ping"></span>
+</div>
+<span class="mt-2 text-[10px] uppercase font-bold text-error tracking-wider">Stop 5 • Focus</span>
+<span class="text-xs font-bold text-primary text-center truncate max-w-[100px]">Dynamic Prog.</span>
+<span class="mt-0.5 px-2 py-0.5 rounded-full bg-error-container text-on-error-container text-[10px] font-bold">34% Review!</span>
+</button>
+<!-- Stop 6 -->
+<button class="roadmap-node group text-left flex flex-col items-center focus:outline-none cursor-pointer" data-stop-id="stop-6">
+<div class="w-11 h-11 rounded-full bg-surface-container-lowest border-2 border-secondary text-secondary flex items-center justify-center font-bold text-xs ring-4 ring-white shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">hub</span>
+</div>
+<span class="mt-2 text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Stop 6</span>
+<span class="text-xs font-bold text-primary text-center truncate max-w-[100px]">Graph Theory</span>
+<span class="mt-0.5 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold">62% Growing</span>
+</button>
+<!-- Stop 7 -->
+<button class="roadmap-node group text-left flex flex-col items-center focus:outline-none cursor-pointer opacity-75" data-stop-id="stop-7">
+<div class="w-11 h-11 rounded-full bg-surface-container border border-surface-container-high text-outline flex items-center justify-center font-bold text-xs ring-4 ring-white shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</div>
+<span class="mt-2 text-[10px] uppercase font-bold text-outline tracking-wider">Stop 7</span>
+<span class="text-xs font-semibold text-on-surface-variant text-center truncate max-w-[100px]">Greedy &amp; Heur.</span>
+<span class="mt-0.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant text-[10px] font-medium">Locked</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- CONNECTED STUDY WORKBENCH CONTAINER (TETHERED TO STOP 5) -->
+<div class="bg-surface-container-low/70 rounded-2xl p-4 sm:p-6 border border-surface-container-high space-y-5" id="roadmap-details-workbench">
+<!-- Selected Stop Header & Diagnostics Insight -->
+<div class="bg-surface-container-lowest p-4 sm:p-5 rounded-xl border border-surface-container-high shadow-xs space-y-3">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<div class="space-y-1.5 flex-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2.5 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-bold uppercase tracking-wider" id="active-stop-badge">Stop 5 • In Focus</span>
+<h3 class="font-headline-sm text-lg sm:text-xl font-bold text-primary tracking-tight" id="active-stop-title">Dynamic Programming: Memoization &amp; Tabulation</h3>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container text-xs font-bold" id="active-stop-status-pill">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Needs Review (34% Mastery)
+            </span>
+</div>
+<p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed max-w-3xl" id="active-stop-description">
+            Subproblem overlap, recursive call stack memoization vs bottom-up 1D/2D tabular caching, 0/1 Knapsack, Coin Change state transitions.
+          </p>
+</div>
+<div class="flex items-center gap-3 self-end lg:self-center flex-shrink-0">
+<div class="text-right hidden sm:block">
+<div class="text-[11px] text-on-surface-variant font-medium">Prerequisite Status</div>
+<div class="text-xs font-semibold text-secondary flex items-center gap-1 justify-end" id="active-stop-prereq">
+<span class="material-symbols-outlined text-[15px]">verified</span> Stop 1, 2 &amp; 4 Verified
+            </div>
+</div>
+<button class="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary text-xs font-semibold inline-flex items-center gap-2 active:scale-95 transition-all shadow-xs cursor-pointer" id="active-stop-primary-btn">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+<span id="active-stop-primary-label">Launch DP Practice Drill</span>
+</button>
+</div>
+</div>
+<!-- Diagnostic Insight Callout -->
+<div class="p-3 rounded-lg bg-error-container/40 border border-error-container flex items-start gap-2.5 text-xs text-on-error-container">
+<span class="material-symbols-outlined text-[18px] text-error flex-shrink-0 mt-0.5">warning</span>
+<div>
+<span class="font-bold text-error">Diagnostic Driver:</span> 2 consecutive subproblem memoization drops detected during the Oct 22 Tabulation Practice. Revisit state array base cases before unlocking Stop 7 (Greedy &amp; Heuristics).
+        </div>
+</div>
+</div>
+<!-- QUICK STOP SWITCHER TABS -->
+<div class="flex items-center justify-between gap-3 border-b border-surface-container-high/60 pb-3 flex-wrap">
+<span class="text-xs font-bold text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">folder_open</span> Workbench Learning Resources
+      </span>
+<div class="flex items-center gap-1 overflow-x-auto no-scrollbar text-xs font-medium">
+<span class="text-[11px] text-on-surface-variant mr-1">Explore Stop:</span>
+<button class="explore-stop-btn px-2.5 py-1 rounded-full bg-primary text-on-primary font-bold text-[11px]" data-stop-id="stop-5">Stop 5 (DP)</button>
+<button class="explore-stop-btn px-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant text-[11px] transition-colors" data-stop-id="stop-4">Stop 4 (Trees)</button>
+<button class="explore-stop-btn px-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant text-[11px] transition-colors" data-stop-id="stop-6">Stop 6 (Graphs)</button>
+<button class="explore-stop-btn px-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant text-[11px] transition-colors" data-stop-id="stop-3">Stop 3 (Hash Maps)</button>
+</div>
+</div>
+<!-- 4 RICH CATEGORIZED STUDY MATERIALS CARDS -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5" id="study-materials-grid">
+<!-- Material 1: Interactive Concept Visualizer -->
+<div class="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-xs flex flex-col justify-between space-y-3 hover:border-outline-variant transition-all">
+<div class="space-y-1.5">
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span class="inline-flex items-center gap-1 font-semibold text-primary">
+<span class="material-symbols-outlined text-[15px] text-secondary">visibility</span> Visual Breakdown
+            </span>
+<span class="text-[10px] font-medium bg-surface-container px-2 py-0.5 rounded-full">18 min interactive</span>
+</div>
+<h4 class="text-xs sm:text-sm font-bold text-primary leading-snug" id="mat-1-title">0/1 Knapsack &amp; Memoization Tables — Deep Dive</h4>
+<p class="text-[11px] text-on-surface-variant leading-relaxed" id="mat-1-desc">Step-by-step visual breakdown of the recursive call tree collapsing into an optimal 2D subproblem table.</p>
+</div>
+<button class="w-full py-2 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[15px]">play_circle</span> Step-Through Visualizer
+        </button>
+</div>
+<!-- Material 2: Interactive Code Lab -->
+<div class="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-xs flex flex-col justify-between space-y-3 hover:border-outline-variant transition-all">
+<div class="space-y-1.5">
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span class="inline-flex items-center gap-1 font-semibold text-primary">
+<span class="material-symbols-outlined text-[15px] text-primary">terminal</span> Hands-on Code Lab
+            </span>
+<span class="text-[10px] font-medium bg-surface-container px-2 py-0.5 rounded-full">25 min hands-on</span>
+</div>
+<h4 class="text-xs sm:text-sm font-bold text-primary leading-snug" id="mat-2-title">Tabular vs Recursive DP Sandbox</h4>
+<p class="text-[11px] text-on-surface-variant leading-relaxed" id="mat-2-desc">Live compiler sandbox stepping through state recurrence formulas with side-by-side memory matrix telemetry.</p>
+</div>
+<button class="w-full py-2 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-primary text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[15px]">code</span> Open Code Sandbox
+        </button>
+</div>
+<!-- Material 3: Adaptive Quiz Drill -->
+<div class="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-xs flex flex-col justify-between space-y-3 hover:border-outline-variant transition-all">
+<div class="space-y-1.5">
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span class="inline-flex items-center gap-1 font-semibold text-error">
+<span class="material-symbols-outlined text-[15px] text-error">quiz</span> Adaptive Drill
+            </span>
+<span class="text-[10px] font-bold text-error bg-error-container px-2 py-0.5 rounded-full">6 Questions</span>
+</div>
+<h4 class="text-xs sm:text-sm font-bold text-primary leading-snug" id="mat-3-title">DP State Transition Checkpoint</h4>
+<p class="text-[11px] text-on-surface-variant leading-relaxed" id="mat-3-desc">Targeted diagnostic questions directly addressing weakness in identifying recurrence relations &amp; edge conditions.</p>
+</div>
+<button class="w-full py-2 px-3 rounded-lg bg-error-container hover:bg-error hover:text-on-primary text-on-error-container text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[15px]">bolt</span> Launch Adaptive Drill
+        </button>
+</div>
+<!-- Material 4: Cheatsheets & Downloads -->
+<div class="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high shadow-xs flex flex-col justify-between space-y-3 hover:border-outline-variant transition-all">
+<div class="space-y-1.5">
+<div class="flex items-center justify-between text-on-surface-variant text-[11px]">
+<span class="inline-flex items-center gap-1 font-semibold text-primary">
+<span class="material-symbols-outlined text-[15px] text-on-tertiary-container">file_download</span> Cheatsheet
+            </span>
+<span class="text-[10px] font-medium bg-surface-container px-2 py-0.5 rounded-full">Quick PDF</span>
+</div>
+<h4 class="text-xs sm:text-sm font-bold text-primary leading-snug" id="mat-4-title">DP Recurrence Patterns &amp; Templates</h4>
+<p class="text-[11px] text-on-surface-variant leading-relaxed" id="mat-4-desc">Single-page PDF summary detailing bounded knapsack, longest common subsequence, and matrix chain multiplication.</p>
+</div>
+<button class="w-full py-2 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[15px]">download</span> Download PDF (1.2 MB)
+        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- SKILL DEPENDENCY MATRIX & DETAILED TOPIC MODULE STATUS -->
+<section class="bg-surface-container-lowest rounded-2xl p-5 sm:p-6 border border-surface-container-high shadow-xs space-y-5">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-surface-container-high/60 pb-4">
+<div>
+<h2 class="font-headline-sm text-lg font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">schema</span>
+        Skill Dependency &amp; Prerequisite Flow Matrix
+      </h2>
+<p class="text-xs sm:text-sm text-on-surface-variant">Understand how fundamental concepts bridge into advanced algorithmic architectures.</p>
+</div>
+<!-- Status Filter Pills -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 text-xs font-medium">
+<button class="topic-filter-btn px-3 py-1.5 rounded-full bg-primary text-on-primary font-semibold shadow-xs transition-colors" data-filter="all">All Topics (6)</button>
+<button class="topic-filter-btn px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-medium transition-colors" data-filter="needs-review">Needs Review (1)</button>
+<button class="topic-filter-btn px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-medium transition-colors" data-filter="in-progress">In Progress (3)</button>
+<button class="topic-filter-btn px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant font-medium transition-colors" data-filter="mastered">Mastered (2)</button>
+</div>
+</div>
+<!-- TOPIC DEPENDENCY CARDS -->
+<div class="space-y-3" id="topic-items-list">
+<!-- Topic 1: Dynamic Programming (Active Review) -->
+<div class="topic-row p-4 rounded-xl border-2 border-error-container bg-surface-container-lowest hover:border-error transition-all" data-status="needs-review">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="space-y-1.5 flex-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-error text-on-error text-[10px] font-bold uppercase">Stop 5</span>
+<h4 class="font-headline-sm text-sm sm:text-base font-bold text-primary">Dynamic Programming (Memoization &amp; Tabulation)</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Needs Review · 34%
+            </span>
+</div>
+<p class="text-xs text-on-surface-variant">Subproblem overlap, recursive call stack memoization, bottom-up 1D/2D matrices, and knapsack transitions.</p>
+<div class="flex items-center gap-3 text-[11px] text-on-surface-variant pt-1">
+<span><strong>Prerequisites:</strong> Stop 2 (Sorting) &amp; Stop 4 (Trees)</span>
+<span>•</span>
+<span class="text-error font-medium"><strong>Unlocks:</strong> Stop 7 (Greedy Algorithms)</span>
+</div>
+<div class="w-full max-w-md bg-surface-container-high rounded-full h-2 mt-2 overflow-hidden">
+<div class="bg-error h-2 rounded-full" style="width: 34%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
+<button class="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary text-xs font-semibold transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">menu_book</span> Study Notes
+          </button>
+<button class="px-3.5 py-2 rounded-xl bg-error-container hover:bg-error hover:text-on-primary text-on-error-container text-xs font-semibold transition-colors flex items-center gap-1 shadow-xs">
+<span>Practice Topic</span>
+<span class="material-symbols-outlined text-[15px]">play_circle</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Topic 2: Graph Theory -->
+<div class="topic-row p-4 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-outline-variant transition-all" data-status="in-progress">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="space-y-1.5 flex-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase">Stop 6</span>
+<h4 class="font-headline-sm text-sm sm:text-base font-bold text-primary">Graph Theory &amp; Traversal Algorithms</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Growing · 62%
+            </span>
+</div>
+<p class="text-xs text-on-surface-variant">Adjacency lists, BFS shortest paths, DFS cycle detection, DAG topological sorts, and disjoint sets.</p>
+<div class="flex items-center gap-3 text-[11px] text-on-surface-variant pt-1">
+<span><strong>Prerequisites:</strong> Stop 4 (Tree Hierarchies)</span>
+<span>•</span>
+<span><strong>Unlocks:</strong> Stop 7 (MST &amp; Dijkstra)</span>
+</div>
+<div class="w-full max-w-md bg-surface-container-high rounded-full h-2 mt-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 62%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
+<button class="px-3.5 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-primary text-xs font-semibold transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">code</span> Graph Sandbox
+          </button>
+<button class="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary text-xs font-semibold transition-colors flex items-center gap-1">
+<span>Continue</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Topic 3: Balanced BSTs -->
+<div class="topic-row p-4 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-outline-variant transition-all" data-status="in-progress">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="space-y-1.5 flex-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase">Stop 4</span>
+<h4 class="font-headline-sm text-sm sm:text-base font-bold text-primary">Trees &amp; Balanced BSTs (AVL &amp; Red-Black)</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> In Progress · 58%
+            </span>
+</div>
+<p class="text-xs text-on-surface-variant">Binary Search Trees, balance factor calculation, Left/Right tree rotations, and red-black invariant properties.</p>
+<div class="flex items-center gap-3 text-[11px] text-on-surface-variant pt-1">
+<span><strong>Prerequisites:</strong> Stop 2 (Sorting &amp; Binary Search)</span>
+<span>•</span>
+<span><strong>Unlocks:</strong> Stop 5 (Tree DP) &amp; Stop 6 (Graph Trees)</span>
+</div>
+<div class="w-full max-w-md bg-surface-container-high rounded-full h-2 mt-2 overflow-hidden">
+<div class="bg-amber-500 h-2 rounded-full" style="width: 58%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
+<button class="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary text-xs font-semibold transition-colors flex items-center gap-1">
+<span>Continue</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Topic 4: Hash Maps -->
+<div class="topic-row p-4 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-outline-variant transition-all" data-status="in-progress">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="space-y-1.5 flex-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-bold uppercase">Stop 3</span>
+<h4 class="font-headline-sm text-sm sm:text-base font-bold text-primary">Hash Maps &amp; Collision Resolution</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-primary text-[11px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Active · 74%
+            </span>
+</div>
+<p class="text-xs text-on-surface-variant">Hash functions, load factor optimization, chaining vs open addressing (linear, quadratic probing), amortized O(1).</p>
+<div class="flex items-center gap-3 text-[11px] text-on-surface-variant pt-1">
+<span><strong>Prerequisites:</strong> Stop 1 (Continuous Memory)</span>
+<span>•</span>
+<span><strong>Unlocks:</strong> Graph Visited Hash Sets</span>
+</div>
+<div class="w-full max-w-md bg-surface-container-high rounded-full h-2 mt-2 overflow-hidden">
+<div class="bg-primary h-2 rounded-full" style="width: 74%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
+<button class="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary text-xs font-semibold transition-colors flex items-center gap-1">
+<span>Resume Drill</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Topic 5: Sorting & Searching (Mastered) -->
+<div class="topic-row p-4 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-outline-variant transition-all" data-status="mastered">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="space-y-1.5 flex-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase">Stop 2</span>
+<h4 class="font-headline-sm text-sm sm:text-base font-bold text-primary">Sorting Algorithms &amp; Binary Search</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">
+<span class="material-symbols-outlined text-[14px]">verified</span> Mastered · 91%
+            </span>
+</div>
+<p class="text-xs text-on-surface-variant">QuickSort median-of-three, MergeSort stability, lower bound proofs, and binary search variations.</p>
+<div class="w-full max-w-md bg-surface-container-high rounded-full h-2 mt-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 91%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
+<span class="text-xs font-semibold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">check_circle</span> Complete
+          </span>
+<button class="px-3 py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-xs font-medium transition-colors">
+            Review
+          </button>
+</div>
+</div>
+</div>
+<!-- Topic 6: Arrays & Memory Pointers (Mastered) -->
+<div class="topic-row p-4 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-outline-variant transition-all" data-status="mastered">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="space-y-1.5 flex-1">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase">Stop 1</span>
+<h4 class="font-headline-sm text-sm sm:text-base font-bold text-primary">Arrays, Contiguous Buffers &amp; Pointer Arithmetic</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[11px] font-bold">
+<span class="material-symbols-outlined text-[14px]">verified</span> Mastered · 96%
+            </span>
+</div>
+<p class="text-xs text-on-surface-variant">Contiguous memory layout, two-pointer convergence, sliding window boundaries, dynamic resizing amortized O(1).</p>
+<div class="w-full max-w-md bg-surface-container-high rounded-full h-2 mt-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 96%;"></div>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
+<span class="text-xs font-semibold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">check_circle</span> Complete
+          </span>
+<button class="px-3 py-1.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant text-xs font-medium transition-colors">
+            Review
+          </button>
+</div>
+</div>
+</div>
+</div>
+</section></main>
+<!-- QUICK PRACTICE INTERACTIVE MODAL / DRAWER -->
+<div class="fixed inset-0 z-50 bg-primary/40 backdrop-blur-xs hidden flex items-center justify-center p-4" id="quick-practice-modal">
+<div class="bg-surface-container-lowest w-full max-w-lg rounded-2xl p-6 shadow-2xl border border-surface-container-high space-y-4 animate-in fade-in zoom-in-95">
+<div class="flex items-center justify-between border-b border-surface-container-high pb-3">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-secondary-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-base font-bold text-primary">Quick 5-Minute Practice</h3>
+<p class="text-xs text-on-surface-variant">Bite-sized adaptive check to keep retention fresh.</p>
+</div>
+</div>
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors" id="close-practice-modal-btn">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="space-y-3">
+<label class="block text-xs font-semibold text-primary">Select Length:</label>
+<div class="grid grid-cols-2 gap-3" id="practice-length-options">
+<button class="practice-opt-btn p-3 rounded-xl border-2 border-primary bg-primary/5 text-left flex flex-col gap-0.5 cursor-pointer">
+<span class="text-xs font-bold text-primary">5 Questions</span>
+<span class="text-[11px] text-on-surface-variant">~3-5 minutes</span>
+</button>
+<button class="practice-opt-btn p-3 rounded-xl border border-surface-container-high text-left flex flex-col gap-0.5 cursor-pointer hover:bg-surface-container-low">
+<span class="text-xs font-bold text-primary">10 Questions</span>
+<span class="text-[11px] text-on-surface-variant">~7-10 minutes</span>
+</button>
+</div>
+<label class="block text-xs font-semibold text-primary pt-2">Focus Topic:</label>
+<select class="w-full h-10 px-3 bg-surface-container-low rounded-xl border border-surface-container-high text-xs text-on-surface outline-none focus:ring-2 focus:ring-primary font-medium">
+<option selected="">Smart Mix (Dynamic Programming + Graphs)</option>
+<option>Dynamic Programming only (Needs Review)</option>
+<option>Graph Traversal only</option>
+<option>Random Surprise</option>
+</select>
+</div>
+<div class="pt-3 border-t border-surface-container-high flex items-center justify-end gap-2">
+<button class="px-4 py-2 rounded-xl text-xs font-semibold text-on-surface-variant hover:bg-surface-container-low transition-colors" id="cancel-practice-modal-btn">
+          Cancel
+        </button>
+<button class="px-5 py-2 rounded-xl bg-primary hover:bg-primary-container text-on-primary text-xs font-semibold flex items-center gap-1.5 shadow-sm active:scale-95 transition-all" id="start-practice-now-btn">
+<span class="">Start Drill</span>
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+<!-- FLOATING QUICK TOAST FOR FEEDBACK -->
+<div class="fixed bottom-5 right-5 z-50 hidden bg-primary text-on-primary px-4 py-2.5 rounded-xl shadow-lg text-xs font-semibold flex items-center gap-2 animate-in slide-in-from-bottom-3" id="toast">
+<span class="material-symbols-outlined text-[18px] text-secondary">check_circle</span>
+<span class="" id="toast-message">Action successful</span>
+</div>
+<!-- VANILLA JAVASCRIPT FOR SMOOTH INTERACTION -->
+<script>
+    // Toast Helper
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2500);
+    }
+
+    // Tab Navigation
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const panels = document.querySelectorAll('.dashboard-panel');
+
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetId = tab.getAttribute('data-target');
+        
+        // Update active tab styles
+        navTabs.forEach(t => {
+          t.classList.remove('tab-active');
+          t.classList.add('tab-inactive');
+        });
+        tab.classList.remove('tab-inactive');
+        tab.classList.add('tab-active');
+
+        // Show matching panel
+        panels.forEach(p => {
+          if (p.id === targetId) {
+            p.classList.remove('hidden');
+          } else {
+            p.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Dismiss Lesson Cards with smooth transition
+    document.querySelectorAll('.dismiss-lesson-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const card = this.closest('.lesson-card');
+        card.style.transition = 'all 0.25s ease-out';
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          card.remove();
+          showToast('Lesson removed from queue');
+          const remainingCards = document.querySelectorAll('.lesson-card');
+          if (remainingCards.length === 0) {
+            document.getElementById('recommended-lessons-grid').innerHTML = `
+              <div class="col-span-1 md:col-span-3 p-6 text-center bg-surface-container-lowest rounded-2xl border border-surface-container-high">
+                <span class="material-symbols-outlined text-3xl text-secondary mb-1">done_all</span>
+                <p class="text-sm font-bold text-primary">All caught up for now!</p>
+                <p class="text-xs text-on-surface-variant">Great job! Check back tomorrow or launch a Quick 5-Min Practice.</p>
+              </div>
+            `;
+          }
+        }, 250);
+      });
+    });
+
+    // Sub-tab toggling (Up Next vs Saved Lessons)
+    const showUpNextBtn = document.getElementById('show-upnext-btn');
+    const showSavedBtn = document.getElementById('show-saved-btn');
+    const upNextGrid = document.getElementById('recommended-lessons-grid');
+    const savedGrid = document.getElementById('saved-lessons-grid');
+
+    if (showUpNextBtn && showSavedBtn) {
+      showUpNextBtn.addEventListener('click', () => {
+        showUpNextBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'font-semibold', 'shadow-xs');
+        showUpNextBtn.classList.remove('text-on-surface-variant');
+        showSavedBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'font-semibold', 'shadow-xs');
+        showSavedBtn.classList.add('text-on-surface-variant');
+
+        upNextGrid.classList.remove('hidden');
+        savedGrid.classList.add('hidden');
+      });
+
+      showSavedBtn.addEventListener('click', () => {
+        showSavedBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'font-semibold', 'shadow-xs');
+        showSavedBtn.classList.remove('text-on-surface-variant');
+        showUpNextBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'font-semibold', 'shadow-xs');
+        showUpNextBtn.classList.add('text-on-surface-variant');
+
+        savedGrid.classList.remove('hidden');
+        upNextGrid.classList.add('hidden');
+      });
+    }
+
+    // Topic Filter Buttons
+    const topicFilterBtns = document.querySelectorAll('.topic-filter-btn');
+    const topicRows = document.querySelectorAll('.topic-row');
+
+    topicFilterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        
+        // Update filter button appearance
+        topicFilterBtns.forEach(b => {
+          b.classList.remove('bg-primary', 'text-on-primary', 'font-semibold', 'shadow-xs');
+          b.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+        });
+        btn.classList.add('bg-primary', 'text-on-primary', 'font-semibold', 'shadow-xs');
+        btn.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+
+        // Filter rows
+        topicRows.forEach(row => {
+          const status = row.getAttribute('data-status');
+          if (filter === 'all' || status === filter) {
+            row.classList.remove('hidden');
+          } else {
+            row.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Quick Practice Modal Interactions
+    const practiceModal = document.getElementById('quick-practice-modal');
+    const openPracticeBtn = document.getElementById('open-quick-practice-btn');
+    const closePracticeBtn = document.getElementById('close-practice-modal-btn');
+    const cancelPracticeBtn = document.getElementById('cancel-practice-modal-btn');
+    const startPracticeNowBtn = document.getElementById('start-practice-now-btn');
+
+    if (openPracticeBtn) {
+      openPracticeBtn.addEventListener('click', () => {
+        practiceModal.classList.remove('hidden');
+      });
+    }
+
+    const closeModal = () => practiceModal.classList.add('hidden');
+    if (closePracticeBtn) closePracticeBtn.addEventListener('click', closeModal);
+    if (cancelPracticeBtn) cancelPracticeBtn.addEventListener('click', closeModal);
+
+    practiceModal.addEventListener('click', (e) => {
+      if (e.target === practiceModal) closeModal();
+    });
+
+    if (startPracticeNowBtn) {
+      startPracticeNowBtn.addEventListener('click', () => {
+        closeModal();
+        showToast('Starting 5-minute practice session...');
+      });
+    }
+
+    // Practice Length Option selection
+    const lengthBtns = document.querySelectorAll('.practice-opt-btn');
+    lengthBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        lengthBtns.forEach(b => {
+          b.classList.remove('border-primary', 'bg-primary/5', 'border-2');
+          b.classList.add('border-surface-container-high', 'border');
+        });
+        btn.classList.add('border-primary', 'bg-primary/5', 'border-2');
+        btn.classList.remove('border-surface-container-high');
+      });
+    });
+
+    // Start Lesson Buttons feedback
+    document.querySelectorAll('.start-lesson-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        showToast('Loading interactive lesson workspace...');
+      });
+    });
+
+    // Role switcher dropdown
+    const roleButton = document.getElementById('role-menu-button');
+    const roleDropdown = document.getElementById('role-dropdown');
+    const roleLabel = document.getElementById('current-role-label');
+
+    if (roleButton && roleDropdown) {
+      roleButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        roleDropdown.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', () => {
+        roleDropdown.classList.add('hidden');
+      });
+
+      document.querySelectorAll('.role-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const role = option.getAttribute('data-role');
+          roleLabel.textContent = role.split('/')[0].trim();
+          roleDropdown.classList.add('hidden');
+          showToast(`Switched view to: ${role}`);
+        });
+      });
+    }
+  </script>
+<script id="roadmap-interactive-script">
+  (function() {
+    const roadmapNodes = document.querySelectorAll('.roadmap-node');
+    const stopBadge = document.getElementById('active-stop-badge');
+    const stopTitle = document.getElementById('active-stop-title');
+    const stopPill = document.getElementById('active-stop-status-pill');
+    const stopDesc = document.getElementById('active-stop-description');
+    const stopPrereq = document.getElementById('active-stop-prereq');
+    const stopPrimaryBtnLabel = document.getElementById('active-stop-primary-label');
+    const progressBar = document.getElementById('roadmap-progress-bar');
+
+    const mat1Title = document.getElementById('mat-1-title');
+    const mat1Desc = document.getElementById('mat-1-desc');
+    const mat2Title = document.getElementById('mat-2-title');
+    const mat2Desc = document.getElementById('mat-2-desc');
+    const mat3Title = document.getElementById('mat-3-title');
+    const mat3Desc = document.getElementById('mat-3-desc');
+    const mat4Title = document.getElementById('mat-4-title');
+    const mat4Desc = document.getElementById('mat-4-desc');
+
+    const stopDetails = {
+      'stop-1': {
+        badge: 'Stop 1 • Complete',
+        title: 'Arrays, Contiguous Memory & Pointer Arithmetic',
+        statusHtml: '<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Mastered (96% Mastery)',
+        statusClass: 'bg-secondary-container text-on-secondary-container',
+        desc: 'Deep mastery of contiguous memory layouts, amortized array resizing, two-pointer convergence, and sliding window boundaries.',
+        prereq: 'None (Prerequisite Benchmark)',
+        btnLabel: 'Review Concept Diagnostic',
+        m1: ['Dynamic Buffer Allocation Invariants', 'Memory access patterns and cache locality optimizers in modern engines.'],
+        m2: ['Sliding Window Sliding Pointers Sandbox', 'Hands-on practice solving variable and fixed window max sum constraints.'],
+        m3: ['Arrays & Amortization Checkpoint', '5 speed-run questions verifying bounds checking and index math.'],
+        m4: ['Pointer Patterns Cheatsheet PDF', 'Visual reference for two-pointer forward and opposite-end scans.'],
+        progressWidth: '14%'
+      },
+      'stop-2': {
+        badge: 'Stop 2 • Complete',
+        title: 'Sorting Algorithms & Invariant Bounds',
+        statusHtml: '<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Mastered (91% Mastery)',
+        statusClass: 'bg-secondary-container text-on-secondary-container',
+        desc: 'QuickSort median-of-three pivoting, MergeSort stability guarantees, lower bound proofs (Omega(n log n)), and binary search variations.',
+        prereq: 'Stop 1: Arrays & Pointers',
+        btnLabel: 'Review QuickSort Sandbox',
+        m1: ['Partitioning & Invariant Proofs Notes', 'Detailed mathematical breakdown of Hoare vs Lomuto partitioning mechanics.'],
+        m2: ['Comparison Sorter Visual Step-Through', 'Interactive stepped execution comparing recursive call frames.'],
+        m3: ['Binary Search Boundary Drill', '6 trick questions testing half-open vs closed interval loops.'],
+        m4: ['Sorting Complexities Matrix PDF', 'Comparison table covering best, average, worst space/time behaviors.'],
+        progressWidth: '28%'
+      },
+      'stop-3': {
+        badge: 'Stop 3 • In Progress',
+        title: 'Hash Maps, Hash Tables & Collision Resolution',
+        statusHtml: '<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> In Progress (74% Mastery)',
+        statusClass: 'bg-surface-container-high text-primary',
+        desc: 'Bucket arrays, universal hashing, separate chaining vs open addressing (linear & quadratic probing), and rehashing thresholds.',
+        prereq: 'Stop 1 & Stop 2',
+        btnLabel: 'Continue Hash Collision Drill',
+        m1: ['Load Factors & Rehashing Architecture', 'Why 0.75 load factor balances memory consumption against lookup degradation.'],
+        m2: ['Interactive Hash Table Collision Simulator', 'Visual simulator inserting keys and watching bucket chain length distribution.'],
+        m3: ['Hash Function Uniformity Quiz', '6 questions testing good hash properties and collision prevention.'],
+        m4: ['Hash Table Performance Guide', 'Cheat sheet comparing Robin Hood hashing vs Cuckoo hashing.'],
+        progressWidth: '42%'
+      },
+      'stop-4': {
+        badge: 'Stop 4 • Active',
+        title: 'Balanced Binary Search Trees (AVL & Red-Black)',
+        statusHtml: '<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> In Progress (58% Active)',
+        statusClass: 'bg-amber-100 text-amber-900',
+        desc: 'Binary Search Trees, AVL balance factor calculations, Left/Right tree rotations, and Red-Black consecutive red node invariant checks.',
+        prereq: 'Stop 2: Sorting & Search',
+        btnLabel: 'Launch Tree Rotations Lab',
+        m1: ['AVL vs Red-Black Tree Structural Invariants', 'Rigorous comparison between rigid height-balance and relaxed coloring bounds.'],
+        m2: ['Tree Rotation Playground', 'Hands-on canvas where you can trigger LL, RR, LR, and RL rotations.'],
+        m3: ['Tree Height & Balance Diagnostic', 'Adaptive drill verifying balance factors after random node insertions.'],
+        m4: ['BST Balance Rules Quick Sheet', 'Visual lookup for single and double tree rotation procedures.'],
+        progressWidth: '54%'
+      },
+      'stop-5': {
+        badge: 'Stop 5 • In Focus',
+        title: 'Dynamic Programming: Memoization & Tabulation',
+        statusHtml: '<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Needs Review (34% Mastery)',
+        statusClass: 'bg-error-container text-on-error-container',
+        desc: 'Subproblem overlap, recursive call stack memoization vs bottom-up 1D/2D tabular caching, 0/1 Knapsack, Coin Change state transitions.',
+        prereq: 'Stop 2 & Stop 4 (Recursion & DAGs)',
+        btnLabel: 'Launch DP Practice Drill',
+        m1: ['0/1 Knapsack & Memoization Tables — Deep Dive', 'Step-by-step visual breakdown of the recursive tree collapsing into an optimal matrix.'],
+        m2: ['Tabular vs Recursive DP Sandbox', 'Live browser compiler stepping through state recurrence formulas with memory meters.'],
+        m3: ['DP State Transition Checkpoint', 'Targeted diagnostic questions directly addressing subproblem formulation errors.'],
+        m4: ['DP Recurrence Patterns & Templates', 'Single-page PDF summary detailing bounded knapsack and grid paths.'],
+        progressWidth: '66%'
+      },
+      'stop-6': {
+        badge: 'Stop 6 • Up Next',
+        title: 'Graph Theory & Traversal Algorithms',
+        statusHtml: '<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Growing (62% Mastery)',
+        statusClass: 'bg-secondary-container text-on-secondary-container',
+        desc: 'Adjacency list representations, Breadth-First Search queue traversal, Depth-First Search cycle detection, and topological sorting.',
+        prereq: 'Stop 4: Trees & Hierarchies',
+        btnLabel: 'Launch Graph Lab Sandbox',
+        m1: ['BFS vs DFS Traversal Invariants', 'Detailed study of queue-based level order visits vs stack-based depth searches.'],
+        m2: ['Adjacency List Graph Sandbox', 'Interactive visualizer coloring visited nodes and edge classifications.'],
+        m3: ['Cycle Detection Quick Quiz', '5 adaptive questions on back-edges and directed acyclic graphs.'],
+        m4: ['Graph Traversal Cheat Sheet', 'Syntax and complexity reference for Dijkstra, BFS, and DFS.'],
+        progressWidth: '82%'
+      },
+      'stop-7': {
+        badge: 'Stop 7 • Upcoming (Locked)',
+        title: 'Greedy Algorithms & Optimal Substructure',
+        statusHtml: '<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Locked • Prereq Required',
+        statusClass: 'bg-surface-container-high text-on-surface-variant',
+        desc: 'Interval scheduling, Huffman coding trees, minimum spanning trees (Prim & Kruskal), greedy choice property vs DP optimality.',
+        prereq: 'Stop 5: DP & Stop 6: Graph Theory',
+        btnLabel: 'Unlock Module via Prereq Drill',
+        m1: ['The Greedy Choice Property vs DP', 'Formal proofs for when local optimal choices yield globally optimal results.'],
+        m2: ['Huffman Coding Priority Queue Lab', 'Build prefix code trees and inspect entropy data compression rates.'],
+        m3: ['Interval Scheduling Diagnostic', '6 practice scenarios checking sort-by-finish-time strategies.'],
+        m4: ['Greedy vs DP Heuristics Blueprint', 'Decision tree to determine if a greedy choice strategy is safe to apply.'],
+        progressWidth: '96%'
+      }
+    };
+
+    function selectStop(stopId) {
+      const data = stopDetails[stopId];
+      if (!data) return;
+
+      // Update visual active state on roadmap nodes
+      roadmapNodes.forEach(n => {
+        const isTarget = n.getAttribute('data-stop-id') === stopId;
+        n.classList.toggle('active-stop', isTarget);
+        const circle = n.querySelector('div');
+        if (circle) {
+          if (isTarget) {
+            circle.classList.add('ring-4', 'ring-primary');
+          } else {
+            circle.classList.remove('ring-4', 'ring-primary');
+          }
+        }
+      });
+
+      // Update Explore Stop buttons active state
+      const exploreBtns = document.querySelectorAll('.explore-stop-btn');
+      exploreBtns.forEach(btn => {
+        const isTarget = btn.getAttribute('data-stop-id') === stopId;
+        if (isTarget) {
+          btn.className = 'explore-stop-btn px-2.5 py-1 rounded-full bg-primary text-on-primary font-bold text-[11px] shadow-xs';
+        } else {
+          btn.className = 'explore-stop-btn px-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant text-[11px] transition-colors';
+        }
+      });
+
+      // Synchronize roadmap-selected-label indicator
+      const selectedLabel = document.getElementById('roadmap-selected-label');
+      if (selectedLabel) {
+        selectedLabel.textContent = `${data.badge.split('•')[0].trim()} currently selected • ${data.title}`;
+      }
+
+      // Update progress bar width
+      if (progressBar && data.progressWidth) {
+        progressBar.style.width = data.progressWidth;
+      }
+
+      // Update Workbench text and pills
+      if (stopBadge) stopBadge.textContent = data.badge;
+      if (stopTitle) stopTitle.textContent = data.title;
+      if (stopPill) {
+        stopPill.innerHTML = data.statusHtml;
+        stopPill.className = `inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${data.statusClass}`;
+      }
+      if (stopDesc) stopDesc.textContent = data.desc;
+      if (stopPrereq) stopPrereq.textContent = data.prereq;
+      if (stopPrimaryBtnLabel) stopPrimaryBtnLabel.textContent = data.btnLabel;
+
+      // Update Study Material titles
+      if (mat1Title) mat1Title.textContent = data.m1[0];
+      if (mat1Desc) mat1Desc.textContent = data.m1[1];
+      if (mat2Title) mat2Title.textContent = data.m2[0];
+      if (mat2Desc) mat2Desc.textContent = data.m2[1];
+      if (mat3Title) mat3Title.textContent = data.m3[0];
+      if (mat3Desc) mat3Desc.textContent = data.m3[1];
+      if (mat4Title) mat4Title.textContent = data.m4[0];
+      if (mat4Desc) mat4Desc.textContent = data.m4[1];
+
+      if (typeof showToast === 'function') {
+        showToast(`Switched workbench to: ${data.title}`);
+      }
+    }
+
+    roadmapNodes.forEach(node => {
+      node.addEventListener('click', () => {
+        selectStop(node.getAttribute('data-stop-id'));
+      });
+    });
+
+    const exploreBtns = document.querySelectorAll('.explore-stop-btn');
+    exploreBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectStop(btn.getAttribute('data-stop-id'));
+      });
+    });
+
+    // Hook primary button inside workbench
+    const workbenchPrimaryBtn = document.getElementById('active-stop-primary-btn');
+    if (workbenchPrimaryBtn) {
+      workbenchPrimaryBtn.addEventListener('click', () => {
+        if (typeof showToast === 'function') {
+          showToast('Launching interactive curriculum drill...');
+        }
+      });
+    }
+  })();
+</script>
+<!-- Trek.io Unified API & ML Integration Hook -->
+<script src="../assets/js/api.js"></script>
+<script>
+  (function() {
+    // 1. Role switcher dropdown navigation
+    document.querySelectorAll('.role-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        const role = option.getAttribute('data-role') || '';
+        if (window.TrekAPI) TrekAPI.setCurrentRole(role);
+        if (role.includes('Teacher') || role.includes('Instructor') || role.includes('Thorne')) {
+          window.location.href = '../teacher_dashboard_simplified_class_mastery_interventions/code.html';
+        } else if (role.includes('Admin')) {
+          window.location.href = '../admin_console_user_management_system_telemetry/code.html';
+        } else if (role.includes('Student')) {
+          window.location.href = '../student_dashboard_consolidated_overview_roadmap/code.html';
+        }
+      });
+    });
+
+    // 2. Portal Hub Back-Link Button
+    if (!document.getElementById('trek-portal-pill')) {
+      const pill = document.createElement('div');
+      pill.id = 'trek-portal-pill';
+      pill.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;align-items:center;gap:8px;';
+      pill.innerHTML = `
+        <a href="../index.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#070235;color:#ffffff;border-radius:9999px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(7,2,53,0.3);border:1px solid #1e1b4b;transition:transform 0.15s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <span class="material-symbols-outlined" style="font-size:15px;color:#82f5c1;">grid_view</span>
+          <span>Portal Hub</span>
+        </a>
+      `;
+      document.body.appendChild(pill);
+    }
+
+    // 3. Auto-load live recommendations & stats
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!window.TrekAPI) return;
+      try {
+        const health = await TrekAPI.checkHealth();
+        if (health && health.status === 'healthy') {
+          console.log('[Trek Portal] Connected to Live API backend.');
+          // If on Student Dashboard, log live recommendations
+          if (window.location.pathname.includes('student_dashboard')) {
+            const recs = await TrekAPI.getRecommendations();
+            if (recs && recs.items && recs.items.length > 0) {
+              console.log('[Trek Portal] Live ML recommendations loaded:', recs);
+            }
+          }
+        }
+      } catch (err) {
+        console.log('[Trek Portal] Using local presentation state.');
+      }
+    });
+  })();
+</script>
+
+</body></html>

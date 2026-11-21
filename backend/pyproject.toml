@@ -8,7 +8,6 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 asyncio_mode = "strict"
 filterwarnings = [
-    "ignore::starlette.testclient.StarletteDeprecationWarning",
     "ignore::DeprecationWarning",
 ]
 

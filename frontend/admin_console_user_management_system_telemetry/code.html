@@ -1,0 +1,964 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link rel="stylesheet" href="../assets/css/tailwind.min.css">
+<script>window.tailwind = window.tailwind || {};</script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-lowest":"#ffffff","outline-variant":"#c8c5d0","inverse-on-surface":"#eaf1ff","tertiary-fixed":"#ffdcc3","secondary-fixed":"#85f8c4","on-secondary":"#ffffff","surface-container-highest":"#d5e3fc","error":"#ba1a1a","on-error-container":"#93000a","surface-variant":"#d5e3fc","on-tertiary":"#ffffff","tertiary-fixed-dim":"#ffb77d","on-primary":"#ffffff","surface-container-high":"#dce9ff","error-container":"#ffdad6","secondary":"#006c4a","on-tertiary-fixed":"#2f1500","on-primary-fixed":"#181445","on-background":"#0d1c2e","on-tertiary-fixed-variant":"#6e3900","on-surface":"#0d1c2e","surface-dim":"#ccdbf3","primary":"#070235","secondary-container":"#82f5c1","outline":"#787680","inverse-primary":"#c4c1fb","on-primary-fixed-variant":"#444173","surface-container":"#e6eeff","primary-container":"#1e1b4b","surface":"#f8f9ff","on-tertiary-container":"#cf7100","on-primary-container":"#8683ba","on-secondary-fixed-variant":"#005137","on-error":"#ffffff","on-surface-variant":"#47464f","tertiary":"#170700","background":"#f8f9ff","primary-fixed":"#e3dfff","primary-fixed-dim":"#c4c1fb","on-secondary-container":"#00714e","tertiary-container":"#381a00","secondary-fixed-dim":"#68dba9","surface-container-low":"#eff4ff","on-secondary-fixed":"#002114","inverse-surface":"#233144","surface-bright":"#f8f9ff","surface-tint":"#5b598c"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{"space-xl":"2.5rem","space-sm":"0.5rem","margin-mobile":"1rem","space-md":"1rem",gutter:"1.5rem","gutter-mobile":"1rem","space-xs":"0.25rem",margin:"2rem","space-lg":"1.5rem"},fontFamily:{"headline-lg":["Plus Jakarta Sans"],"body-lg":["Inter"],"body-sm":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-md":["Inter"],display:["Plus Jakarta Sans"],"title-md":["Inter"],"label-sm":["Inter"],"body-md":["Inter"],"headline-lg-mobile":["Plus Jakarta Sans"],"data-metric":["Plus Jakarta Sans"]},fontSize:{"headline-lg":["2.25rem",{lineHeight:"2.75rem",letterSpacing:"-0.02em",fontWeight:"700"}],"body-lg":["1.125rem",{lineHeight:"1.75rem",fontWeight:"400"}],"body-sm":["0.75rem",{lineHeight:"1.125rem",fontWeight:"400"}],"headline-md":["1.5rem",{lineHeight:"2rem",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-sm":["1.25rem",{lineHeight:"1.75rem",letterSpacing:"-0.01em",fontWeight:"600"}],"label-md":["0.875rem",{lineHeight:"1.25rem",fontWeight:"500"}],display:["3.5rem",{lineHeight:"4rem",letterSpacing:"-0.025em",fontWeight:"700"}],"title-md":["1rem",{lineHeight:"1.5rem",letterSpacing:"-0.005em",fontWeight:"600"}],"label-sm":["0.75rem",{lineHeight:"1rem",letterSpacing:"0.025em",fontWeight:"600"}],"body-md":["0.875rem",{lineHeight:"1.375rem",fontWeight:"400"}],"headline-lg-mobile":["1.75rem",{lineHeight:"2.25rem",letterSpacing:"-0.015em",fontWeight:"700"}],"data-metric":["1.75rem",{lineHeight:"2rem",letterSpacing:"-0.02em",fontWeight:"700"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm bg-surface-container-lowest"><img alt="PathWise Logo" class="h-8 w-auto object-contain" src="../assets/images/logo.png"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">PathWise</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Adaptive Engine</span></div></div><div class="px-space-md py-space-sm"><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-title-md"><div class="pt-space-sm pb-space-xs px-space-sm"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Learner View</span></div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="my-learning-path" href="#"><span class="material-symbols-outlined text-[20px]">route</span><span>My Learning Path</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="diagnostic-and-quizzes" href="#"><span class="material-symbols-outlined text-[20px]">quiz</span><span>Diagnostic &amp; Quizzes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="topic-mastery-and-stats" href="#"><span class="material-symbols-outlined text-[20px]">insights</span><span>Topic Mastery &amp; Stats</span></a><div class="pt-space-md pb-space-xs px-space-sm"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Instructor View</span></div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="class-heatmap-and-overview" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Class Heatmap &amp; Overview</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="at-risk-learners" href="#"><span class="material-symbols-outlined text-[20px]">warning</span><span class="flex-1">At-Risk Learners</span><span class="px-1.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[11px] font-bold">5</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="intervention-hub" href="#"><span class="material-symbols-outlined text-[20px]">handshake</span><span>Intervention Hub</span></a><div class="pt-space-md pb-space-xs px-space-sm"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Admin Console</span></div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="system-overview-and-telemetry" href="#"><span class="material-symbols-outlined text-[20px]">query_stats</span><span>System Overview &amp; Telemetry</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl transition-colors bg-primary-container text-on-primary font-title-md" data-path="user-and-credential-management" href="#"><span class="material-symbols-outlined text-[20px]">manage_accounts</span><span>User &amp; Credential Mgmt</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="ab-experiments-and-strategies" href="#"><span class="material-symbols-outlined text-[20px]">science</span><span>A/B Experiments &amp; Strategies</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-md text-body-md" data-path="content-tagging" href="#"><span class="material-symbols-outlined text-[20px]">label</span><span>Content Tagging</span></a></nav></div></div><div class="p-space-md m-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm font-semibold text-on-surface">Algorithmic Vector</span><span class="font-label-sm text-label-sm text-secondary font-bold">v3.4-live</span></div><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-secondary h-1.5 rounded-full w-[82%]"></div></div><span class="font-body-sm text-body-sm text-on-surface-variant">82% mastery convergence</span></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input class="w-full h-10 pl-10 pr-4 bg-surface-container-lowest text-on-surface placeholder-on-surface-variant font-body-md text-body-md rounded-xl outline-none focus:ring-2 focus:ring-primary-container shadow-[0_1px_2px_rgba(15,23,42,0.04)]" placeholder="Search competencies, cohorts, remediation modules..." type="text"></div></div><div class="flex items-center gap-space-md"><div class="relative flex items-center gap-space-xs bg-surface-container-lowest px-2 py-1.5 rounded-full shadow-[0_1px_2px_rgba(15,23,42,0.04)]"><span class="font-label-sm text-label-sm text-on-surface-variant pl-2">Role:</span><button id="adminRoleDropdownBtn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high hover:bg-surface-container-highest hover:text-on-surface transition-colors" type="button"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-sm text-label-sm font-semibold text-on-surface">Admin / Devon</span><span class="material-symbols-outlined text-[18px] text-on-surface-variant">expand_more</span></button><div id="adminRoleDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-48 bg-surface-container-lowest border border-surface-container-high rounded-xl shadow-lg z-50 py-1"><button class="role-option w-full text-left px-3 py-2 text-xs font-semibold hover:bg-surface-container-high flex items-center gap-2 text-on-surface" data-role="Student"><span class="w-2 h-2 rounded-full bg-primary"></span>Student (Asha)</button><button class="role-option w-full text-left px-3 py-2 text-xs font-semibold hover:bg-surface-container-high flex items-center gap-2 text-on-surface" data-role="Instructor"><span class="w-2 h-2 rounded-full bg-primary-container"></span>Instructor (Prof. Rao)</button><button class="role-option w-full text-left px-3 py-2 text-xs font-semibold bg-surface-container text-secondary flex items-center gap-2" data-role="Admin"><span class="w-2 h-2 rounded-full bg-secondary"></span>Admin (Devon)</button></div></div><button aria-label="Notifications" class="relative p-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span></button><div class="h-6 w-px bg-surface-container-high"></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="../assets/images/avatar_instructor.png"><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"></span></div><div class="hidden xl:flex flex-col"><span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Asha Nair</span><span class="font-body-sm text-body-sm text-on-surface-variant leading-tight">ML Foundations Track</span></div></div></div></header><main class="relative pt-16 w-full flex-1 bg-surface"><div class="flex flex-col w-full">
+<!-- Top Telemetry & Strategy Control Matrix -->
+<div class="px-space-lg py-space-md space-y-space-lg">
+<!-- Header Command Bar -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-fixed/30 text-secondary font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+            CLUSTER STABLE • REGION US-EAST-1
+          </span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">PRD Compliance: US-09, US-10, US-11</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Platform Telemetry &amp; Credential Engine</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+          Real-time algorithmic orchestration, credential access governance (FR-104/GDPR), and dual-arm strategy switchboards.
+        </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="flex items-center gap-space-xs px-4 py-2 bg-primary-container text-on-primary rounded-xl font-title-md text-title-md shadow-sm hover:opacity-95 transition-opacity" id="openModalBtn">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+<span>+ Create New User Credentials</span>
+</button>
+<button class="flex items-center gap-space-xs px-3.5 py-2 bg-surface-container text-on-surface rounded-xl font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">cached</span>
+<span>Sync Vector Store</span>
+</button>
+<button class="p-2 text-on-surface-variant bg-surface-container-low hover:bg-surface-container rounded-xl transition-colors" title="Export Audit Log">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+</button>
+</div>
+</div>
+<!-- Telemetry Cards Grid (NFR-01, NFR-02, NFR-04) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Active Concurrent Learners</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">groups</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">847</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">/ 1,000 Cap</span>
+</div>
+<div class="space-y-1.5">
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 84.7%"></div>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Utilization: 84.7%</span>
+<span class="text-secondary font-medium">Headroom Safe</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Rec Latency (p95)</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">bolt</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">384</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ms (Limit: 500ms)</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+<span>23.2% faster than NFR-01 SLA</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Monthly Availability</span>
+<span class="material-symbols-outlined text-[20px] text-primary">cloud_done</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">99.92%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">uptime</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>0 downtime incidents this period</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-semibold">Redis Hit Rate</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">memory</span>
+</div>
+<div class="my-space-sm flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">94.6%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">L1 In-Memory</span>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>1.8M Queries/hr</span>
+<span class="text-secondary font-medium">+1.4% delta</span>
+</div>
+</div>
+</div>
+<!-- Cluster Subservices & Infrastructure Nodes (NFR-04) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">hub</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Edge API Gateway</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Kong Envoy Proxy Mesh</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">Normal</span>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">psychology</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Knowledge Graph Worker</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Vector Semantic Engine</div>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">Healthy</span>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">database</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">DB Multi-Region Replica</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">PostgreSQL v16 + pgvector</div>
+</div>
+</div>
+<div class="text-right">
+<span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">0s Lag</span>
+</div>
+</div>
+</div>
+<!-- Section: A/B Experimentation & Strategy Switchboard (FR-801..807, US-10, US-11) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold tracking-wide uppercase">FR-801 Live Pipeline</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Statistical Confidence: 98.8%</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mt-1">Exp #04: Rule-Based (Arm A) vs. Embedding-Hybrid Vector Engine (Arm B)</h2>
+</div>
+<!-- Emergency Kill-Switch & Toggles -->
+<div class="flex items-center gap-space-md bg-surface-container-low p-2 rounded-xl">
+<div class="flex items-center gap-2">
+<label for="killSwitchToggle" class="font-label-sm text-label-sm font-semibold text-on-surface cursor-pointer">Zero-Downtime Rollback:</label>
+<label class="relative inline-flex items-center cursor-pointer" for="killSwitchToggle">
+<input checked="" class="sr-only peer" id="killSwitchToggle" type="checkbox" aria-label="Zero-Downtime Rollback">
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+<span class="font-label-sm text-label-sm text-secondary font-semibold" id="killSwitchLabel">Armed (50/50)</span>
+</div>
+<button class="px-3 py-1.5 bg-primary-container text-on-primary rounded-lg font-label-sm text-label-sm hover:opacity-90 transition-opacity" id="forceArmBBtn">
+            Promote Arm B to 100%
+          </button>
+</div>
+</div>
+<!-- Comparative Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md pt-space-xs">
+<!-- Metric 1 -->
+<div class="bg-surface-container-low p-space-md rounded-xl">
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Allocation Cohort</span>
+<span class="material-symbols-outlined text-[18px]">balance</span>
+</div>
+<div class="mt-2 flex items-center justify-between font-headline-sm text-headline-sm text-on-surface">
+<span>50%</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">vs</span>
+<span>50%</span>
+</div>
+<div class="mt-2 text-[12px] text-on-surface-variant flex justify-between">
+<span>Arm A: 2,410 Learners</span>
+<span>Arm B: 2,415 Learners</span>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-low p-space-md rounded-xl">
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Recommendation Acceptance</span>
+<span class="text-secondary font-bold">p=0.012 *</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between font-headline-sm text-headline-sm">
+<span class="text-on-surface-variant">62.1%</span>
+<span class="text-secondary font-bold">71.4%</span>
+</div>
+<div class="mt-2 text-[12px] text-secondary flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+9.3% absolute gain (Stat Sig)</span>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-low p-space-md rounded-xl">
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>8-Week Completion Lift</span>
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between font-headline-sm text-headline-sm">
+<span class="text-on-surface-variant">44.8%</span>
+<span class="text-secondary font-bold">53.0%</span>
+</div>
+<div class="mt-2 text-[12px] text-secondary flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+<span>+18.4% relative progression velocity</span>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-low p-space-md rounded-xl">
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm">
+<span>Guardrail Metric: Dropout</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">security</span>
+</div>
+<div class="mt-2 flex items-baseline justify-between font-headline-sm text-headline-sm">
+<span class="text-on-surface">1.2%</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Threshold: &lt; 3.0%</span>
+</div>
+<div class="mt-2 text-[12px] text-secondary font-semibold">
+            Within Guardrail Compliance Bounds
+          </div>
+</div>
+</div>
+</div>
+<!-- Quick Credential Generator + Content Health Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Quick Credential Generator Panel (FR-101..104, Admin User Provisioning) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Direct Credential Generator</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Instant batch or individual provisioning for Instructors &amp; Students.</p>
+</div>
+<span class="material-symbols-outlined text-primary text-[24px]">vpn_key</span>
+</div>
+<form class="space-y-space-sm" id="credentialForm" onsubmit="event.preventDefault(); window.addNewUserMock();">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface" for="fullName">Full Legal Name</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface placeholder-on-surface-variant font-body-md text-body-md focus:bg-surface-container-low outline-none ring-1 ring-outline-variant/40 focus:ring-2 focus:ring-primary-container transition-all" id="fullName" placeholder="e.g., Dr. Elena Rostova" required="" type="text">
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface" for="emailAddr">Institutional Email</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface placeholder-on-surface-variant font-body-md text-body-md focus:bg-surface-container-low outline-none ring-1 ring-outline-variant/40 focus:ring-2 focus:ring-primary-container transition-all" id="emailAddr" placeholder="e.rostova@university.edu" required="" type="email">
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface" for="roleSelect">RBAC System Role</label>
+<select class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md focus:bg-surface-container-low outline-none ring-1 ring-outline-variant/40 focus:ring-2 focus:ring-primary-container transition-all" id="roleSelect">
+<option value="Instructor">Instructor / Faculty</option>
+<option selected="" value="Student">Student / Adaptive Learner</option>
+<option value="Administrator">Administrator / Auditor</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface" for="assignedCourses">Assigned Cohort / Track</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-lowest text-on-surface placeholder-on-surface-variant font-body-md text-body-md focus:bg-surface-container-low outline-none ring-1 ring-outline-variant/40 focus:ring-2 focus:ring-primary-container transition-all" id="assignedCourses" placeholder="ML Foundations, Cohort Gamma" type="text">
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low space-y-2">
+<label class="flex items-center gap-space-sm cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-primary-container accent-primary-container" id="sendTempPassword" type="checkbox">
+<span class="font-label-sm text-label-sm text-on-surface">Auto-generate ephemeral password &amp; dispatch cryptographic invite via SMTP</span>
+</label>
+<label class="flex items-center gap-space-sm cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-primary-container accent-primary-container" id="consentPolicyCheckbox" required="" type="checkbox">
+<span class="font-label-sm text-label-sm text-on-surface">Mandate Consent Policy acknowledgement (FR-104 / FERPA compliance)</span>
+</label>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+<span>256-bit Argon2id password hash enforced</span>
+</span>
+<button class="px-5 py-2.5 bg-primary-container text-on-primary rounded-xl font-title-md text-title-md shadow hover:opacity-95 transition-all" type="submit">
+              Deploy Credential
+            </button>
+</div>
+</form>
+</div>
+<!-- Content Tagging & Health Coverage (FR-203, US-09) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm space-y-space-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Content Tagging &amp; Coverage</h2>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed/30 text-secondary font-label-sm text-label-sm font-bold">FR-203 Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Graph connectivity across curriculum ontology nodes and prerequisite links.</p>
+</div>
+<!-- Meter Section -->
+<div class="space-y-space-xs p-space-md rounded-xl bg-surface-container-low">
+<div class="flex justify-between items-baseline">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Ontology Completeness</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">96.8%</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 96.8%"></div>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>1,418 Modules Tagged</span>
+<span>47 Pending Manual Verification</span>
+</div>
+</div>
+<!-- Missing Prerequisite Alert -->
+<div class="p-space-md rounded-xl bg-error-container/40 space-y-2">
+<div class="flex items-center gap-space-xs text-on-error-container">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="font-title-md text-title-md font-bold">3 Orphaned Lessons Detected</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Lessons in <strong class="font-semibold">Deep Learning Architectures</strong> lack verified prerequisite bindings to Linear Algebra vectors.
+          </p>
+<div class="flex items-center gap-space-sm pt-1">
+<button class="px-3 py-1 bg-surface-container-lowest text-on-surface rounded-lg font-label-sm text-label-sm shadow-sm hover:bg-surface-container-high transition-colors">
+              Auto-Link Prerequisites
+            </button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm">
+              Dismiss Warning
+            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- User Credential Roster & Governance Table (FR-104/GDPR) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">User Accounts &amp; Credential Ledger</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Role permissions, authentication telemetry, and privacy revocation (FR-104).</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-64 h-9 pl-9 pr-3 rounded-lg bg-surface-container text-on-surface placeholder-on-surface-variant font-body-sm text-body-sm outline-none focus:ring-1 focus:ring-primary-container" id="userFilterInput" placeholder="Filter credentials..." type="text">
+</div>
+<label for="roleFilterSelect" class="sr-only">Filter credentials by role</label>
+<select class="h-9 px-3 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm outline-none" id="roleFilterSelect" aria-label="Filter credentials by role">
+<option value="ALL">All Roles</option>
+<option value="STUDENT">Students</option>
+<option value="INSTRUCTOR">Instructors</option>
+<option value="ADMINISTRATOR">Admins</option>
+</select>
+</div>
+</div>
+<!-- Interactive Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left" id="userTable">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-4 rounded-l-lg">User &amp; Contact</th>
+<th class="py-3 px-4">System Role</th>
+<th class="py-3 px-4">Status</th>
+<th class="py-3 px-4">MFA State</th>
+<th class="py-3 px-4">Last Telemetry</th>
+<th class="py-3 px-4 rounded-r-lg text-right">Access Governance</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/50 font-body-md text-body-md text-on-surface" id="userTableBody">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-role="STUDENT">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs">
+                    AN
+                  </div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Asha Nair</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">asha.nair@stanford.edu</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">Student</span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-fixed/40 text-secondary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                </span>
+</td>
+<td class="py-3 px-4">
+<span class="text-secondary font-semibold text-label-sm">FIDO2 / Passkey</span>
+</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface-variant">3 mins ago (Web)</td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container" onclick="window.mockAction('Password reset link sent to asha.nair@stanford.edu')" title="Send Password Reset">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container" onclick="window.mockAction('Role configuration updated')" title="Edit Permissions">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+</button>
+<button class="p-1.5 text-error hover:bg-error-container rounded-lg" onclick="window.mockAnonymize(this, 'Asha Nair')" title="Anonymize / GDPR Erasure (FR-104)">
+<span class="material-symbols-outlined text-[18px]">person_remove</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-role="INSTRUCTOR">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-bold text-xs">
+                    MK
+                  </div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Prof. Marcus Kane</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">m.kane@mit.edu</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="px-2.5 py-1 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm">Instructor</span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-fixed/40 text-secondary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                </span>
+</td>
+<td class="py-3 px-4">
+<span class="text-secondary font-semibold text-label-sm">TOTP Authenticator</span>
+</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface-variant">1 hour ago (API)</td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container" onclick="window.mockAction('Password reset link sent to m.kane@mit.edu')" title="Send Password Reset">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container" onclick="window.mockAction('Role configuration updated')" title="Edit Permissions">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+</button>
+<button class="p-1.5 text-error hover:bg-error-container rounded-lg" onclick="window.mockAnonymize(this, 'Prof. Marcus Kane')" title="Anonymize / GDPR Erasure (FR-104)">
+<span class="material-symbols-outlined text-[18px]">person_remove</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-role="STUDENT">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-bold text-xs">
+                    LS
+                  </div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Lucas Silva</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">lsilva@polytech.fr</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm">Student</span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container"></span> Invited
+                </span>
+</td>
+<td class="py-3 px-4">
+<span class="text-on-surface-variant text-label-sm">Pending Verification</span>
+</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface-variant">Never</td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container" onclick="window.mockAction('Re-sent onboarding token to lsilva@polytech.fr')" title="Resend Invite Token">
+<span class="material-symbols-outlined text-[18px]">forward_to_inbox</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container" onclick="window.mockAction('Role configuration updated')" title="Edit Permissions">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+</button>
+<button class="p-1.5 text-error hover:bg-error-container rounded-lg" onclick="window.mockAnonymize(this, 'Lucas Silva')" title="Anonymize / GDPR Erasure (FR-104)">
+<span class="material-symbols-outlined text-[18px]">person_remove</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors" data-role="ADMINISTRATOR">
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-xs">
+                    DC
+                  </div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Devon Chen</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">devon.admin@pathwise.ai</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4">
+<span class="px-2.5 py-1 rounded-full bg-secondary-fixed/50 text-secondary font-label-sm text-label-sm font-bold">Admin</span>
+</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-fixed/40 text-secondary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                </span>
+</td>
+<td class="py-3 px-4">
+<span class="text-secondary font-semibold text-label-sm">Hardware Token (YubiKey)</span>
+</td>
+<td class="py-3 px-4 font-body-sm text-body-sm text-on-surface-variant">Now (Console)</td>
+<td class="py-3 px-4 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container" onclick="window.mockAction('Admin key rotation session initiated')" title="Rotate Cryptographic Keys">
+<span class="material-symbols-outlined text-[18px]">key</span>
+</button>
+<button class="p-1.5 text-on-surface-variant/40 rounded-lg cursor-not-allowed" onclick="window.mockAction('Admin roles protected by immutable Root policy')" title="Immutable Policy">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="flex items-center justify-between pt-space-xs font-label-sm text-label-sm text-on-surface-variant">
+<span>Displaying 4 of 3,254 total system identities</span>
+<div class="flex items-center gap-1">
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high transition-colors">Previous</button>
+<span class="px-2 py-1 bg-primary text-on-primary rounded font-bold">1</span>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high transition-colors">2</button>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high transition-colors">3</button>
+<span class="px-1">...</span>
+<button class="px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high transition-colors">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Notification Toast Container -->
+<div class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none" id="toastContainer"></div>
+<!-- Modal: Create New User Credentials Dialog -->
+<div class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm" id="credentialModal" role="dialog" aria-modal="true" aria-labelledby="credentialModalHeading">
+<div class="bg-surface-container-lowest rounded-xl max-w-lg w-full p-space-lg shadow-2xl space-y-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">badge</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="credentialModalHeading">Provision User Identity</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded-lg hover:bg-surface-container" id="closeModalBtn">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="space-y-space-sm font-body-md text-body-md text-on-surface">
+<p class="text-on-surface-variant font-body-sm text-body-sm">
+          Issue new cryptographically signed access tokens and provision role capabilities directly onto the PathWise engine.
+        </p>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface">User Classification</label>
+<div class="grid grid-cols-3 gap-2">
+<button class="modal-role-btn py-2 px-3 text-center rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold" data-role="Student" type="button">Student</button>
+<button class="modal-role-btn py-2 px-3 text-center rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high" data-role="Instructor" type="button">Instructor</button>
+<button class="modal-role-btn py-2 px-3 text-center rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high" data-role="Admin" type="button">Admin</button>
+</div>
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface">Primary Contact Email</label>
+<input class="w-full h-10 px-3 rounded-lg bg-surface-container-low text-on-surface outline-none ring-1 ring-outline-variant/40 focus:ring-2 focus:ring-primary-container" id="modalEmail" placeholder="candidate@institution.edu" type="email">
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm font-semibold text-on-surface">Initial Security Credentials</label>
+<div class="p-3 bg-surface-container-low rounded-lg space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">Temporary Master Key</span>
+<button class="text-secondary font-label-sm text-label-sm font-semibold hover:underline" onclick="window.generateRandomKey()" type="button">Regenerate</button>
+</div>
+<input class="w-full font-mono text-xs px-2.5 py-1.5 rounded bg-surface-container-lowest text-on-surface outline-none" id="modalKeyDisplay" readonly="" type="text" value="PW-8492-X90K-ADAPT">
+</div>
+</div>
+<div class="flex items-start gap-2 pt-1">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container focus:ring-primary-container accent-primary-container" id="modalEnforceMFA" type="checkbox">
+<label class="font-body-sm text-body-sm text-on-surface-variant" for="modalEnforceMFA">
+            Enforce Mandatory Multi-Factor Authentication (MFA) challenge upon primary session initiation.
+          </label>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-4 py-2 bg-surface-container text-on-surface rounded-xl font-label-md text-label-md hover:bg-surface-container-high" id="cancelModalBtn">
+          Cancel
+        </button>
+<button class="px-5 py-2 bg-primary-container text-on-primary rounded-xl font-title-md text-title-md hover:opacity-95 shadow-sm" id="confirmCreateBtn">
+          Issue &amp; Dispatch Credential
+        </button>
+</div>
+</div>
+</div>
+<!-- Interactive Logic Script -->
+<script>
+    (function initAdminConsole() {
+      // Toast notification helper
+      window.showToast = function(msg, isSuccess = true) {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = `pointer-events-auto flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg transition-all transform duration-300 translate-y-2 opacity-0 ${
+          isSuccess ? 'bg-primary-container text-on-primary' : 'bg-error-container text-on-error-container'
+        }`;
+        const icon = document.createElement('span');
+        icon.className = 'material-symbols-outlined text-[20px]';
+        icon.textContent = isSuccess ? 'check_circle' : 'info';
+        const textSpan = document.createElement('span');
+        textSpan.className = 'font-body-sm text-body-sm font-semibold';
+        textSpan.textContent = msg;
+        toast.appendChild(icon);
+        toast.appendChild(textSpan);
+        container.appendChild(toast);
+        requestAnimationFrame(() => {
+          toast.classList.remove('translate-y-2', 'opacity-0');
+        });
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => toast.remove(), 300);
+        }, 3500);
+      };
+
+      window.mockAction = function(msg) {
+        window.showToast(msg, true);
+      };
+
+      // Anonymize / GDPR erasure handler (FR-104)
+      window.mockAnonymize = function(btnElement, name) {
+        if (confirm(`GDPR FR-104 Request: Are you sure you wish to permanently anonymize telemetry and revoke credentials for ${name}?`)) {
+          const row = btnElement.closest('tr');
+          if (row) {
+            row.style.opacity = '0.35';
+            row.style.pointerEvents = 'none';
+            const statusCell = row.cells[2];
+            if (statusCell) {
+              statusCell.innerHTML = '<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[11px] font-bold">ANONYMIZED</span>';
+            }
+          }
+          window.showToast(`FR-104 complete: Record for ${name} scrubbed and pseudonymized.`, true);
+        }
+      };
+
+      // Reusable account creation operation
+      window.createRosterUser = function(name, email, role) {
+        const tableBody = document.getElementById('userTableBody');
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
+
+        const roleKey = role.toUpperCase() === 'ADMIN' ? 'ADMINISTRATOR' : role.toUpperCase();
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-surface-container-low/60 transition-colors bg-secondary-fixed/10';
+        tr.setAttribute('data-role', roleKey);
+
+        const tdUser = document.createElement('td');
+        tdUser.className = 'py-3 px-4';
+        const userFlex = document.createElement('div');
+        userFlex.className = 'flex items-center gap-3';
+        const initDiv = document.createElement('div');
+        initDiv.className = 'w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-xs';
+        initDiv.textContent = initials;
+        const textWrapper = document.createElement('div');
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'font-title-md text-title-md text-on-surface';
+        nameDiv.textContent = name;
+        const emailDiv = document.createElement('div');
+        emailDiv.className = 'font-body-sm text-body-sm text-on-surface-variant';
+        emailDiv.textContent = email;
+        textWrapper.appendChild(nameDiv);
+        textWrapper.appendChild(emailDiv);
+        userFlex.appendChild(initDiv);
+        userFlex.appendChild(textWrapper);
+        tdUser.appendChild(userFlex);
+
+        const tdRole = document.createElement('td');
+        tdRole.className = 'py-3 px-4';
+        const roleSpan = document.createElement('span');
+        roleSpan.className = `px-2.5 py-1 rounded-full ${role.toLowerCase().includes('admin') ? 'bg-secondary-fixed/50 text-secondary font-bold' : role.toLowerCase().includes('instructor') ? 'bg-primary-container text-on-primary' : 'bg-surface-container-high text-on-surface'} font-label-sm text-label-sm`;
+        roleSpan.textContent = role;
+        tdRole.appendChild(roleSpan);
+
+        const tdStatus = document.createElement('td');
+        tdStatus.className = 'py-3 px-4';
+        tdStatus.innerHTML = '<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-secondary-fixed/40 text-secondary font-label-sm text-label-sm font-semibold"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active</span>';
+
+        const tdMfa = document.createElement('td');
+        tdMfa.className = 'py-3 px-4';
+        tdMfa.innerHTML = '<span class="text-on-surface-variant text-label-sm">Enrollment Link Sent</span>';
+
+        const tdTime = document.createElement('td');
+        tdTime.className = 'py-3 px-4 font-body-sm text-body-sm text-on-surface-variant';
+        tdTime.textContent = 'Just now';
+
+        const tdActions = document.createElement('td');
+        tdActions.className = 'py-3 px-4 text-right';
+        const actionGroup = document.createElement('div');
+        actionGroup.className = 'inline-flex items-center gap-1';
+
+        const resetBtn = document.createElement('button');
+        resetBtn.className = 'p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container';
+        resetBtn.title = 'Send Password Reset';
+        resetBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">lock_reset</span>';
+        resetBtn.addEventListener('click', () => window.mockAction(`Password reset link sent to ${email}`));
+
+        const editBtn = document.createElement('button');
+        editBtn.className = 'p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg hover:bg-surface-container';
+        editBtn.title = 'Edit Permissions';
+        editBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">edit_note</span>';
+        editBtn.addEventListener('click', () => window.mockAction('Role configuration updated'));
+
+        const anonBtn = document.createElement('button');
+        anonBtn.className = 'p-1.5 text-error hover:bg-error-container rounded-lg';
+        anonBtn.title = 'Anonymize / GDPR Erasure (FR-104)';
+        anonBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">person_remove</span>';
+        anonBtn.addEventListener('click', () => window.mockAnonymize(anonBtn, name));
+
+        actionGroup.appendChild(resetBtn);
+        actionGroup.appendChild(editBtn);
+        actionGroup.appendChild(anonBtn);
+        tdActions.appendChild(actionGroup);
+
+        tr.appendChild(tdUser);
+        tr.appendChild(tdRole);
+        tr.appendChild(tdStatus);
+        tr.appendChild(tdMfa);
+        tr.appendChild(tdTime);
+        tr.appendChild(tdActions);
+
+        tableBody.prepend(tr);
+        if (typeof filterTable === 'function') filterTable();
+        return tr;
+      };
+
+      // Add user from Quick Credential Form
+      window.addNewUserMock = function() {
+        const nameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('emailAddr');
+        const roleInput = document.getElementById('roleSelect');
+        const consentBox = document.getElementById('consentPolicyCheckbox');
+
+        if (!consentBox.checked) {
+          window.showToast('FR-104 Violation: Consent acknowledgement required', false);
+          return;
+        }
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const role = roleInput.value;
+
+        if (!name || !email) return;
+
+        window.createRosterUser(name, email, role);
+        nameInput.value = '';
+        emailInput.value = '';
+        window.showToast(`Credentials successfully generated & dispatched for ${name}`);
+      };
+
+      // Modal Controls
+      const modal = document.getElementById('credentialModal');
+      const openModalBtn = document.getElementById('openModalBtn');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const cancelModalBtn = document.getElementById('cancelModalBtn');
+      const confirmCreateBtn = document.getElementById('confirmCreateBtn');
+      let adminLastActiveElement = null;
+
+      function openModal(trigger) {
+        adminLastActiveElement = trigger || document.activeElement;
+        modal.classList.remove('hidden');
+        const focusable = modal.querySelectorAll('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length > 0) focusable[0].focus();
+      }
+      function closeModal() {
+        modal.classList.add('hidden');
+        if (adminLastActiveElement && typeof adminLastActiveElement.focus === 'function') {
+          adminLastActiveElement.focus();
+        }
+      }
+
+      if (openModalBtn) openModalBtn.addEventListener('click', (e) => openModal(e.currentTarget));
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+      if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeModal);
+
+      modal.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+          return;
+        }
+        if (e.key === 'Tab') {
+          const focusable = Array.from(modal.querySelectorAll('button, input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(el => !el.disabled);
+          if (focusable.length === 0) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        }
+      });
+
+      if (confirmCreateBtn) {
+        confirmCreateBtn.addEventListener('click', function() {
+          const emailInput = document.getElementById('modalEmail');
+          const email = emailInput ? emailInput.value.trim() : '';
+          if (!email || (emailInput && emailInput.validity && !emailInput.validity.valid) || (emailInput && typeof emailInput.checkValidity === 'function' && !emailInput.checkValidity())) {
+            window.showToast('Please specify a valid institutional address', false);
+            return;
+          }
+          let selectedRole = 'Student';
+          const activeRoleBtn = document.querySelector('.modal-role-btn.bg-primary-container');
+          if (activeRoleBtn) {
+            selectedRole = activeRoleBtn.textContent.trim();
+          }
+          const defaultName = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'New User';
+          window.createRosterUser(defaultName, email, selectedRole);
+          closeModal();
+          window.showToast(`Master access packet dispatched to ${email}`);
+        });
+      }
+
+      window.generateRandomKey = function() {
+        const rand = Math.floor(1000 + Math.random() * 9000);
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        let sub = '';
+        for (let i = 0; i < 4; i++) sub += chars.charAt(Math.floor(Math.random() * chars.length));
+        document.getElementById('modalKeyDisplay').value = `PW-${rand}-${sub}-ADAPT`;
+      };
+
+      // Role button toggles in modal
+      const roleBtns = document.querySelectorAll('.modal-role-btn');
+      roleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          roleBtns.forEach(b => {
+            b.className = 'modal-role-btn py-2 px-3 text-center rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm hover:bg-surface-container-high';
+          });
+          btn.className = 'modal-role-btn py-2 px-3 text-center rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold';
+        });
+      });
+
+      // Filter Table functionality
+      const filterInput = document.getElementById('userFilterInput');
+      const roleFilterSelect = document.getElementById('roleFilterSelect');
+      
+      function filterTable() {
+        const term = filterInput.value.toLowerCase();
+        const selectedRole = roleFilterSelect.value.toUpperCase();
+        const rows = document.querySelectorAll('#userTableBody tr');
+
+        rows.forEach(row => {
+          const text = row.innerText.toLowerCase();
+          const matchesTerm = text.includes(term);
+          const rowRole = (row.getAttribute('data-role') || '').toUpperCase();
+          const matchesRole = selectedRole === 'ALL' || rowRole === selectedRole;
+          row.style.display = matchesTerm && matchesRole ? '' : 'none';
+        });
+      }
+
+      if (filterInput) filterInput.addEventListener('input', filterTable);
+      if (roleFilterSelect) roleFilterSelect.addEventListener('change', filterTable);
+
+      // Kill Switch Logic (FR-807 Zero-Downtime strategy override)
+      const killSwitch = document.getElementById('killSwitchToggle');
+      const killSwitchLabel = document.getElementById('killSwitchLabel');
+      const forceArmBBtn = document.getElementById('forceArmBBtn');
+
+      if (killSwitch) {
+        killSwitch.addEventListener('change', function() {
+          if (this.checked) {
+            killSwitchLabel.textContent = 'Armed (50/50)';
+            killSwitchLabel.className = 'font-label-sm text-label-sm text-secondary font-semibold';
+            window.showToast('Dual-Arm Split Re-Engaged (50/50 distribution)');
+          } else {
+            killSwitchLabel.textContent = 'Arm A Forcibly Active (100% Rule-Based)';
+            killSwitchLabel.className = 'font-label-sm text-label-sm text-error font-semibold';
+            window.showToast('Emergency Fallback Triggered: Arm B disabled', false);
+          }
+        });
+      }
+
+      if (forceArmBBtn) {
+        forceArmBBtn.addEventListener('click', function() {
+          if (confirm('FR-807 Action: Promote Embedding-Hybrid strategy (Arm B) to 100% live traffic without hot redeployment?')) {
+            killSwitch.checked = true;
+            killSwitchLabel.textContent = 'Arm B Primed (100% Embedding Engine)';
+            killSwitchLabel.className = 'font-label-sm text-label-sm text-secondary font-bold';
+            window.showToast('Hot-Swap Complete: 100% traffic routed to Embedding-Hybrid Vector model.');
+          }
+        });
+      }
+    })();
+  </script>
+</div></main></div>
+<!-- Trek.io Unified API & ML Integration Hook -->
+<script src="../assets/js/api.js"></script>
+<script>
+  (function() {
+    // 1. Role switcher dropdown navigation
+    
+    const adminRoleBtn = document.getElementById('adminRoleDropdownBtn');
+    const adminRoleMenu = document.getElementById('adminRoleDropdownMenu');
+    if (adminRoleBtn && adminRoleMenu) {
+      adminRoleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        adminRoleMenu.classList.toggle('hidden');
+      });
+      document.addEventListener('click', () => adminRoleMenu.classList.add('hidden'));
+    }
+
+    document.querySelectorAll('.role-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        const role = option.getAttribute('data-role') || '';
+        if (window.TrekAPI) TrekAPI.setCurrentRole(role);
+        if (role.includes('Teacher') || role.includes('Instructor') || role.includes('Thorne')) {
+          window.location.href = '../teacher_dashboard_simplified_class_mastery_interventions/code.html';
+        } else if (role.includes('Admin')) {
+          window.location.href = '../admin_console_user_management_system_telemetry/code.html';
+        } else if (role.includes('Student')) {
+          window.location.href = '../student_dashboard_consolidated_overview_roadmap/code.html';
+        }
+      });
+    });
+
+    // 2. Portal Hub Back-Link Button
+    if (!document.getElementById('trek-portal-pill')) {
+      const pill = document.createElement('div');
+      pill.id = 'trek-portal-pill';
+      pill.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;align-items:center;gap:8px;';
+      pill.innerHTML = `
+        <a href="../index.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#070235;color:#ffffff;border-radius:9999px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(7,2,53,0.3);border:1px solid #1e1b4b;transition:transform 0.15s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          <span class="material-symbols-outlined" style="font-size:15px;color:#82f5c1;">grid_view</span>
+          <span>Portal Hub</span>
+        </a>
+      `;
+      document.body.appendChild(pill);
+    }
+
+    // 3. Auto-load live recommendations & stats
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!window.TrekAPI) return;
+      try {
+        const health = await TrekAPI.checkHealth();
+        if (health && health.status === 'healthy') {
+          console.log('[Trek Portal] Connected to Live API backend.');
+          // If on Student Dashboard, log live recommendations
+          if (window.location.pathname.includes('student_dashboard')) {
+            const recs = await TrekAPI.getRecommendations();
+            if (recs && recs.items && recs.items.length > 0) {
+              console.log('[Trek Portal] Live ML recommendations loaded:', recs);
+            }
+          }
+        }
+      } catch (err) {
+        console.log('[Trek Portal] Using local presentation state.');
+      }
+    });
+  })();
+</script>
+
+</body></html>
